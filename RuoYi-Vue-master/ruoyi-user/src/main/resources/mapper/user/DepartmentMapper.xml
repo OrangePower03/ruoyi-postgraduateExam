@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.user.mapper.DepartmentMapper">
+
+    <resultMap type="Department" id="DepartmentResult">
+        <result property="departmentId"    column="department_id"    />
+        <result property="departmentName"    column="department_name"    />
+        <result property="departmentSchoolId"    column="department_school_id"    />
+        <result property="schoolName"    column="school_name"    />
+    </resultMap>
+
+    <sql id="selectWxDepartmentVo">
+        select department_id, department_name, department_school_id from wx_department
+    </sql>
+
+    <select id="selectWxDepartmentList" parameterType="Department" resultMap="DepartmentResult">
+        select wd.department_id, wd.department_name, wd.department_school_id,ws.school_name
+        from wx_department as wd left join wx_school as ws on
+        ws.school_id=wd.department_school_id
+        <where>
+            <if test="departmentName != null  and departmentName != ''"> and department_name like concat('%', #{departmentName}, '%')</if>
+            <if test="departmentSchoolId != null  and departmentSchoolId != ''"> and department_school_id = #{departmentSchoolId}</if>
+        </where>
+    </select>
+
+    <select id="selectWxDepartmentByDepartmentId" parameterType="Long" resultMap="DepartmentResult">
+        <include refid="selectWxDepartmentVo"/>
+        where department_id = #{departmentId}
+    </select>
+
+    <insert id="insertWxDepartment" parameterType="Department" useGeneratedKeys="true" keyProperty="departmentId">
+        insert into wx_department
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="departmentName != null and departmentName != ''">department_name,</if>
+            <if test="departmentSchoolId != null and departmentSchoolId != ''">department_school_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="departmentName != null and departmentName != ''">#{departmentName},</if>
+            <if test="departmentSchoolId != null and departmentSchoolId != ''">#{departmentSchoolId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateWxDepartment" parameterType="Department">
+        update wx_department
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="departmentName != null and departmentName != ''">department_name = #{departmentName},</if>
+            <if test="departmentSchoolId != null and departmentSchoolId != ''">department_school_id = #{departmentSchoolId},</if>
+        </trim>
+        where department_id = #{departmentId}
+    </update>
+
+    <delete id="deleteWxDepartmentByDepartmentId" parameterType="Long">
+        delete from wx_department where department_id = #{departmentId}
+    </delete>
+
+    <delete id="deleteWxDepartmentByDepartmentIds" parameterType="String">
+        delete from wx_department where department_id in
+        <foreach item="departmentId" collection="array" open="(" separator="," close=")">
+            #{departmentId}
+        </foreach>
+    </delete>
+</mapper>

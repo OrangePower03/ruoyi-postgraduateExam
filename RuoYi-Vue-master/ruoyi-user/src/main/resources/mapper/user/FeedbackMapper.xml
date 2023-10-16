@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.user.mapper.FeedbackMapper">
+
+    <resultMap type="Feedback" id="FeedbackResult">
+        <result property="userId"    column="user_id"    />
+        <result property="satisfaction"    column="satisfaction"    />
+        <result property="action"    column="action"    />
+        <result property="suggest"    column="suggest"    />
+    </resultMap>
+
+    <sql id="selectWxFeedbackVo">
+        select user_id, satisfaction, action, suggest from wx_feedback
+    </sql>
+
+    <select id="selectWxFeedbackList" parameterType="Feedback" resultMap="FeedbackResult">
+        <include refid="selectWxFeedbackVo"/>
+        <where>
+            <if test="satisfaction != null "> and satisfaction = #{satisfaction}</if>
+            <if test="action != null  and action != ''"> and action = #{action}</if>
+            <if test="suggest != null  and suggest != ''"> and suggest = #{suggest}</if>
+        </where>
+    </select>
+
+    <select id="selectWxFeedbackByUserId" parameterType="Long" resultMap="FeedbackResult">
+        <include refid="selectWxFeedbackVo"/>
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertWxFeedback" parameterType="Feedback">
+        insert into wx_feedback
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="satisfaction != null">satisfaction,</if>
+            <if test="action != null and action != ''">action,</if>
+            <if test="suggest != null and suggest != ''">suggest,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="satisfaction != null">#{satisfaction},</if>
+            <if test="action != null and action != ''">#{action},</if>
+            <if test="suggest != null and suggest != ''">#{suggest},</if>
+        </trim>
+    </insert>
+
+    <update id="updateWxFeedback" parameterType="Feedback">
+        update wx_feedback
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="satisfaction != null">satisfaction = #{satisfaction},</if>
+            <if test="action != null and action != ''">action = #{action},</if>
+            <if test="suggest != null and suggest != ''">suggest = #{suggest},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteWxFeedbackByUserId" parameterType="Long">
+        delete from wx_feedback where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteWxFeedbackByUserIds" parameterType="String">
+        delete from wx_feedback where user_id in
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>

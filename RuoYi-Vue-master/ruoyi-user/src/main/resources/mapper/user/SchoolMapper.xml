@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.user.mapper.SchoolMapper">
+
+    <resultMap type="School" id="SchoolResult">
+        <result property="schoolId"    column="school_id"    />
+        <result property="schoolName"    column="school_name"    />
+        <result property="schoolArea"    column="school_area"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="schoolType"    column="school_type"    />
+        <result property="schoolLevels"    column="school_levels"    />
+        <result property="schoolWebsite"    column="school_website"    />
+        <result property="schoolRecruit"    column="school_recruit"    />
+    </resultMap>
+
+    <resultMap type="minSchool" id="minSchoolResult">
+        <result property="schoolId"    column="school_id"    />
+        <result property="schoolName"    column="school_name"    />
+    </resultMap>
+
+    <sql id="selectWxSchoolVo">
+        select school_id, school_name, school_area, school_type, school_levels,school_website,school_recruit from wx_school
+    </sql>
+
+    <select id="selectWxSchoolList" parameterType="School" resultMap="SchoolResult">
+        select ws.school_id, ws.school_name, ws.school_area, ws.school_type, ws.school_levels,ws.school_website,ws.school_recruit,wa.area_name from wx_school as ws left join wx_area as wa on ws.school_area=wa.area_id
+        <where>
+            <if test="schoolName != null and schoolName != ''"> and ws.school_name like concat('%', #{schoolName}, '%')</if>
+            <if test="schoolArea != null "> and ws.school_area = #{schoolArea}</if>
+            <if test="schoolType != null "> and ws.school_type = #{schoolType}</if>
+            <if test="schoolLevels != null "> and ws.school_levels = #{schoolLevels}</if>
+        </where>
+    </select>
+
+    <select id="optionWxSchoolList" parameterType="minSchool" resultMap="minSchoolResult">
+        select school_id, school_name from wx_school
+    </select>
+
+    <select id="selectWxSchoolBySchoolId" parameterType="Long" resultMap="SchoolResult">
+        <include refid="selectWxSchoolVo"/>
+        where school_id = #{schoolId}
+    </select>
+
+    <insert id="insertWxSchool" parameterType="School" useGeneratedKeys="true" keyProperty="schoolId">
+        insert into wx_school
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="schoolName != null and schoolName != ''">school_name,</if>
+            <if test="schoolArea != null">school_area,</if>
+            <if test="schoolType != null">school_type,</if>
+            <if test="schoolLevels != null ">school_levels,</if>
+            <if test="schoolWebsite != null and schoolWebsite != ''">school_website,</if>
+            <if test="schoolRecruit != null and schoolRecruit != ''">school_recruit,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="schoolName != null and schoolName != ''">#{schoolName},</if>
+            <if test="schoolArea != null">#{schoolArea},</if>
+            <if test="schoolType != null">#{schoolType},</if>
+            <if test="schoolLevels != null">#{schoolLevels},</if>
+            <if test="schoolWebsite != null and schoolWebsite != ''">#{schoolWebsite},</if>
+            <if test="schoolRecruit != null and schoolRecruit != ''">#{schoolRecruit},</if>
+        </trim>
+    </insert>
+
+    <update id="updateWxSchool" parameterType="School">
+        update wx_school
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="schoolName != null and schoolName != ''">school_name = #{schoolName},</if>
+            <if test="schoolArea != null">school_area = #{schoolArea},</if>
+            <if test="schoolType != null">school_type = #{schoolType},</if>
+            <if test="schoolLevels != null">school_levels = #{schoolLevels},</if>
+            <if test="schoolWebsite != null and schoolWebsite != ''">school_website = #{schoolWebsite},</if>
+            <if test="schoolRecruit != null and schoolRecruit != ''">school_recruit = #{schoolRecruit},</if>
+        </trim>
+        where school_id = #{schoolId}
+    </update>
+
+    <delete id="deleteWxSchoolBySchoolId" parameterType="Long">
+        delete from wx_school where school_id = #{schoolId}
+    </delete>
+
+    <delete id="deleteWxSchoolBySchoolIds" parameterType="String">
+        delete from wx_school where school_id in
+        <foreach item="schoolId" collection="array" open="(" separator="," close=")">
+            #{schoolId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.user.mapper.ScoreMapper">
+
+    <resultMap type="Score" id="ScoreResult">
+        <result property="scoreId"    column="score_id"    />
+        <result property="scoreYear"    column="score_year"    />
+        <result property="scoreAll"    column="score_all"    />
+        <result property="scoreMath"    column="score_math"    />
+        <result property="scoreEnglish"    column="score_english"    />
+        <result property="scorePolitics"    column="score_politics"    />
+        <result property="scoreMajor"    column="score_major"    />
+        <result property="scoreMajorId"    column="connect_id"    />
+        <result property="majorName"    column="major_name"    />
+        <result property="majorType"    column="major_type"    />
+        <result property="majorCode"    column="major_code"    />
+        <result property="departmentName"    column="department_name"    />
+        <result property="schoolName"    column="school_name"    />
+    </resultMap>
+
+    <resultMap type="AllInfo" id="AllInfoResult">
+        <result property="scoreYear"    column="score_year"    />
+        <result property="scoreAll"    column="score_all"    />
+        <result property="scoreMath"    column="score_math"    />
+        <result property="scoreEnglish"    column="score_english"    />
+        <result property="scorePolitics"    column="score_politics"    />
+        <result property="scoreMajor"    column="score_major"    />
+        <result property="majorCode"    column="major_code"    />
+        <result property="majorName"    column="major_name"    />
+        <result property="majorType"    column="major_type"    />
+        <result property="departmentName"    column="department_name"    />
+        <result property="schoolName"    column="school_name"    />
+        <result property="schoolType"    column="school_type"    />
+        <result property="schoolLevels"    column="school_levels"    />
+        <result property="schoolWebsite"    column="school_website"    />
+        <result property="schoolRecruit"    column="school_recruit"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="areaType"    column="area_type"    />
+    </resultMap>
+
+    <select id="selectAllInfoList" parameterType="AllInfo" resultMap="AllInfoResult">
+        SELECT ws.score_year,ws.score_all,ws.score_english,ws.score_politics,ws.score_math,
+        ws.score_major,wm.major_name,wm.major_code,wm.major_type,wd.department_name,
+        wsc.school_name,wsc.school_type,wsc.school_levels,wsc.school_website,wsc.school_recruit,wa.area_name,wa.area_type
+        from
+        (SELECT ws.score_year,ws.score_all,ws.score_english,ws.score_politics,
+        ws.score_math,ws.score_major,ws.connect_id,si.sort_id
+        from wx_score as ws
+        INNER JOIN
+        (SELECT sort_id,connect_id
+        from
+        (select (@i:=@i+1) as sort_id,avg(score_all) as score_all,avg(score_english) as score_english,
+        AVG(score_politics) as score_politics,avg(score_math) as score_math,avg(score_major) as score_major,connect_id
+        from wx_score,(SELECT @i:=0) as i
+        where score_year in
+        (SELECT score_year from wx_score GROUP BY score_year HAVING score_year>MAX(score_year)-3)
+        GROUP BY connect_id) as ws
+        <where>
+            <if test="scoreAll != null "> and #{scoreAll}>=ws.score_all</if>
+            <if test="scoreMath != null ">  and #{scoreMath}>=ws.score_math</if>
+            <if test="scoreEnglish != null "> and #{scoreEnglish}>=ws.score_english</if>
+            <if test="scorePolitics != null "> and #{scorePolitics}>=ws.score_politics</if>
+            <if test="scoreMajor != null "> and #{scoreMajor}>=ws.score_major</if>
+        </where>
+        ) as si
+        on ws.connect_id=si.connect_id) as ws
+        INNER JOIN
+        wx_mcd as wmc
+        on ws.connect_id=wmc.connect_id
+        INNER JOIN wx_major as wm
+        on wm.major_id=wmc.major_id
+        INNER JOIN
+        wx_department as wd
+        on wd.department_id=wmc.department_id
+        INNER JOIN
+        wx_school as wsc
+        on wsc.school_id=wd.department_school_id
+        INNER JOIN wx_area as wa
+        on wsc.school_area=wa.area_id
+        <where>
+            <if test="majorName != null and majorName != ''"> and wm.major_name like concat('%', #{majorName}, '%')</if>
+            <if test="areaName != null and areaName != ''"> and wa.area_name like concat('%', #{areaName}, '%')</if>
+            <if test="majorType != null "> and wm.major_type = #{majorType}</if>
+        </where>
+        ORDER BY wsc.school_levels,ws.sort_id,score_year LIMIT 27
+    </select>
+
+    <sql id="selectWxScoreVo">
+        select score_id, score_year, score_all, score_math, score_english, score_politics, score_major, connect_id from wx_score
+    </sql>
+
+    <select id="selectWxScoreList" parameterType="Score" resultMap="ScoreResult">
+        SELECT ws.score_id,ws.score_year,ws.score_all,ws.score_english,ws.score_politics,ws.score_math,
+        ws.score_major,wm.major_name,wm.major_code,wm.major_type,wd.department_name,wsc.school_name
+        from wx_score as ws
+        inner JOIN wx_mcd as wmc on ws.connect_id=wmc.connect_id
+        INNER JOIN wx_major as wm on wm.major_id=wmc.major_id
+        INNER JOIN wx_department as wd on wd.department_id=wmc.department_id
+        INNER JOIN wx_school as wsc on wsc.school_id=wd.department_school_id
+        <where>
+            <if test="scoreYear != null "> and ws.score_year = #{scoreYear}</if>
+            <if test="scoreAll != null "> and #{scoreAll}>=ws.score_all</if>
+            <if test="scoreMath != null ">  and #{scoreMath}>=ws.score_math</if>
+            <if test="scoreEnglish != null "> and #{scoreEnglish}>=ws.score_english</if>
+            <if test="scorePolitics != null "> and #{scorePolitics}>=ws.score_politics</if>
+            <if test="scoreMajor != null "> and #{scoreMajor}>=ws.score_major</if>
+            <if test="scoreMajorId != null "> and ws.score_major_id = #{scoreMajorId}</if>
+            <if test="majorName != null and majorName != ''"> and wm.major_name like concat('%', #{majorName}, '%')</if>
+            <if test="majorType != null "> and wm.major_type = #{majorType}</if>
+            <if test="majorCode != null "> and wm.major_code = #{majorCode}</if>
+            <if test="departmentName != null and departmentName != ''"> and wd.department_name like concat('%', #{departmentName}, '%')</if>
+            <if test="schoolName != null and schoolName != ''"> and wsc.school_name like concat('%', #{schoolName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="scoreJudge" parameterType="Score" resultMap="ScoreResult">
+        SELECT connect_id FROM wx_mcd as wmc
+           INNER JOIN wx_major AS wm on wm.major_id=wmc.major_id
+           INNER JOIN wx_department as wd on wd.department_id=wmc.department_id
+           INNER JOIN wx_school as ws on ws.school_id=wd.department_school_id
+        where ws.school_name=#{schoolName} and wd.department_name = #{departmentName}
+    </select>
+
+    <select id="selectWxScoreByScoreId" parameterType="Long" resultMap="ScoreResult">
+        <include refid="selectWxScoreVo"/>
+        where score_id = #{scoreId}
+    </select>
+
+    <insert id="insertWxScore" parameterType="Score" useGeneratedKeys="true" keyProperty="scoreId">
+        insert into wx_score
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="scoreYear != null">score_year,</if>
+            <if test="scoreAll != null">score_all,</if>
+            <if test="scoreMath != null">score_math,</if>
+            <if test="scoreEnglish != null">score_english,</if>
+            <if test="scorePolitics != null">score_politics,</if>
+            <if test="scoreMajor != null">score_major,</if>
+            <if test="scoreMajorId != null">connect_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="scoreYear != null">#{scoreYear},</if>
+            <if test="scoreAll != null">#{scoreAll},</if>
+            <if test="scoreMath != null">#{scoreMath},</if>
+            <if test="scoreEnglish != null">#{scoreEnglish},</if>
+            <if test="scorePolitics != null">#{scorePolitics},</if>
+            <if test="scoreMajor != null">#{scoreMajor},</if>
+            <if test="scoreMajorId != null">#{scoreMajorId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateWxScore" parameterType="Score">
+        update wx_score
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="scoreYear != null">score_year = #{scoreYear},</if>
+            <if test="scoreAll != null">score_all = #{scoreAll},</if>
+            <if test="scoreMath != null">score_math = #{scoreMath},</if>
+            <if test="scoreEnglish != null">score_english = #{scoreEnglish},</if>
+            <if test="scorePolitics != null">score_politics = #{scorePolitics},</if>
+            <if test="scoreMajor != null">score_major = #{scoreMajor},</if>
+            <if test="scoreMajorId != null">connect_id = #{scoreMajorId},</if>
+        </trim>
+        where score_id = #{scoreId}
+    </update>
+
+    <delete id="deleteWxScoreByScoreId" parameterType="Long">
+        delete from wx_score where score_id = #{scoreId}
+    </delete>
+
+    <delete id="deleteWxScoreByScoreIds" parameterType="String">
+        delete from wx_score where score_id in
+        <foreach item="scoreId" collection="array" open="(" separator="," close=")">
+            #{scoreId}
+        </foreach>
+    </delete>
+</mapper>

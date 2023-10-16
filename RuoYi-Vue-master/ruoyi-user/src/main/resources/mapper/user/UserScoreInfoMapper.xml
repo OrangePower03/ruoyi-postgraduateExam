@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.user.mapper.UserScoreInfoMapper">
+
+    <resultMap type="UserScoreInfo" id="UserScoreInfoResult">
+        <result property="userId"    column="user_id"    />
+        <result property="scoreAll"    column="score_all"    />
+        <result property="scoreEnglish"    column="score_english"    />
+        <result property="scorePolitics"    column="score_politics"    />
+        <result property="scoreMath"    column="score_math"    />
+        <result property="scoreMajor"    column="score_major"    />
+        <result property="majorName"    column="major_name"    />
+        <result property="majorType"    column="major_type"    />
+        <result property="areaName"    column="area_name"    />
+    </resultMap>
+
+    <sql id="selectWxUserScoreInfoVo">
+        select user_id, score_all, score_english, score_politics, score_math, score_major, major_name, major_type, area_name from wx_user_scoreinfo
+    </sql>
+
+    <select id="selectWxUserScoreInfoList" parameterType="UserScoreInfo" resultMap="UserScoreInfoResult">
+        <include refid="selectWxUserScoreInfoVo"/>
+        <where>
+            <if test="scoreAll != null "> and score_all = #{scoreAll}</if>
+            <if test="scoreEnglish != null "> and score_english = #{scoreEnglish}</if>
+            <if test="scorePolitics != null "> and score_politics = #{scorePolitics}</if>
+            <if test="scoreMath != null "> and score_math = #{scoreMath}</if>
+            <if test="scoreMajor != null "> and score_major = #{scoreMajor}</if>
+            <if test="majorName != null  and majorName != ''"> and major_name like concat('%', #{majorName}, '%')</if>
+            <if test="majorType != null "> and major_type = #{majorType}</if>
+            <if test="areaName != null  and areaName != ''"> and area_name like concat('%', #{areaName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectWxUserScoreInfoByUserId" parameterType="Long" resultMap="UserScoreInfoResult">
+        <include refid="selectWxUserScoreInfoVo"/>
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertWxUserScoreInfo" parameterType="UserScoreInfo">
+        insert into wx_user_scoreinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="scoreAll != null">score_all,</if>
+            <if test="scoreEnglish != null">score_english,</if>
+            <if test="scorePolitics != null">score_politics,</if>
+            <if test="scoreMath != null">score_math,</if>
+            <if test="scoreMajor != null">score_major,</if>
+            <if test="majorName != null and majorName != ''">major_name,</if>
+            <if test="majorType != null">major_type,</if>
+            <if test="areaName != null and areaName != ''">area_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="scoreAll != null">#{scoreAll},</if>
+            <if test="scoreEnglish != null">#{scoreEnglish},</if>
+            <if test="scorePolitics != null">#{scorePolitics},</if>
+            <if test="scoreMath != null">#{scoreMath},</if>
+            <if test="scoreMajor != null">#{scoreMajor},</if>
+            <if test="majorName != null and majorName != ''">#{majorName},</if>
+            <if test="majorType != null">#{majorType},</if>
+            <if test="areaName != null and areaName != ''">#{areaName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateWxUserScoreInfo" parameterType="UserScoreInfo">
+        update wx_user_scoreinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="scoreAll != null">score_all = #{scoreAll},</if>
+            <if test="scoreEnglish != null">score_english = #{scoreEnglish},</if>
+            <if test="scorePolitics != null">score_politics = #{scorePolitics},</if>
+            <if test="scoreMath != null">score_math = #{scoreMath},</if>
+            <if test="scoreMajor != null">score_major = #{scoreMajor},</if>
+            <if test="majorName != null and majorName != ''">major_name = #{majorName},</if>
+            <if test="majorType != null">major_type = #{majorType},</if>
+            <if test="areaName != null and areaName != ''">area_name = #{areaName},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteWxUserScoreInfoByUserId" parameterType="Long">
+        delete from wx_user_scoreinfo where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteWxUserScoreInfoByUserIds" parameterType="String">
+        delete from wx_user_scoreinfo where user_id in
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>

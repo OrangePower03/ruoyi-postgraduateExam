@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.user.mapper.AreaMapper">
+
+    <resultMap type="Area" id="AreaResult">
+        <result property="areaId"    column="area_id"    />
+        <result property="areaName"  column="area_name"  />
+        <result property="areaType"  column="area_type"  />
+    </resultMap>
+
+    <sql id="selectWxAreaVo">
+        select area_id, area_name, area_type from wx_area
+    </sql>
+
+    <select id="selectWxAreaList" parameterType="Area" resultMap="AreaResult">
+        <include refid="selectWxAreaVo"/>
+        <where>
+            <if test="areaName != null  and areaName != ''"> and area_name like concat('%', #{areaName}, '%')</if>
+            <if test="areaType != null "> and area_type = #{areaType}</if>
+        </where>
+    </select>
+
+    <select id="selectWxAreaByAreaId" parameterType="Long" resultMap="AreaResult">
+        <include refid="selectWxAreaVo"/>
+        where area_id = #{areaId}
+    </select>
+
+    <insert id="insertWxArea" parameterType="Area">
+        insert into wx_area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="areaId != null">area_id,</if>
+            <if test="areaName != null and areaName != ''">area_name,</if>
+            <if test="areaType != null">area_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="areaId != null">#{areaId},</if>
+            <if test="areaName != null and areaName != ''">#{areaName},</if>
+            <if test="areaType != null">#{areaType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateWxArea" parameterType="Area">
+        update wx_area
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="areaName != null and areaName != ''">area_name = #{areaName},</if>
+            <if test="areaType != null">area_type = #{areaType},</if>
+        </trim>
+        where area_id = #{areaId}
+    </update>
+
+    <delete id="deleteWxAreaByAreaId" parameterType="Long">
+        delete from wx_area where area_id = #{areaId}
+    </delete>
+
+    <delete id="deleteWxAreaByAreaIds" parameterType="String">
+        delete from wx_area where area_id in
+        <foreach item="areaId" collection="array" open="(" separator="," close=")">
+            #{areaId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.user.mapper.DScoreMapper">
+
+    <resultMap type="DScore" id="DScoreResult">
+        <result property="scoreId"    column="score_id"    />
+        <result property="scoreYear"    column="score_year"    />
+        <result property="scoreAll"    column="score_all"    />
+        <result property="scoreMath"    column="score_math"    />
+        <result property="scoreEnglish"    column="score_english"    />
+        <result property="scorePolitics"    column="score_politics"    />
+        <result property="scoreMajor"    column="score_major"    />
+        <result property="majorId"    column="major_id"    />
+        <result property="areaType"    column="area_type"    />
+        <result property="majorName"    column="major_name"    />
+    </resultMap>
+
+    <sql id="selectWxDscoreVo">
+        select wds.score_id, wds.score_year, wds.score_all, wds.score_math, wds.score_english, wds.score_politics, wds.score_major, wds.major_id, wds.area_type,wm.major_name from wx_dscore as wds INNER JOIN wx_major as wm on wds.major_id=wm.major_id
+    </sql>
+
+<!--    <sql id="selectWxDscoreVo2">
+        select wds.score_id, wds.score_year, wds.score_all, wds.score_math, wds.score_english, wds.score_politics, wds.score_major, wds.major_id, wds.area_type,wm.major_name from wx_dscore as wds INNER JOIN wx_major as wm on wds.major_id=wm.major_id
+    </sql>-->
+
+    <select id="selectRetestList" parameterType="DScore" resultMap="DScoreResult">
+        <include refid="selectWxDscoreVo"/>
+        where wm.major_name = #{majorName} and score_year >= (SELECT max(score_year)-3 from wx_score) ORDER BY score_year desc,score_all desc
+    </select>
+
+    <select id="selectWxDscoreList" parameterType="DScore" resultMap="DScoreResult">
+        <include refid="selectWxDscoreVo"/>
+        <where>
+            <if test="scoreYear != null "> and wds.score_year = #{scoreYear}</if>
+            <if test="scoreAll != null "> and #{scoreAll}>=wds.score_all</if>
+            <if test="scoreMath != null ">  and #{scoreMath}>=wds.score_math</if>
+            <if test="scoreEnglish != null "> and #{scoreEnglish}>=wds.score_english</if>
+            <if test="scorePolitics != null "> and #{scorePolitics}>=wds.score_politics</if>
+            <if test="scoreMajor != null "> and #{scoreMajor}>=wds.score_major</if>
+            <if test="majorId != null "> and wds.major_id = #{majorId}</if>
+            <if test="areaType != null "> and wds.area_type = #{areaType}</if>
+            <if test="majorName != null "> and wm.major_name = #{majorName}</if>
+        </where>
+    </select>
+
+    <select id="selectWxDscoreByScoreId" parameterType="Long" resultMap="DScoreResult">
+        <include refid="selectWxDscoreVo"/>
+        where score_id = #{scoreId}
+    </select>
+
+    <insert id="insertWxDscore" parameterType="DScore">
+        insert into wx_dscore
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="scoreId != null">score_id,</if>
+            <if test="scoreYear != null">score_year,</if>
+            <if test="scoreAll != null">score_all,</if>
+            <if test="scoreMath != null">score_math,</if>
+            <if test="scoreEnglish != null">score_english,</if>
+            <if test="scorePolitics != null">score_politics,</if>
+            <if test="scoreMajor != null">score_major,</if>
+            <if test="majorId != null">major_id,</if>
+            <if test="areaType != null">area_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="scoreId != null">#{scoreId},</if>
+            <if test="scoreYear != null">#{scoreYear},</if>
+            <if test="scoreAll != null">#{scoreAll},</if>
+            <if test="scoreMath != null">#{scoreMath},</if>
+            <if test="scoreEnglish != null">#{scoreEnglish},</if>
+            <if test="scorePolitics != null">#{scorePolitics},</if>
+            <if test="scoreMajor != null">#{scoreMajor},</if>
+            <if test="majorId != null">#{majorId},</if>
+            <if test="areaType != null">#{areaType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateWxDscore" parameterType="DScore">
+        update wx_dscore
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="scoreYear != null">score_year = #{scoreYear},</if>
+            <if test="scoreAll != null">score_all = #{scoreAll},</if>
+            <if test="scoreMath != null">score_math = #{scoreMath},</if>
+            <if test="scoreEnglish != null">score_english = #{scoreEnglish},</if>
+            <if test="scorePolitics != null">score_politics = #{scorePolitics},</if>
+            <if test="scoreMajor != null">score_major = #{scoreMajor},</if>
+            <if test="majorId != null">major_id = #{majorId},</if>
+            <if test="areaType != null">area_type = #{areaType},</if>
+        </trim>
+        where score_id = #{scoreId}
+    </update>
+
+    <delete id="deleteWxDscoreByScoreId" parameterType="Long">
+        delete from wx_dscore where score_id = #{scoreId}
+    </delete>
+
+    <delete id="deleteWxDscoreByScoreIds" parameterType="String">
+        delete from wx_dscore where score_id in
+        <foreach item="scoreId" collection="array" open="(" separator="," close=")">
+            #{scoreId}
+        </foreach>
+    </delete>
+</mapper>

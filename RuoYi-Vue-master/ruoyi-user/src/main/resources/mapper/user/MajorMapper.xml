@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.user.mapper.MajorMapper">
+
+    <resultMap type="Major" id="MajorResult">
+        <result property="majorId"    column="major_id"    />
+        <result property="majorCode"    column="major_code"    />
+        <result property="majorName"    column="major_name"    />
+        <result property="majorDepartmentId"    column="department_id"    />
+        <result property="majorDepartmentName"    column="department_name"    />
+        <result property="majorType"    column="major_type"    />
+        <result property="majorSchoolName"    column="school_name"    />
+        <result property="connectId"    column="connect_id"    />
+    </resultMap>
+
+    <resultMap type="Connect" id="ConnectResult">
+        <result property="connectId"    column="connect_id"    />
+        <result property="majorId"    column="major_id"    />
+        <result property="departmentId"    column="department_id"    />
+    </resultMap>
+
+    <sql id="selectWxMajorVo">
+        select major_id, major_code, major_name, major_type from wx_major
+    </sql>
+
+    <sql id="selectWxMajorVo2">
+        SELECT wm.major_id,wm.major_code,wm.major_name,wm.major_type,
+               wmc.connect_id,wd.department_id,wd.department_name,wsc.school_name
+        from wx_mcd as wmc
+                 INNER JOIN wx_major as wm on wmc.major_id=wm.major_id
+                 INNER JOIN wx_department as wd on wd.department_id=wmc.department_id
+                 INNER JOIN wx_school as wsc on wsc.school_id=wd.department_school_id
+    </sql>
+
+    <select id="selectWxMajorList" parameterType="Major" resultMap="MajorResult">
+        <include refid="selectWxMajorVo2"/>
+        <where>
+            <if test="majorCode != null and majorCode != ''"> and wm.major_code like concat('%', #{majorCode}, '%')</if>
+            <if test="majorName != null and majorName != ''"> and wm.major_name like concat('%', #{majorName}, '%')</if>
+            <if test="majorDepartmentName != null and majorDepartmentName != ''"> and wd.department_name like concat('%', #{majorDepartmentName}, '%')</if>
+            <if test="majorType != null "> and wm.major_type = #{majorType}</if>
+            <if test="majorSchoolName != null and majorSchoolName != ''"> and wsc.school_name like concat('%', #{majorSchoolName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectWxMajorByMajorId" parameterType="Long" resultMap="MajorResult">
+        <include refid="selectWxMajorVo"/>
+        where major_id = #{majorId}
+    </select>
+
+    <select id="selectWxConnectByConnectId" parameterType="Long" resultMap="ConnectResult">
+        SELECT connect_id,major_id,department_id from wx_mcd
+        where connect_id = #{connectId}
+    </select>
+
+
+    <select id="selectMajorList" parameterType="Major" resultMap="MajorResult">
+        <include refid="selectWxMajorVo"/>
+        <where>
+            <if test="majorCode != null and majorCode != ''"> and major_code like concat('%', #{majorCode}, '%')</if>
+            <if test="majorName != null and majorName != ''"> and major_name like concat('%', #{majorName}, '%')</if>
+            <if test="majorType != null "> and major_type = #{majorType}</if>
+        </where>
+    </select>
+
+    <insert id="insertWxMajor" parameterType="Major" useGeneratedKeys="true" keyProperty="majorId">
+        insert into wx_major
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="majorCode != null and majorCode != ''">major_code,</if>
+            <if test="majorName != null and majorName != ''">major_name,</if>
+            <if test="majorType != null">major_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="majorCode != null and majorCode != ''">#{majorCode},</if>
+            <if test="majorName != null and majorName != ''">#{majorName},</if>
+            <if test="majorType != null">#{majorType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateWxMajor" parameterType="Major">
+        update wx_major
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="majorCode != null and majorCode != ''">major_code = #{majorCode},</if>
+            <if test="majorName != null and majorName != ''">major_name = #{majorName},</if>
+            <if test="majorType != null">major_type = #{majorType},</if>
+        </trim>
+        where major_id = #{majorId}
+    </update>
+
+    <delete id="deleteWxMajorByMajorId" parameterType="Long">
+        delete from wx_major where major_id = #{majorId}
+    </delete>
+
+    <delete id="deleteWxMajorByMajorIds" parameterType="String">
+        delete from wx_major where major_id in
+        <foreach item="majorId" collection="array" open="(" separator="," close=")">
+            #{majorId}
+        </foreach>
+    </delete>
+
+    <insert id="insertWxMcd" parameterType="Connect" useGeneratedKeys="true" keyProperty="connectId">
+        insert into wx_mcd
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="majorId != null">major_id,</if>
+            <if test="departmentId != null">department_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="majorId != null">#{majorId},</if>
+            <if test="departmentId != null">#{departmentId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateWxMcd" parameterType="Connect">
+        update wx_mcd
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="majorId != null">major_id = #{majorId},</if>
+            <if test="departmentId != null">department_id = #{departmentId},</if>
+        </trim>
+        where connect_id = #{connectId}
+    </update>
+
+    <delete id="deleteWxMcdByConnectId" parameterType="Long">
+        delete from wx_mcd where connect_id = #{connectId}
+    </delete>
+
+    <delete id="deleteWxMcdByConnectIds" parameterType="String">
+        delete from wx_mcd where connect_id in
+        <foreach item="connectId" collection="array" open="(" separator="," close=")">
+            #{connectId}
+        </foreach>
+    </delete>
+</mapper>
