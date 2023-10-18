@@ -2,10 +2,7 @@
 from utils import mysql
 
 
-path = './resources/score/data_2023.txt'
-file = open(path, 'r', encoding='GBK')
-
-
+# 没啥用的东西，就一测试
 def testPrint(score: [str]):
     year = score[0]
     all = score[6]
@@ -21,10 +18,11 @@ def testPrint(score: [str]):
     print(majorScore)
 
 
-if __name__ == '__main__':
+# 因为有两组数据，所以得重复运行两次
+def mainCode(file):
     connect: [tuple, int] = {}
-    connection = mysql.Mysql('127.0.0.1', 'root', '123123', 'jsjds')
-    connection1 = mysql.Mysql('127.0.0.1', 'root', '123123', 'jsjds')
+    connection = mysql.Mysql(host='127.0.0.1', user='root', password='123123', database='jsjds')
+    connection1 = mysql.Mysql(host='127.0.0.1', user='root', password='123123', database='jsjds')
     selectSql = """select * from wx_mcd"""
     connection.selectOne(selectSql)
     for c in connection.cursor:
@@ -55,14 +53,23 @@ if __name__ == '__main__':
         selectSql = f"""select school_id from wx_school where school_name='{schoolName}'"""
         schoolId = int(connection2.selectOne(selectSql))
         # print(f"专业id：{majorId}，学校id：{schoolId}")
-        connectId = connect.get((majorId,schoolId))
+        connectId = connect.get((majorId, schoolId))
         if connectId is not None:
             # print(connectId)
             sql = f"""insert into wx_score(score_year,score_all,score_english,score_politics,score_math,score_major,connect_id)
-                values({year},{all},{english},{politics},{math},{majorScore},{connectId})"""
+                    values({year},{all},{english},{politics},{math},{majorScore},{connectId})"""
             connection2.insertSql(sql)
 
     file.close()
     connection.close()
     connection1.close()
     connection2.close()
+
+
+if __name__ == '__main__':
+    path = './resources/score/data_2022.txt'
+    file = open(path, 'r', encoding='GBK')
+    mainCode(file)
+    path = './resources/score/data_2023.txt'
+    file = open(path, 'r', encoding='GBK')
+    mainCode(file)

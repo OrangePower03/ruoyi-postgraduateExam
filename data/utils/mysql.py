@@ -5,7 +5,7 @@ class Mysql:
     connection = None
     cursor = None
 
-    def __init__(self, host, user, password, database):
+    def __init__(self, host='127.0.0.1', user='root', password='123123', database='jsjds'):
         self.connection = pymysql.connect(
             host=host,          # 数据库主机
             user=user,          # 数据库用户名

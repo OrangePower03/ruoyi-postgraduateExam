@@ -1,5 +1,4 @@
 # -*- coding: GBK -*-
-import time
 import requests
 
 
