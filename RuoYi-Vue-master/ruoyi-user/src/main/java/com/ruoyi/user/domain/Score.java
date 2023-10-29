@@ -1,7 +1,5 @@
 package com.ruoyi.user.domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
@@ -23,7 +21,7 @@ public class Score extends BaseEntity
     private Long scoreYear;
 
     /** 专业编号 */
-    private Long scoreMajorId;
+    private Long majorId;
 
     @Excel(name = "专业代码")
     private String majorCode;
@@ -122,12 +120,12 @@ public class Score extends BaseEntity
     {
         return scoreMajor;
     }
-    public void setScoreMajorId(Long scoreMajorId)
+    public void setMajorId(Long majorId)
     {
-        this.scoreMajorId = scoreMajorId;
+        this.majorId = majorId;
     }
 
-    public Long getScoreMajorId() {return scoreMajorId;}
+    public Long getMajorId() {return majorId;}
 
     public void setMajorName(String majorName) {
         this.majorName = majorName;
@@ -179,7 +177,7 @@ public class Score extends BaseEntity
                 ", scoreEnglish=" + scoreEnglish +
                 ", scorePolitics=" + scorePolitics +
                 ", scoreMajor=" + scoreMajor +
-                ", scoreMajorId=" + scoreMajorId +
+                ", majorId=" + majorId +
                 ", majorName='" + majorName + '\'' +
                 ", majorType=" + majorType +
                 ", majorCode='" + majorCode + '\'' +

@@ -142,7 +142,7 @@ public class ScoreServiceImpl implements IScoreService
                 }
                 i++;
             } else {
-                score.setScoreMajorId(score1.getScoreMajorId());
+                score.setMajorId(score1.getMajorId());
             }
         }
         if(i>1){
