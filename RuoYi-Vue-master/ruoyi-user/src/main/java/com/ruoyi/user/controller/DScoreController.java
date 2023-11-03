@@ -65,7 +65,7 @@ public class DScoreController extends BaseController
     {
         List<DScore> list = wxDscoreService.selectWxDscoreList(wxDscore);
         ExcelUtil<DScore> util = new ExcelUtil<DScore>(DScore.class);
-        util.exportExcel(response, list, "国家数据");
+        util.exportExcel(response, list, "国家线数据");
     }
 
     /**

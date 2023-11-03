@@ -394,7 +394,7 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('system/dscore/export', {
+      this.download('user/dscore/export', {
         ...this.queryParams
       }, `dscore_${new Date().getTime()}.xlsx`)
     }

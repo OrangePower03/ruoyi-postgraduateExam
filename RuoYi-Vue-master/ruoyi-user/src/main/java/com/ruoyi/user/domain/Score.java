@@ -29,7 +29,7 @@ public class Score extends BaseEntity
     @Excel(name = "专业名称")
     private String majorName;
 
-    @Excel(name = "专业类型", readConverterExp = "1=专硕,2=学硕")
+    @Excel(name = "专业类型", readConverterExp = "1=学硕,2=专硕")
     private Long majorType;
 
     @Excel(name = "所属学校")

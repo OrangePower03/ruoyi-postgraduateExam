@@ -16,10 +16,11 @@ public class Major extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 专业代码 */
+    /** 专业id*/
     private Long majorId;
 
     /** 专业代码 */
+    @Excel(name = "专业代码")
     private String majorCode;
 
     /** 专业名称 */
