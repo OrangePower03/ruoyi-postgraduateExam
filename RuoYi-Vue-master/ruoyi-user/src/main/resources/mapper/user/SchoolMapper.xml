@@ -29,8 +29,8 @@
         <where>
             <if test="schoolName != null and schoolName != ''"> and ws.school_name like concat('%', #{schoolName}, '%')</if>
             <if test="schoolArea != null "> and ws.school_area = #{schoolArea}</if>
-            <if test="schoolType != null "> and ws.school_type = #{schoolType}</if>
             <if test="schoolLevels != null "> and ws.school_levels = #{schoolLevels}</if>
+            <if test="schoolType != null "> and ws.school_type = #{schoolType}</if>
         </where>
     </select>
 

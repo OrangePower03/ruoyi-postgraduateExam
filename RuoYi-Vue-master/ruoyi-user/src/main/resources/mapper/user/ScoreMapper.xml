@@ -100,16 +100,16 @@
         INNER JOIN wx_department as wd on wd.department_id=wmc.department_id
         INNER JOIN wx_school as wsc on wsc.school_id=wd.department_school_id
         <where>
-            <if test="scoreYear != null "> and ws.score_year = #{scoreYear}</if>
             <if test="scoreAll != null "> and #{scoreAll}>=ws.score_all</if>
             <if test="scoreMath != null ">  and #{scoreMath}>=ws.score_math</if>
             <if test="scoreEnglish != null "> and #{scoreEnglish}>=ws.score_english</if>
             <if test="scorePolitics != null "> and #{scorePolitics}>=ws.score_politics</if>
             <if test="scoreMajor != null "> and #{scoreMajor}>=ws.score_major</if>
+            <if test="scoreYear != null "> and ws.score_year = #{scoreYear}</if>
             <if test="majorId != null "> and wmc.major_id = #{majorId}</if>
+            <if test="majorCode != null "> and wm.major_code = #{majorCode}</if>
             <if test="majorName != null and majorName != ''"> and wm.major_name like concat('%', #{majorName}, '%')</if>
             <if test="majorType != null "> and wm.major_type = #{majorType}</if>
-            <if test="majorCode != null "> and wm.major_code = #{majorCode}</if>
             <if test="departmentName != null and departmentName != ''"> and wd.department_name like concat('%', #{departmentName}, '%')</if>
             <if test="schoolName != null and schoolName != ''"> and wsc.school_name like concat('%', #{schoolName}, '%')</if>
         </where>

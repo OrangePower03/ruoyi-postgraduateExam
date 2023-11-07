@@ -2297,3 +2297,24 @@ INSERT INTO `wx_user_scoreinfo` VALUES (120, 370, 85, 85, 100, 100, '金融', NU
 INSERT INTO `wx_user_scoreinfo` VALUES (121, 370, 85, 85, 100, 100, '金融', NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+
+# 建立索引
+create index idx_name_school_id on wx_department(department_name,department_school_id);
+create index idx_school_id on wx_department(department_school_id);
+
+create index idx_year_allScore on wx_dScore(score_year,score_all);
+
+create index idx_code_name_type on wx_major(major_code,major_name,major_type);
+create index idx_name_type on wx_major(major_name,major_type);
+create index idx_type on wx_major(major_type);
+
+create index idx_area_level on wx_school(school_area,school_levels);
+create index idx_level on wx_school(school_levels);
+create index idx_name on wx_school(school_name);
+
+create index idx_all_math_english_politics_major_year on
+    wx_score(score_all,score_math,score_english,score_politics,score_major,score_year);
+create index idx_all_year on wx_score(score_all,score_year);
+
+
