@@ -36,7 +36,7 @@
       <el-table-column label="专业名称" align="center" prop="majorName" />
       <el-table-column label="专业类型" align="center" prop="majorType" >
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.majorType===1">专硕</el-tag>
+          <el-tag v-if="scope.row.majorType===2">专硕</el-tag>
           <el-tag v-else>学硕</el-tag>
         </template>
       </el-table-column>

@@ -124,7 +124,7 @@ export default {
       DepartmentList:[],
       sMajorList:[],
       schoolList:[],
-      majorTypeList:[{ name:"专硕",value:1},{name:"学硕",value:2}],
+      majorTypeList:[{ name:"专硕",value:2},{name:"学硕",value:1}],
       type:0
     };
   },
