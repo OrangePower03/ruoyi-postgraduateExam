@@ -35,6 +35,12 @@ class Mysql:
             return '-1'
         return result[0]
 
+    def update(self, sql):
+        self.cursor.execute(sql)
+        self.connection.commit()
+
+    def commit(self):
+        self.connection.commit()
 
 
 

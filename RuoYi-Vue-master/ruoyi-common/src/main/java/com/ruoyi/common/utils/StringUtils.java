@@ -20,6 +20,9 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
     /** 空字符串 */
     private static final String NULLSTR = "";
 
+    /** 数字非0或空 */
+    private static final int EMPTY_NUMBER=0;
+
     /** 下划线 */
     private static final char SEPARATOR = '_';
 
@@ -45,6 +48,9 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
         return isNull(coll) || coll.isEmpty();
     }
 
+    public static boolean isEmpty(Number number) {
+        return number == null || EMPTY_NUMBER == number.intValue();
+    }
     /**
      * * 判断一个Collection是否非空，包含List，Set，Queue
      * 

@@ -1,12 +1,10 @@
 package com.ruoyi.common.core.redis;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -264,5 +262,10 @@ public class RedisCache
     public Collection<String> keys(final String pattern)
     {
         return redisTemplate.keys(pattern);
+    }
+
+    public double distance(String key, String areaId1, String areaId2) {
+        Distance distance = redisTemplate.opsForGeo().distance(key, areaId1, areaId2, Metrics.KILOMETERS);
+        return Objects.requireNonNull(distance).getValue();
     }
 }

@@ -58,4 +58,6 @@ public interface AreaMapper
      * @return 结果
      */
     public int deleteWxAreaByAreaIds(Long[] areaIds);
+
+    int selectAreaIdByAreaName(String area);
 }

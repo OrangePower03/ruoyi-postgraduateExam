@@ -9,7 +9,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author ruoyi
  * @date 2023-04-02
  */
-public class Score extends BaseEntity
+public class Score extends BaseEntity  implements Comparable<Score>
 {
     private static final long serialVersionUID = 1L;
 
@@ -56,6 +56,17 @@ public class Score extends BaseEntity
     /** 专业二 */
     @Excel(name = "专业二")
     private Long scoreMajor;
+
+    /** 表中该有的都得有*/
+    private Long connectId;
+
+    public Long getConnectId() {
+        return connectId;
+    }
+
+    public void setConnectId(Long connectId) {
+        this.connectId = connectId;
+    }
 
     public void setScoreId(Long scoreId)
     {
@@ -185,4 +196,15 @@ public class Score extends BaseEntity
                 ", schoolName='" + schoolName + '\'' +
                 '}';
     }
+
+    @Override
+    public int compareTo(Score other) {
+        return schoolName.compareTo(other.getSchoolName());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return schoolName.equals(((Score) other).getSchoolName());
+    }
+
 }

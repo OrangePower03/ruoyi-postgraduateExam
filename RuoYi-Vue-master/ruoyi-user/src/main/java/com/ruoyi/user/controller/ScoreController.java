@@ -3,9 +3,16 @@ package com.ruoyi.user.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.constant.HttpStatus;
+import com.ruoyi.common.exception.ServiceException;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.user.domain.AllInfo;
 import com.ruoyi.user.domain.Score;
+import com.ruoyi.user.domain.dto.RecommendDto;
+import com.ruoyi.user.domain.vo.RecommendVo;
 import com.ruoyi.user.service.IScoreService;
+import com.ruoyi.user.service.RecommendService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +44,9 @@ public class ScoreController extends BaseController
     @Autowired
     private IScoreService wxScoreService;
 
+    @Autowired
+    private RecommendService recommendService;
+
     /**
      * 查询【请填写功能名称】列表
      */
@@ -54,12 +64,24 @@ public class ScoreController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('user:score:list')")
     @GetMapping("/AllInfoList")
-    public TableDataInfo AllInfoList(AllInfo allInfo)
+    public TableDataInfo allInfoList(RecommendDto recommendDto)
     {
-        List<AllInfo> list = wxScoreService.selectAllInfoList(allInfo);
-        System.out.println(list);
+        List<RecommendVo> recommend = recommendService.recommend(recommendDto);
+//        List<AllInfo> list = wxScoreService.selectAllInfoList(allInfo);
+//        System.out.println(list);
+        return getDataTable(recommend);
+    }
+
+    @PreAuthorize("@ss.hasPermi('user:score:list')")
+    @GetMapping("/recommend")
+    public TableDataInfo recommend(AllInfo allInfo)
+    {
+        List<RecommendDto> list = wxScoreService.recommend(allInfo);
+//        System.out.println(list);
         return getDataTable(list);
     }
+
+
     /**
      * 导出复试线列表
      */

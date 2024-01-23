@@ -37,6 +37,9 @@ public class School extends BaseEntity
 
     private String schoolWebsite;
     private String schoolRecruit;
+    private Float QS;
+    private Float RK;
+
 
     public void setSchoolId(Long schoolId)
     {

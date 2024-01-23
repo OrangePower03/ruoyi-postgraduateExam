@@ -73,7 +73,7 @@ h1{
   -webkit-background-size: 200% 100%;
 }
 .card{
-  background-image: url("../../../assets/images/feedback.jpg");
+  background-image: url("../../../assets/images/background1.jpg");
   background-size: 100%;
   border-radius: 25px;
   box-shadow: rgb(146, 161, 159) 0px 1px 2px, rgb(253, 238, 187) 0px 2px 4px, rgb(194, 252, 238) 0px 4px 8px, rgb(194, 231, 252) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
