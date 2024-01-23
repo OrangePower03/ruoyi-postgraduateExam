@@ -112,13 +112,6 @@ public class ScoreServiceImpl implements IScoreService
         return wxScoreMapper.selectAllInfoList(allInfo);
     }
 
-    // cqtodo
-    @Deprecated
-    @Override
-    public List<RecommendDto> recommend(AllInfo allInfo) {
-        return null;
-    }
-
     public String importData(List<Score> scoreList){
         int i=1;
         int j=1;

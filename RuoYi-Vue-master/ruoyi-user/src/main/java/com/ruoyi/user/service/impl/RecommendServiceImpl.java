@@ -11,7 +11,6 @@ import com.ruoyi.user.domain.DScore;
 import com.ruoyi.user.domain.Score;
 import com.ruoyi.user.domain.UserScoreInfo;
 import com.ruoyi.user.domain.common.ScoreCommon;
-import com.ruoyi.user.domain.common.ScoreWithSchoolName;
 import com.ruoyi.user.domain.dto.RecommendDto;
 import com.ruoyi.user.domain.vo.RecommendVo;
 import com.ruoyi.user.domain.vo.SchoolWithScoreVo;

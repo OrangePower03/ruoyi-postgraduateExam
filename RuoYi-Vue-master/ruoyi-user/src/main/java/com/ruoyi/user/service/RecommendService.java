@@ -12,8 +12,6 @@ import java.util.List;
  * 算法接口，算法较为复杂，令起接口
  */
 public interface RecommendService {
-    //List<RecommendVo> recommend(RecommendDto recommendDto);
-
     List<RecommendVo> recommend(RecommendDto recommendDto);
 
     void WV(List<SchoolWithScoreVo> schools);

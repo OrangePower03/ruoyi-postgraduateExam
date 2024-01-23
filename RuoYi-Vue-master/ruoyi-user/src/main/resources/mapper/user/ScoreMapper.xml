@@ -129,7 +129,7 @@
         where score_id = #{scoreId}
     </select>
 
-    <select id="selectByMajorAndScoreAll" resultType="com.ruoyi.user.domain.common.ScoreWithSchoolName" resultMap="ScoreResult">
+    <select id="selectByMajorAndScoreAll" resultType="com.ruoyi.user.domain.Score" resultMap="ScoreResult">
         select * from wx_score where score_year >= #{first_year}
                 and
                     #{scoreAll}+#{floatScore} >= score_all

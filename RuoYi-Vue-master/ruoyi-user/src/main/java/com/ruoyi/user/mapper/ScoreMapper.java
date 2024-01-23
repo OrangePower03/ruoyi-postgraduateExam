@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ruoyi.user.domain.AllInfo;
 import com.ruoyi.user.domain.Score;
-import com.ruoyi.user.domain.common.ScoreWithSchoolName;
 import org.apache.ibatis.annotations.Param;
 
 /**

@@ -75,5 +75,4 @@ public interface IScoreService
 
     String importData(List<Score> scoreList);
 
-    List<RecommendDto> recommend(AllInfo allInfo);
 }

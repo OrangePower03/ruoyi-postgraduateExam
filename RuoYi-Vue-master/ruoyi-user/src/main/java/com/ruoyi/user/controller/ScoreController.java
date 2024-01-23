@@ -64,21 +64,24 @@ public class ScoreController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('user:score:list')")
     @GetMapping("/AllInfoList")
-    public TableDataInfo allInfoList(RecommendDto recommendDto)
+    public TableDataInfo allInfoList(AllInfo allInfo)
     {
-        List<RecommendVo> recommend = recommendService.recommend(recommendDto);
-//        List<AllInfo> list = wxScoreService.selectAllInfoList(allInfo);
-//        System.out.println(list);
-        return getDataTable(recommend);
-    }
-
-    @PreAuthorize("@ss.hasPermi('user:score:list')")
-    @GetMapping("/recommend")
-    public TableDataInfo recommend(AllInfo allInfo)
-    {
-        List<RecommendDto> list = wxScoreService.recommend(allInfo);
+        List<AllInfo> list = wxScoreService.selectAllInfoList(allInfo);
 //        System.out.println(list);
         return getDataTable(list);
+    }
+
+    /**
+     * 推荐算法的接口
+     * @param recommendDto 前端发来的分数和地区，专业
+     * @return 返回九个推荐的院校，其中包括
+     */
+    @PreAuthorize("@ss.hasPermi('user:score:list')")
+    @GetMapping("/recommend")
+    public TableDataInfo recommend(RecommendDto recommendDto)
+    {
+        List<RecommendVo> recommend = recommendService.recommend(recommendDto);
+        return getDataTable(recommend);
     }
 
 
