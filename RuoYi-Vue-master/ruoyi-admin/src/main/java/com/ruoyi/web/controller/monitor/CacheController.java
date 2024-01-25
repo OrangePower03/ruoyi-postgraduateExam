@@ -48,7 +48,6 @@ public class CacheController
     @GetMapping()
     public AjaxResult getInfo() throws Exception
     {
-        // cqtodo 报错Cannot read Redis info; nested exception is java.lang.IllegalArgumentException: Malformed \\uxxxx encoding.
         Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info());
         Properties commandStats = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info("commandstats"));
         Object dbSize = redisTemplate.execute((RedisCallback<Object>) connection -> connection.dbSize());

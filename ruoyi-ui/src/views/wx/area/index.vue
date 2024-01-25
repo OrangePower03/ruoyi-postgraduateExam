@@ -6,15 +6,8 @@
           v-model="queryParams.areaName"
           placeholder="请输入地区名称"
           clearable
-          :maxlength="20" show-word-limit
           @keyup.enter.native="handleQuery"
         />
-      </el-form-item>
-      <el-form-item label="地区类型" prop="areaType">
-        <el-select v-model="queryParams.areaType" placeholder="请选择该专业的类型" clearable :maxlength="20" show-word-limit :style="{width: '100%'}" @keyup.enter.native="handleQuery">
-          <el-option v-for="(item, index) in areaTypeList" :key="index" :label="item.name"
-                     :value="item.value" :disabled="item.disabled"></el-option>
-        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -70,13 +63,9 @@
 
     <el-table v-loading="loading" :data="areaList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
+      <el-table-column label="地区主键" align="center" prop="areaId" />
       <el-table-column label="地区名称" align="center" prop="areaName" />
-      <el-table-column label="地区类型" align="center" prop="areaType" >
-        <template slot-scope="scope">
-          <el-tag v-if="scope.row.areaType===1">A区</el-tag>
-          <el-tag v-else-if="scope.row.areaType===2" type="success">B区</el-tag>
-        </template>
-      </el-table-column>
+      <el-table-column label="地区类型" align="center" prop="areaType" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -105,17 +94,11 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改【请填写功能名称】对话框 -->
+    <!-- 添加或修改地区对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="地区名称" prop="areaName">
           <el-input v-model="form.areaName" placeholder="请输入地区名称" />
-        </el-form-item>
-        <el-form-item label="专业类型" prop="majorType">
-          <el-select v-model="form.areaType" placeholder="请选择该专业的类型" clearable :style="{width: '100%'}">
-            <el-option v-for="(item, index) in areaTypeList" :key="index" :label="item.name"
-                       :value="item.value" :disabled="item.disabled"></el-option>
-          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -145,7 +128,7 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 【请填写功能名称】表格数据
+      // 地区表格数据
       areaList: [],
       // 弹出层标题
       title: "",
@@ -166,17 +149,16 @@ export default {
           { required: true, message: "地区名称不能为空", trigger: "blur" }
         ],
         areaType: [
-          { required: true, message: "判断该地区是一区还是二区不能为空", trigger: "change" }
+          { required: true, message: "地区类型不能为空", trigger: "change" }
         ]
-      },
-      areaTypeList:[{ name:"A区",value:1},{name:"B区",value:2}]
+      }
     };
   },
   created() {
     this.getList();
   },
   methods: {
-    /** 查询【请填写功能名称】列表 */
+    /** 查询地区列表 */
     getList() {
       this.loading = true;
       listArea(this.queryParams).then(response => {
@@ -219,7 +201,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加地区信息";
+      this.title = "添加地区";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -228,7 +210,7 @@ export default {
       getArea(areaId).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改地区信息";
+        this.title = "修改地区";
       });
     },
     /** 提交按钮 */
@@ -254,7 +236,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const areaIds = row.areaId || this.ids;
-      this.$modal.confirm('是否确认删除地区信息？（提示：删除地区的同时地区对应的学校地区信息将一并删除）').then(function() {
+      this.$modal.confirm('是否确认删除地区编号为"' + areaIds + '"的数据项？').then(function() {
         return delArea(areaIds);
       }).then(() => {
         this.getList();

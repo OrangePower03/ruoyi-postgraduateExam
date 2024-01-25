@@ -6,24 +6,24 @@
 
     <resultMap type="Area" id="AreaResult">
         <result property="areaId"    column="area_id"    />
-        <result property="areaName"  column="area_name"  />
-        <result property="areaType"  column="area_type"  />
+        <result property="areaName"    column="area_name"    />
+        <result property="areaType"    column="area_type"    />
     </resultMap>
 
-    <sql id="selectWxAreaVo">
+    <sql id="selectAreaVo">
         select area_id, area_name, area_type from wx_area
     </sql>
 
-    <select id="selectWxAreaList" parameterType="Area" resultMap="AreaResult">
-        <include refid="selectWxAreaVo"/>
+    <select id="selectAreaList" parameterType="Area" resultMap="AreaResult">
+        <include refid="selectAreaVo"/>
         <where>
             <if test="areaName != null  and areaName != ''"> and area_name like concat('%', #{areaName}, '%')</if>
             <if test="areaType != null "> and area_type = #{areaType}</if>
         </where>
     </select>
 
-    <select id="selectWxAreaByAreaId" parameterType="Long" resultMap="AreaResult">
-        <include refid="selectWxAreaVo"/>
+    <select id="selectAreaByAreaId" parameterType="Long" resultMap="AreaResult">
+        <include refid="selectAreaVo"/>
         where area_id = #{areaId}
     </select>
 
@@ -31,7 +31,7 @@
         select  area_id from wx_area where area_name = #{areaName}
     </select>
 
-    <insert id="insertWxArea" parameterType="Area">
+    <insert id="insertArea" parameterType="Area">
         insert into wx_area
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="areaId != null">area_id,</if>
@@ -45,7 +45,7 @@
         </trim>
     </insert>
 
-    <update id="updateWxArea" parameterType="Area">
+    <update id="updateArea" parameterType="Area">
         update wx_area
         <trim prefix="SET" suffixOverrides=",">
             <if test="areaName != null and areaName != ''">area_name = #{areaName},</if>
@@ -54,11 +54,11 @@
         where area_id = #{areaId}
     </update>
 
-    <delete id="deleteWxAreaByAreaId" parameterType="Long">
+    <delete id="deleteAreaByAreaId" parameterType="Long">
         delete from wx_area where area_id = #{areaId}
     </delete>
 
-    <delete id="deleteWxAreaByAreaIds" parameterType="String">
+    <delete id="deleteAreaByAreaIds" parameterType="String">
         delete from wx_area where area_id in
         <foreach item="areaId" collection="array" open="(" separator="," close=")">
             #{areaId}

@@ -2,13 +2,7 @@ package com.ruoyi.user.service.impl;
 
 import java.util.List;
 
-import com.ruoyi.common.constant.HttpStatus;
-import com.ruoyi.common.exception.ServiceException;
-import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.user.domain.AllInfo;
-import com.ruoyi.user.domain.DScore;
-import com.ruoyi.user.domain.dto.RecommendDto;
-import com.ruoyi.user.mapper.DScoreMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.user.mapper.ScoreMapper;
@@ -26,9 +20,6 @@ public class ScoreServiceImpl implements IScoreService
 {
     @Autowired
     private ScoreMapper wxScoreMapper;
-
-    @Autowired
-    private DScoreMapper wxDScoreMapper;
 
     /**
      * 查询【请填写功能名称】
@@ -52,6 +43,11 @@ public class ScoreServiceImpl implements IScoreService
     public List<Score> selectWxScoreList(Score wxScore)
     {
         return wxScoreMapper.selectWxScoreList(wxScore);
+    }
+
+    @Override
+    public List<Score> selectThreeRetestLine(Score score) {
+        return wxScoreMapper.selectThreeRetestLine(score);
     }
 
     @Override
@@ -151,7 +147,7 @@ public class ScoreServiceImpl implements IScoreService
                 }
                 i++;
             } else {
-                score.setMajorId(score1.getMajorId());
+                score.setScoreMajorId(score1.getScoreMajorId());
             }
         }
         if(i>1){

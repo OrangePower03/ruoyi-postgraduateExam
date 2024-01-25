@@ -23,7 +23,7 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
- * 【请填写功能名称】Controller
+ * 国家线Controller
  *
  * @author ruoyi
  * @date 2023-04-23
@@ -36,7 +36,7 @@ public class DScoreController extends BaseController
     private IDScoreService wxDscoreService;
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询国家线列表
      */
     @PreAuthorize("@ss.hasPermi('user:dscore:list')")
     @GetMapping("/list")
@@ -56,20 +56,20 @@ public class DScoreController extends BaseController
     }
 
     /**
-     * 导出【请填写功能名称】列表
+     * 导出国家线列表
      */
     @PreAuthorize("@ss.hasPermi('user:dscore:export')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @Log(title = "导出国家线列表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, DScore wxDscore)
     {
         List<DScore> list = wxDscoreService.selectWxDscoreList(wxDscore);
         ExcelUtil<DScore> util = new ExcelUtil<DScore>(DScore.class);
-        util.exportExcel(response, list, "国家线数据");
+        util.exportExcel(response, list, "国家数据");
     }
 
     /**
-     * 获取【请填写功能名称】详细信息
+     * 获取国家线详细信息
      */
     @PreAuthorize("@ss.hasPermi('user:dscore:query')")
     @GetMapping(value = "/{scoreId}")
@@ -79,10 +79,10 @@ public class DScoreController extends BaseController
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增国家线信息
      */
     @PreAuthorize("@ss.hasPermi('user:dscore:add')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "新增国家线信息", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody DScore wxDscore)
     {
@@ -90,10 +90,10 @@ public class DScoreController extends BaseController
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改国家线信息
      */
     @PreAuthorize("@ss.hasPermi('user:dscore:edit')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @Log(title = "修改国家线信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody DScore wxDscore)
     {
@@ -101,10 +101,10 @@ public class DScoreController extends BaseController
     }
 
     /**
-     * 删除【请填写功能名称】
+     * 删除国家线信息
      */
     @PreAuthorize("@ss.hasPermi('user:dscore:remove')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
+    @Log(title = "删除国家线信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{scoreIds}")
     public AjaxResult remove(@PathVariable Long[] scoreIds)
     {

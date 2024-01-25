@@ -11,16 +11,14 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author ruoyi
  * @date 2023-04-01
  */
-
 public class Major extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 专业id*/
+    /** 专业代码 */
     private Long majorId;
 
     /** 专业代码 */
-    @Excel(name = "专业代码")
     private String majorCode;
 
     /** 专业名称 */
@@ -33,6 +31,8 @@ public class Major extends BaseEntity
     /** 专业所在院的名称 */
     @Excel(name = "院系名称")
     private String majorDepartmentName;
+
+    private Long schoolId;
 
     @Excel(name = "学校名称")
     private String majorSchoolName;
@@ -114,6 +114,14 @@ public class Major extends BaseEntity
         return connectId;
     }
 
+    public void setSchoolId(Long schoolId) {
+        this.schoolId = schoolId;
+    }
+
+    public Long getSchoolId() {
+        return schoolId;
+    }
+
     @Override
     public String toString() {
         return "Major{" +
@@ -122,6 +130,7 @@ public class Major extends BaseEntity
                 ", majorName='" + majorName + '\'' +
                 ", majorDepartmentId=" + majorDepartmentId +
                 ", majorDepartmentName='" + majorDepartmentName + '\'' +
+                ", schoolId=" + schoolId +
                 ", majorSchoolName='" + majorSchoolName + '\'' +
                 ", connectId=" + connectId +
                 ", majorType=" + majorType +

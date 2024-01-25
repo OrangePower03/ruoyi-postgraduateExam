@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: '考研信息网',
+      title: process.env.VUE_APP_TITLE,
       logo: logoImg
     }
   }

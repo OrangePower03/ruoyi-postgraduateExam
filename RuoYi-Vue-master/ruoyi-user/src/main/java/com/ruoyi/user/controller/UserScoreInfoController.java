@@ -24,7 +24,7 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
- * 【请填写功能名称】Controller
+ * 用户考研信息Controller
  *
  * @author ruoyi
  * @date 2023-04-26
@@ -37,7 +37,7 @@ public class UserScoreInfoController extends BaseController
     private IUserScoreInfoService wxUserScoreinfoService;
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询用户考研信息列表
      */
     @GetMapping("/list")
     public AjaxResult list(UserScoreInfo wxUserScoreinfo)
@@ -46,7 +46,7 @@ public class UserScoreInfoController extends BaseController
     }
 
     /**
-     * 获取【请填写功能名称】详细信息
+     * 获取用户考研详细信息
      */
     @GetMapping(value = "/{userId}")
     public AjaxResult getInfo(@PathVariable("userId") Long userId)
@@ -55,9 +55,9 @@ public class UserScoreInfoController extends BaseController
     }
 
     /**
-     * 导出【请填写功能名称】列表
+     * 导出用户考研信息列表
      */
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @Log(title = "导出用户考研信息列表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, UserScoreInfo wxUserScoreinfo)
     {
@@ -67,9 +67,8 @@ public class UserScoreInfoController extends BaseController
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增用户考研信息
      */
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody UserScoreInfo wxUserScoreinfo)
     {
@@ -77,9 +76,8 @@ public class UserScoreInfoController extends BaseController
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改用户考研信息
      */
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody UserScoreInfo wxUserScoreinfo)
     {
@@ -92,10 +90,9 @@ public class UserScoreInfoController extends BaseController
     }
 
     /**
-     * 删除【请填写功能名称】
+     * 删除用户考研信息
      */
     @PreAuthorize("@ss.hasPermi('user:scoreinfo:remove')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
     @DeleteMapping("/{userIds}")
     public AjaxResult remove(@PathVariable Long[] userIds)
     {

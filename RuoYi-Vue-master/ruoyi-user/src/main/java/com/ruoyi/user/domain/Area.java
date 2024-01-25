@@ -1,18 +1,16 @@
 package com.ruoyi.user.domain;
 
-import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 【请填写功能名称】对象 wx_area
+ * 地区对象 wx_area
  *
- * @author ruoyi
- * @date 2023-03-26
+ * @author wx
+ * @date 2024-01-18
  */
-
 public class Area extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -24,8 +22,8 @@ public class Area extends BaseEntity
     @Excel(name = "地区名称")
     private String areaName;
 
-    /** 判断该地区是一区还是二区 */
-    @Excel(name = "地区类型", readConverterExp = "1=A区,2=B区")
+    /** 地区类型 */
+    @Excel(name = "地区类型")
     private Long areaType;
 
     public void setAreaId(Long areaId)

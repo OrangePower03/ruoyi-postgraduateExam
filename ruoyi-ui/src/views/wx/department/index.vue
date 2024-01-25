@@ -1,17 +1,17 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="院系名称" prop="departmentName">
+      <el-form-item label="学院名称" prop="departmentName">
         <el-input
           v-model="queryParams.departmentName"
-          placeholder="请输入院系名称"
+          placeholder="请输入学院名称"
           clearable
           :maxlength="20" show-word-limit
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
       <el-form-item label="所在学校" prop="schoolType">
-        <el-select v-model="queryParams.departmentSchoolId" filterable clearable placeholder="请选择院系所在的学校" @keyup.enter.native="handleQuery">
+        <el-select v-model="queryParams.departmentSchoolId" filterable clearable placeholder="请选择学院所在的学校" @keyup.enter.native="handleQuery">
           <el-option
             v-for="item in schoolList"
             :key="item.schoolId"

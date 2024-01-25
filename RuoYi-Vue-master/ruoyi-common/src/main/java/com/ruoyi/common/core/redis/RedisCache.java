@@ -265,6 +265,7 @@ public class RedisCache
         return redisTemplate.keys(pattern);
     }
 
+
     public double distance(String key, String areaId1, String areaId2) {
         Distance distance = redisTemplate.opsForGeo().distance(key, areaId1, areaId2, Metrics.KILOMETERS);
         return Objects.requireNonNull(distance).getValue();

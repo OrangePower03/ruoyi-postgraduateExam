@@ -38,7 +38,7 @@ public class McdController extends BaseController
     private IMajorService wxMajorService;
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询院校专业列表
      */
     @PreAuthorize("@ss.hasPermi('user:major:list')")
     @GetMapping("/list")
@@ -57,7 +57,7 @@ public class McdController extends BaseController
         return getDataTable(list);
     }
     /**
-     * 获取【请填写功能名称】详细信息
+     * 获取院校专业详细信息
      */
     @PreAuthorize("@ss.hasPermi('user:connect:query')")
     @GetMapping(value = "/{connectId}")
@@ -66,21 +66,24 @@ public class McdController extends BaseController
         return success(wxMajorService.selectWxConnectByConnectId(connectId));
     }
     /**
-     * 新增【请填写功能名称】
+     * 新增院校专业信息
      */
     @PreAuthorize("@ss.hasPermi('user:connect:add')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "新增院校专业信息", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Connect wxMcd)
     {
+        System.out.println("***************************");
+        System.out.println(wxMcd);
+        System.out.println("***************************");
         return toAjax(wxMajorService.insertWxMcd(wxMcd));
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改院校专业信息
      */
     @PreAuthorize("@ss.hasPermi('user:connect:edit')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @Log(title = "修改院校专业信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Connect wxMcd)
     {
@@ -88,10 +91,10 @@ public class McdController extends BaseController
     }
 
     /**
-     * 删除【请填写功能名称】
+     * 删除院校专业信息
      */
     @PreAuthorize("@ss.hasPermi('user:connect:remove')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
+    @Log(title = "删除院校专业信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{connectIds}")
     public AjaxResult connectRemove(@PathVariable Long[] connectIds)
     {

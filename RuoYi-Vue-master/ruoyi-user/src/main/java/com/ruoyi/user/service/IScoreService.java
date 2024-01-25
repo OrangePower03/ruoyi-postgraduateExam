@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ruoyi.user.domain.AllInfo;
 import com.ruoyi.user.domain.Score;
-import com.ruoyi.user.domain.dto.RecommendDto;
 
 /**
  * 【请填写功能名称】Service接口
@@ -29,6 +28,8 @@ public interface IScoreService
      * @return 【请填写功能名称】集合
      */
     public List<Score> selectWxScoreList(Score wxScore);
+
+    public List<Score> selectThreeRetestLine(Score score);
 
     /**
      * 查询【请填写功能名称】
@@ -74,5 +75,4 @@ public interface IScoreService
     public List<AllInfo> selectAllInfoList(AllInfo allInfo);
 
     String importData(List<Score> scoreList);
-
 }

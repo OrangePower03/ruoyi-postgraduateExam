@@ -11,6 +11,7 @@ import com.ruoyi.user.domain.DScore;
 import com.ruoyi.user.domain.Score;
 import com.ruoyi.user.domain.UserScoreInfo;
 import com.ruoyi.user.domain.common.ScoreCommon;
+import com.ruoyi.user.domain.common.ScoreWithSchoolName;
 import com.ruoyi.user.domain.dto.RecommendDto;
 import com.ruoyi.user.domain.vo.RecommendVo;
 import com.ruoyi.user.domain.vo.SchoolWithScoreVo;
@@ -73,9 +74,9 @@ public class RecommendServiceImpl implements RecommendService {
         DV(recommendDto, schools);
         WV(schools);
         schools = schools.stream()
-                         .sorted()  // 注意要从大到小的取最大的九个数据
-                         .limit(9)
-                         .collect(Collectors.toList());
+                .sorted()  // 注意要从大到小的取最大的九个数据
+                .limit(9)
+                .collect(Collectors.toList());
 
         normalizeAlgorithm(schools);
 
@@ -153,7 +154,7 @@ public class RecommendServiceImpl implements RecommendService {
     @Override
     public void DV(RecommendDto recommendDto, List<SchoolWithScoreVo> schools) {
         schools.forEach(school ->
-            school.setDv((float) (recommendDto.scoreAll-school.scoreAll))
+                school.setDv((float) (recommendDto.scoreAll-school.scoreAll))
         );
     }
 
@@ -194,21 +195,25 @@ public class RecommendServiceImpl implements RecommendService {
         // 先把所有的分数拉出来，放入封装了Score的类中
         List<Score> scoreList = scoreMapper.selectByMajorAndScoreAll(majorName, scoreAll, FLUCTUATE, first_year);
         if(StringUtils.isNull(scoreList)) {
-            //cqtodo 这玩意是个空的玩意，没有学校符合？
+            return new ArrayList<>();
         }
 
         // 此时要将所有的学校根据学校名字来独立拉出来
         for(Score score : scoreList) {
-            score.setSchoolName(scoreMapper.getSchoolNameByScoreConnectId(score.getConnectId()));
+            score.setSchoolName(scoreMapper.getSchoolNameByScoreConnectId(score.getScoreMajorId()));
         }
+
         // 将相同学校计算平均分，先排序再计算
         Collections.sort(scoreList);
         if(!isOverA) {
-            // 每过A线但过了B的，得把A区学校割去
+            // 没过A线但过了B的，得把A区学校割去
             scoreList.removeIf(score ->
-                schoolMapper.findAreaTypeBySchoolName(score.getSchoolName()) == SystemConstants.AREA_TYPE_A
+                    schoolMapper.findAreaTypeBySchoolName(score.getSchoolName()) == SystemConstants.AREA_TYPE_A
             );
         }
+        // 假如学校名没筛出来就剔除了
+        scoreList.removeIf(score -> "".equals(score.getSchoolName()));
+
         String schoolName = scoreList.get(0).getSchoolName();
         List<SchoolWithScoreVo> result=new ArrayList<>();
         SchoolWithScoreVo school=new SchoolWithScoreVo();
@@ -225,6 +230,7 @@ public class RecommendServiceImpl implements RecommendService {
                 count = 0;
                 school = new SchoolWithScoreVo();
                 schoolName = nowSchoolName;
+                school.getSchool().setSchoolId(nowSchool.getSchoolId());
                 school.getSchool().setSchoolName(schoolName);
             }
             school.scoreAll += nowSchool.getScoreAll();
@@ -294,10 +300,10 @@ public class RecommendServiceImpl implements RecommendService {
     @Override
     public boolean doCompareCountryScore(RecommendDto recommendDto, ScoreCommon areaAAverageScore) {
         if(recommendDto.getScoreAll() >= areaAAverageScore.scoreAll           &&
-           recommendDto.getScorePolitics() >= areaAAverageScore.scorePolitics &&
-           recommendDto.getScoreEnglish() >= areaAAverageScore.scoreEnglish   &&
-           recommendDto.getScoreMath() >= areaAAverageScore.scoreMath         &&
-           recommendDto.getScoreMajor() >= areaAAverageScore.scoreMajor)      {
+                recommendDto.getScorePolitics() >= areaAAverageScore.scorePolitics &&
+                recommendDto.getScoreEnglish() >= areaAAverageScore.scoreEnglish   &&
+                recommendDto.getScoreMath() >= areaAAverageScore.scoreMath         &&
+                recommendDto.getScoreMajor() >= areaAAverageScore.scoreMajor)      {
             return true;
         }
         return false;
@@ -311,6 +317,7 @@ public class RecommendServiceImpl implements RecommendService {
         return schools.stream()
                 .map(school -> {
                     RecommendVo result = new RecommendVo();
+                    result.setSchoolId(school.getSchool().getSchoolId());
                     result.setSchoolName(school.getSchool().getSchoolName());
                     result.setHandledPower(school.getHandledPower());
                     ScoreCommon score = new ScoreCommon();

@@ -183,9 +183,6 @@
                        :value="item.majorId" :disabled="item.disabled"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="地区" prop="areaType">
-          <el-input v-model="form.areaType" placeholder="请输入地区" />
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -394,7 +391,7 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('user/dscore/export', {
+      this.download('system/dscore/export', {
         ...this.queryParams
       }, `dscore_${new Date().getTime()}.xlsx`)
     }

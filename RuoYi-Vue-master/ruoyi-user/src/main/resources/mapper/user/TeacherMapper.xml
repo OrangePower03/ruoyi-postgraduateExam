@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.user.mapper.TeacherMapper">
+
+    <resultMap type="Teacher" id="TeacherResult">
+        <result property="teacherId"    column="teacher_id"    />
+        <result property="teacherName"    column="teacher_name"    />
+        <result property="teacherDirection"    column="teacher_direction"    />
+        <result property="teacherPosition"    column="teacher_position"    />
+        <result property="teacherImage"    column="teacher_image"    />
+        <result property="teacherLink"    column="teacher_link"    />
+        <result property="departmentId"    column="department_id"    />
+        <result property="departmentName"    column="department_name"    />
+        <result property="schoolName"    column="school_name"    />
+    </resultMap>
+
+    <sql id="selectTeacherVo">
+        select wt.teacher_id, wt.teacher_name, wt.teacher_direction, wt.teacher_position,
+               wt.teacher_image, wt.teacher_link, wt.department_id,wd.department_name,ws.school_name
+        from wx_teacher as wt
+            INNER JOIN wx_department as wd on wd.department_id=wt.department_id
+            INNER JOIN wx_school as ws on ws.school_id=wd.department_school_id
+    </sql>
+
+    <select id="selectTeacherList" parameterType="Teacher" resultMap="TeacherResult">
+        <include refid="selectTeacherVo"/>
+        <where>
+            <if test="teacherName != null  and teacherName != ''"> and wt.teacher_name like concat('%', #{teacherName}, '%')</if>
+            <if test="teacherPosition != null "> and teacher_position = #{teacherPosition}</if>
+            <if test="departmentId != null "> and wt.department_id = #{departmentId}</if>
+            <if test="schoolName != null  and schoolName != ''"> and ws.school_name like concat('%', #{schoolName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectTeacherByTeacherId" parameterType="Long" resultMap="TeacherResult">
+        <include refid="selectTeacherVo"/>
+        where teacher_id = #{teacherId}
+    </select>
+
+    <insert id="insertTeacher" parameterType="Teacher">
+        insert into wx_teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teacherId != null">teacher_id,</if>
+            <if test="teacherName != null and teacherName != ''">teacher_name,</if>
+            <if test="teacherDirection != null and teacherDirection != ''">teacher_direction,</if>
+            <if test="teacherPosition != null">teacher_position,</if>
+            <if test="teacherImage != null and teacherImage != ''">teacher_image,</if>
+            <if test="teacherLink != null and teacherLink != ''">teacher_link,</if>
+            <if test="departmentId != null">department_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teacherId != null">#{teacherId},</if>
+            <if test="teacherName != null and teacherName != ''">#{teacherName},</if>
+            <if test="teacherDirection != null and teacherDirection != ''">#{teacherDirection},</if>
+            <if test="teacherPosition != null">#{teacherPosition},</if>
+            <if test="teacherImage != null and teacherImage != ''">#{teacherImage},</if>
+            <if test="teacherLink != null and teacherLink != ''">#{teacherLink},</if>
+            <if test="departmentId != null">#{departmentId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTeacher" parameterType="Teacher">
+        update wx_teacher
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="teacherName != null and teacherName != ''">teacher_name = #{teacherName},</if>
+            <if test="teacherDirection != null and teacherDirection != ''">teacher_direction = #{teacherDirection},</if>
+            <if test="teacherPosition != null">teacher_position = #{teacherPosition},</if>
+            <if test="teacherImage != null and teacherImage != ''">teacher_image = #{teacherImage},</if>
+            <if test="teacherLink != null and teacherLink != ''">teacher_link = #{teacherLink},</if>
+            <if test="departmentId != null">department_id = #{departmentId},</if>
+        </trim>
+        where teacher_id = #{teacherId}
+    </update>
+
+    <delete id="deleteTeacherByTeacherId" parameterType="Long">
+        delete from wx_teacher where teacher_id = #{teacherId}
+    </delete>
+
+    <delete id="deleteTeacherByTeacherIds" parameterType="String">
+        delete from wx_teacher where teacher_id in
+        <foreach item="teacherId" collection="array" open="(" separator="," close=")">
+            #{teacherId}
+        </foreach>
+    </delete>
+</mapper>

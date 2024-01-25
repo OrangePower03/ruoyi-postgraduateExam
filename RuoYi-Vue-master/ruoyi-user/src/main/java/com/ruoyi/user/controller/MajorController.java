@@ -23,7 +23,7 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
- * 【请填写功能名称】Controller
+ * 专业Controller
  *
  * @author ruoyi
  * @date 2023-04-01
@@ -53,10 +53,10 @@ public class MajorController extends BaseController
     }
 
     /**
-     * 导出【请填写功能名称】列表
+     * 导出专业列表
      */
     @PreAuthorize("@ss.hasPermi('user:major:export')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @Log(title = "导出专业列表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Major wxMajor)
     {
@@ -66,7 +66,7 @@ public class MajorController extends BaseController
     }
 
     /**
-     * 获取【请填写功能名称】详细信息
+     * 获取专业详细信息
      */
     @PreAuthorize("@ss.hasPermi('user:major:query')")
     @GetMapping(value = "/{majorId}")
@@ -76,10 +76,10 @@ public class MajorController extends BaseController
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增专业信息
      */
     @PreAuthorize("@ss.hasPermi('user:major:add')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "新增专业信息", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Major wxMajor)
     {
@@ -87,10 +87,10 @@ public class MajorController extends BaseController
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改专业信息
      */
     @PreAuthorize("@ss.hasPermi('user:major:edit')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @Log(title = "修改专业信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Major wxMajor)
     {
@@ -98,10 +98,10 @@ public class MajorController extends BaseController
     }
 
     /**
-     * 删除【请填写功能名称】
+     * 删除专业信息
      */
     @PreAuthorize("@ss.hasPermi('uesr:major:remove')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
+    @Log(title = "删除专业信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{majorIds}")
     public AjaxResult remove(@PathVariable Long[] majorIds)
     {

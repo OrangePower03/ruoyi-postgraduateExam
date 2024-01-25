@@ -24,7 +24,7 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
- * 【请填写功能名称】Controller
+ * 学校信息Controller
  *
  * @author ruoyi
  * @date 2023-03-26
@@ -37,7 +37,7 @@ public class SchoolController extends BaseController
     private ISchoolService wxSchoolService;
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询学校信息列表
      */
     @PreAuthorize("@ss.hasPermi('user:school:list')")
     @GetMapping("/list")
@@ -58,7 +58,7 @@ public class SchoolController extends BaseController
     }
 
     /**
-     * 导出【请填写功能名称】列表
+     * 导出学校信息列表
      */
     @PreAuthorize("@ss.hasPermi('user:school:export')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
@@ -71,7 +71,7 @@ public class SchoolController extends BaseController
     }
 
     /**
-     * 获取【请填写功能名称】详细信息
+     * 获取学校信息详细信息
      */
     @PreAuthorize("@ss.hasPermi('user:school:query')")
     @GetMapping(value = "/{schoolId}")
@@ -81,10 +81,10 @@ public class SchoolController extends BaseController
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增学校信息
      */
     @PreAuthorize("@ss.hasPermi('user:school:add')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "新增学校信息", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody School wxSchool)
     {
@@ -92,10 +92,10 @@ public class SchoolController extends BaseController
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改学校信息
      */
     @PreAuthorize("@ss.hasPermi('user:school:edit')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @Log(title = "修改学校信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody School wxSchool)
     {
@@ -103,10 +103,10 @@ public class SchoolController extends BaseController
     }
 
     /**
-     * 删除【请填写功能名称】
+     * 删除学校信息
      */
     @PreAuthorize("@ss.hasPermi('user:school:remove')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
+    @Log(title = "删除学校信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{schoolIds}")
     public AjaxResult remove(@PathVariable Long[] schoolIds)
     {

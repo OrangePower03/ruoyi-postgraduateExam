@@ -151,7 +151,7 @@
       <el-table-column label="专业名称" align="center" prop="majorName" />
       <el-table-column label="专业类型" align="center" prop="majorType" >
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.majorType===2">专硕</el-tag>
+          <el-tag v-if="scope.row.majorType===1">专硕</el-tag>
           <el-tag v-else>学硕</el-tag>
         </template>
       </el-table-column>
@@ -250,7 +250,7 @@
 </template>
 
 <script>
-import { listScore, getScore, delScore, addScore, updateScore, listMajor } from "@/api/wx/score";
+import { listScore, getScore, delScore, addScore, updateScore } from "@/api/wx/score";
 import { listDepartment, listsMajor, majorList } from '@/api/wx/major'
 import { listSchool } from '@/api/wx/department'
 import { getToken } from '@/utils/auth'
@@ -367,7 +367,6 @@ export default {
     /** 查询【请填写功能名称】列表 */
     getList() {
       this.loading = true;
-      console.log(this.queryParams)
       listScore(this.queryParams).then(response => {
         this.scoreList = response.rows;
         this.total = response.total;

@@ -26,8 +26,27 @@
     </sql>-->
 
     <select id="selectRetestList" parameterType="DScore" resultMap="DScoreResult">
-        <include refid="selectWxDscoreVo"/>
-        where wm.major_name = #{majorName} and score_year >= (SELECT max(score_year)-3 from wx_score) ORDER BY score_year desc,score_all desc
+        SELECT s.score_id,s.score_year,s.score_all,s.score_math,s.score_english,
+        s.score_politics,s.score_major,s.major_id,s.area_type,s.major_name
+        FROM
+        (SELECT
+        wds.score_id,wds.score_year,wds.score_all,wds.score_math,wds.score_english,
+        wds.score_politics,wds.score_major,wds.major_id,wds.area_type,wm.major_name,
+        ROW_NUMBER() OVER(PARTITION BY wds.score_year ORDER BY wds.score_all ASC) AS rn
+        FROM
+        wx_dscore AS wds
+        INNER JOIN
+        wx_major AS wm ON wds.major_id = wm.major_id
+        <where>
+            <if test="majorName != null and majorName!=''"> and wm.major_name = #{majorName}</if>
+            <if test="majorId != null"> and wm.major_id = #{majorId}</if>
+            <if test="areaType != null"> and wds.area_type = #{areaType}</if>
+        </where>
+        ) as s
+        WHERE
+        s.rn = 1
+        ORDER BY
+        s.score_year DESC
     </select>
 
     <select id="selectWxDscoreList" parameterType="DScore" resultMap="DScoreResult">

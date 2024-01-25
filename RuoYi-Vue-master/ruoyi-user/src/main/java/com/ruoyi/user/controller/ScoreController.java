@@ -3,16 +3,12 @@ package com.ruoyi.user.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ruoyi.common.constant.HttpStatus;
-import com.ruoyi.common.exception.ServiceException;
-import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.user.domain.AllInfo;
 import com.ruoyi.user.domain.Score;
 import com.ruoyi.user.domain.dto.RecommendDto;
 import com.ruoyi.user.domain.vo.RecommendVo;
 import com.ruoyi.user.service.IScoreService;
 import com.ruoyi.user.service.RecommendService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +28,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * 【请填写功能名称】Controller
+ * 复试线Controller
  *
  * @author ruoyi
  * @date 2023-04-02
@@ -43,12 +39,11 @@ public class ScoreController extends BaseController
 {
     @Autowired
     private IScoreService wxScoreService;
-
     @Autowired
     private RecommendService recommendService;
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询复试线列表
      */
     @PreAuthorize("@ss.hasPermi('user:score:list')")
     @GetMapping("/list")
@@ -60,30 +55,34 @@ public class ScoreController extends BaseController
     }
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询复试线列表
      */
     @PreAuthorize("@ss.hasPermi('user:score:list')")
     @GetMapping("/AllInfoList")
-    public TableDataInfo allInfoList(AllInfo allInfo)
+    public TableDataInfo AllInfoList(AllInfo allInfo)
     {
         List<AllInfo> list = wxScoreService.selectAllInfoList(allInfo);
-//        System.out.println(list);
         return getDataTable(list);
     }
 
-    /**
-     * 推荐算法的接口
-     * @param recommendDto 前端发来的分数和地区，专业
-     * @return 返回九个推荐的院校，其中包括
-     */
     @PreAuthorize("@ss.hasPermi('user:score:list')")
     @GetMapping("/recommend")
     public TableDataInfo recommend(RecommendDto recommendDto)
     {
-        List<RecommendVo> recommend = recommendService.recommend(recommendDto);
-        return getDataTable(recommend);
+        List<RecommendVo> list = recommendService.recommend(recommendDto);
+        return getDataTable(list);
     }
 
+    /**
+     * 查询近三年复试线
+     */
+    @PreAuthorize("@ss.hasPermi('user:score:list')")
+    @GetMapping("/ThreeRetestLine")
+    public TableDataInfo selectThreeRetestLine(Score score)
+    {
+        List<Score> list = wxScoreService.selectThreeRetestLine(score);
+        return getDataTable(list);
+    }
 
     /**
      * 导出复试线列表
@@ -99,7 +98,7 @@ public class ScoreController extends BaseController
     }
 
     /**
-     * 获取【请填写功能名称】详细信息
+     * 获取复试线详细信息
      */
     @PreAuthorize("@ss.hasPermi('user:score:query')")
     @GetMapping(value = "/{scoreId}")
@@ -109,10 +108,10 @@ public class ScoreController extends BaseController
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增复试线信息
      */
     @PreAuthorize("@ss.hasPermi('user:score:add')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "新增复试线信息", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Score wxScore)
     {
@@ -120,10 +119,10 @@ public class ScoreController extends BaseController
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改复试线信息
      */
     @PreAuthorize("@ss.hasPermi('user:score:edit')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @Log(title = "修改复试线信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Score wxScore)
     {
@@ -131,10 +130,10 @@ public class ScoreController extends BaseController
     }
 
     /**
-     * 删除【请填写功能名称】
+     * 删除复试线信息
      */
     @PreAuthorize("@ss.hasPermi('user:score:remove')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
+    @Log(title = "删除复试线信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{scoreIds}")
     public AjaxResult remove(@PathVariable Long[] scoreIds)
     {

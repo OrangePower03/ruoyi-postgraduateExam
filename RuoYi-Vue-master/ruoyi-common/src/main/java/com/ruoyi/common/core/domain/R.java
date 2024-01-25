@@ -8,7 +8,6 @@ import com.ruoyi.common.constant.HttpStatus;
  *
  * @author ruoyi
  */
-@Deprecated
 public class R<T> implements Serializable
 {
     private static final long serialVersionUID = 1L;

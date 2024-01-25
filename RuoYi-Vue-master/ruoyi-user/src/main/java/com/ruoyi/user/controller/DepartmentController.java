@@ -23,7 +23,7 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
- * 【请填写功能名称】Controller
+ * 学院Controller
  *
  * @author ruoyi
  * @date 2023-03-29
@@ -51,15 +51,18 @@ public class DepartmentController extends BaseController
     @GetMapping("/departmentList")
     public TableDataInfo departmentList(Department wxDepartment)
     {
+        System.out.println("**************************");
+        System.out.println(wxDepartment);
+        System.out.println("**************************");
         List<Department> list = wxDepartmentService.selectWxDepartmentList(wxDepartment);
         return getDataTable(list);
     }
 
     /**
-     * 导出【请填写功能名称】列表
+     * 导出学院列表
      */
     @PreAuthorize("@ss.hasPermi('user:department:export')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @Log(title = "导出学院列表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Department wxDepartment)
     {
@@ -69,7 +72,7 @@ public class DepartmentController extends BaseController
     }
 
     /**
-     * 获取【请填写功能名称】详细信息
+     * 获取学院详细信息
      */
     @PreAuthorize("@ss.hasPermi('user:department:query')")
     @GetMapping(value = "/{departmentId}")
@@ -79,10 +82,10 @@ public class DepartmentController extends BaseController
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增学院信息
      */
     @PreAuthorize("@ss.hasPermi('user:department:add')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "新增学院信息", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Department wxDepartment)
     {
@@ -90,10 +93,10 @@ public class DepartmentController extends BaseController
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改学院信息
      */
     @PreAuthorize("@ss.hasPermi('user:department:edit')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @Log(title = "修改学院信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Department wxDepartment)
     {
@@ -101,10 +104,10 @@ public class DepartmentController extends BaseController
     }
 
     /**
-     * 删除【请填写功能名称】
+     * 删除学院信息
      */
     @PreAuthorize("@ss.hasPermi('user:department:remove')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
+    @Log(title = "删除学院信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{departmentIds}")
     public AjaxResult remove(@PathVariable Long[] departmentIds)
     {

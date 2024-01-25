@@ -1,12 +1,7 @@
 package com.ruoyi.user.controller;
 
-
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
-
-import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.user.domain.Area;
-import com.ruoyi.user.service.IAreaService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,97 +16,100 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.user.domain.Area;
+import com.ruoyi.user.service.IAreaService;
+import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
- * 【请填写功能名称】Controller
+ * 地区Controller
  *
- * @author ruoyi
- * @date 2023-03-25
+ * @author wx
+ * @date 2024-01-18
  */
 @RestController
 @RequestMapping("/user/area")
 public class AreaController extends BaseController
 {
     @Autowired
-    private IAreaService wxAreaService;
+    private IAreaService areaService;
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询地区列表
      */
     @PreAuthorize("@ss.hasPermi('user:area:list')")
     @GetMapping("/list")
-    public TableDataInfo list(Area wxArea)
+    public TableDataInfo list(Area area)
     {
         startPage();
-        List<Area> list = wxAreaService.selectWxAreaList(wxArea);
+        List<Area> list = areaService.selectAreaList(area);
         return getDataTable(list);
     }
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询所有地区列表
      */
     @PreAuthorize("@ss.hasPermi('user:area:list')")
     @GetMapping("/areaList")
-    public TableDataInfo areaList(Area wxArea)
+    public TableDataInfo allList(Area area)
     {
-        List<Area> list = wxAreaService.selectWxAreaList(wxArea);
+        List<Area> list = areaService.selectAreaList(area);
         return getDataTable(list);
     }
 
     /**
-     * 导出【请填写功能名称】列表
+     * 导出地区列表
      */
     @PreAuthorize("@ss.hasPermi('user:area:export')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
+    @Log(title = "地区", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, Area wxArea)
+    public void export(HttpServletResponse response, Area area)
     {
-        List<Area> list = wxAreaService.selectWxAreaList(wxArea);
+        List<Area> list = areaService.selectAreaList(area);
         ExcelUtil<Area> util = new ExcelUtil<Area>(Area.class);
         util.exportExcel(response, list, "地区数据");
     }
 
     /**
-     * 获取【请填写功能名称】详细信息
+     * 获取地区详细信息
      */
     @PreAuthorize("@ss.hasPermi('user:area:query')")
     @GetMapping(value = "/{areaId}")
     public AjaxResult getInfo(@PathVariable("areaId") Long areaId)
     {
-        return success(wxAreaService.selectWxAreaByAreaId(areaId));
+        return success(areaService.selectAreaByAreaId(areaId));
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增地区
      */
     @PreAuthorize("@ss.hasPermi('user:area:add')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @Log(title = "地区", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody Area wxArea)
+    public AjaxResult add(@RequestBody Area area)
     {
-        return toAjax(wxAreaService.insertWxArea(wxArea));
+        return toAjax(areaService.insertArea(area));
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改地区
      */
     @PreAuthorize("@ss.hasPermi('user:area:edit')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @Log(title = "地区", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody Area wxArea)
+    public AjaxResult edit(@RequestBody Area area)
     {
-        return toAjax(wxAreaService.updateWxArea(wxArea));
+        return toAjax(areaService.updateArea(area));
     }
 
     /**
-     * 删除【请填写功能名称】
+     * 删除地区
      */
     @PreAuthorize("@ss.hasPermi('user:area:remove')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
+    @Log(title = "地区", businessType = BusinessType.DELETE)
     @DeleteMapping("/{areaIds}")
     public AjaxResult remove(@PathVariable Long[] areaIds)
     {
-        return toAjax(wxAreaService.deleteWxAreaByAreaIds(areaIds));
+        return toAjax(areaService.deleteAreaByAreaIds(areaIds));
     }
 }

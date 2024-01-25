@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class RecommendVo {
+    Long schoolId;
     String schoolName;
 
     ScoreCommon averageScore;

@@ -31,7 +31,6 @@ public interface ISchoolService
     /**
      * 查询下拉框列表
      *
-     * @param wxSchool 【请填写功能名称】
      * @return 【请填写功能名称】集合
      */
     public List<minSchool> optionWxSchoolList();
