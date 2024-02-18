@@ -30,8 +30,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			(#{item.userId},#{item.roleId})
 		</foreach>
 	</insert>
-	
-	<delete id="deleteUserRoleInfo" parameterType="SysUserRole">
+
+    <insert id="insertByUserName">
+		insert into sys_user_role(user_id, role_id) values (
+		    (SELECT user_id from sys_user where user_name=#{userName}),
+		    2
+		)
+	</insert>
+
+    <delete id="deleteUserRoleInfo" parameterType="SysUserRole">
 		delete from sys_user_role where user_id=#{userId} and role_id=#{roleId}
 	</delete>
 	

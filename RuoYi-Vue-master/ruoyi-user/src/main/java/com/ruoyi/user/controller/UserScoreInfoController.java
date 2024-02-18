@@ -3,6 +3,8 @@ package com.ruoyi.user.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.constant.HttpStatus;
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.user.domain.UserScoreInfo;
 import com.ruoyi.user.service.IUserScoreInfoService;
@@ -52,6 +54,12 @@ public class UserScoreInfoController extends BaseController
     public AjaxResult getInfo(@PathVariable("userId") Long userId)
     {
         return success(wxUserScoreinfoService.selectWxUserScoreInfoByUserId(userId));
+    }
+
+    @GetMapping
+    public AjaxResult userGetInfo()
+    {
+        return success(wxUserScoreinfoService.selectWxUserScoreInfoByUserId(SecurityUtils.getUserId()));
     }
 
     /**
