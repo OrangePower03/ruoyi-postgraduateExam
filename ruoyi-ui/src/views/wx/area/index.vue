@@ -63,9 +63,13 @@
 
     <el-table v-loading="loading" :data="areaList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="地区主键" align="center" prop="areaId" />
       <el-table-column label="地区名称" align="center" prop="areaName" />
-      <el-table-column label="地区类型" align="center" prop="areaType" />
+      <el-table-column label="地区类型" align="center" prop="areaType" >
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.areaType===1">一区</el-tag>
+          <el-tag v-else-if="scope.row.areaType===2">二区</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button

@@ -101,8 +101,8 @@
       <el-table-column label="专业所在学校" align="center" prop="majorSchoolName" />
       <el-table-column label="专业类型" align="center" prop="majorType" >
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.majorType===1">专硕</el-tag>
-          <el-tag v-else>学硕</el-tag>
+          <el-tag v-if="scope.row.majorType===1">学硕</el-tag>
+          <el-tag v-else>专硕</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -237,7 +237,7 @@ export default {
       DepartmentList:[],
       sMajorList:[],
       schoolList:[],
-      majorTypeList:[{ name:"专硕",value:1},{name:"学硕",value:2}],
+      majorTypeList:[{ name:"学硕",value:1},{name:"专硕",value:2}],
       type:0,
       majorCascade:[{
         value:"专硕",
