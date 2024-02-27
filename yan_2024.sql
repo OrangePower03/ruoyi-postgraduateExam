@@ -11,13 +11,11 @@
  Target Server Version : 80028
  File Encoding         : 65001
 
- Date: 25/01/2024 15:08:27
+ Date: 27/02/2024 08:51:16
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-create database kaoyan;
-use kaoyan;
 
 -- ----------------------------
 -- Table structure for gen_table
@@ -46,7 +44,7 @@ CREATE TABLE `gen_table`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`table_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '代码生成业务表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '代码生成业务表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of gen_table
@@ -55,6 +53,8 @@ INSERT INTO `gen_table` VALUES (1, 'wx_teacher', '导师表', NULL, NULL, 'Teach
 INSERT INTO `gen_table` VALUES (2, 'wx_area', '地区表', NULL, NULL, 'Area', 'crud', 'element-ui', 'com.ruoyi.user', 'user', 'area', '地区', 'wx', '0', '/', '{}', 'admin', '2024-01-18 10:46:18', '', '2024-01-18 10:51:54', NULL);
 INSERT INTO `gen_table` VALUES (3, 'wx_school', '学校', NULL, NULL, 'School', 'crud', 'element-ui', 'com.ruoyi.system', 'system', 'school', '学校', 'wx', '0', '/', '{}', 'admin', '2024-01-18 21:01:13', '', '2024-01-18 21:01:55', NULL);
 INSERT INTO `gen_table` VALUES (4, 'wx_comment', '评论表', NULL, NULL, 'Comment', 'crud', 'element-ui', 'com.ruoyi.user', 'user', 'comment', '评论', 'wx', '0', '/', '{\"parentMenuId\":2004}', 'admin', '2024-01-20 15:24:36', '', '2024-01-22 10:27:31', NULL);
+INSERT INTO `gen_table` VALUES (5, 'wx_info', '招生信息', NULL, NULL, 'Info', 'crud', 'element-ui', 'com.ruoyi.user', 'user', 'info', '招生信息', 'wx', '0', '/', '{}', 'admin', '2024-02-16 18:39:49', '', '2024-02-26 13:00:23', NULL);
+INSERT INTO `gen_table` VALUES (6, 'wx_field', '学科门类', NULL, NULL, 'Field', 'crud', 'element-ui', 'com.ruoyi.user', 'user', 'field', '学科类别', 'wx', '0', '/', '{\"parentMenuId\":2004}', 'admin', '2024-02-26 21:53:04', '', '2024-02-26 21:54:10', NULL);
 
 -- ----------------------------
 -- Table structure for gen_table_column
@@ -84,7 +84,7 @@ CREATE TABLE `gen_table_column`  (
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '更新者',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`column_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '代码生成业务表字段' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '代码生成业务表字段' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of gen_table_column
@@ -111,6 +111,17 @@ INSERT INTO `gen_table_column` VALUES (19, 4, 'teacher_id', '教师id', 'int', '
 INSERT INTO `gen_table_column` VALUES (20, 1, 'teacher_position', '导师职称', 'int', 'Long', 'teacherPosition', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'input', 'sys_user_sex', 4, '', '2024-01-20 18:23:20', '', '2024-01-20 19:19:26');
 INSERT INTO `gen_table_column` VALUES (21, 4, 'comment_date', '评论时间', 'datetime', 'Date', 'commentDate', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'datetime', '', 4, '', '2024-01-22 10:16:04', '', '2024-01-22 11:39:34');
 INSERT INTO `gen_table_column` VALUES (22, 4, 'user_name', '评论人', 'varchar(255)', 'String', 'userName', '0', '0', '1', '1', '1', '1', '1', 'LIKE', 'input', '', 5, '', '2024-01-22 11:13:16', '', '2024-01-22 11:39:34');
+INSERT INTO `gen_table_column` VALUES (23, 5, 'info_id', '信息id', 'int', 'Long', 'infoId', '1', '1', '0', '0', NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2024-02-16 18:39:49', '', '2024-02-26 13:00:23');
+INSERT INTO `gen_table_column` VALUES (24, 5, 'info_title', '信息标题', 'varchar(255)', 'String', 'infoTitle', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'input', '', 2, 'admin', '2024-02-16 18:39:49', '', '2024-02-26 13:00:23');
+INSERT INTO `gen_table_column` VALUES (25, 5, 'info_link', '信息链接', 'varchar(255)', 'String', 'infoLink', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'input', '', 3, 'admin', '2024-02-16 18:39:49', '', '2024-02-26 13:00:23');
+INSERT INTO `gen_table_column` VALUES (26, 5, 'school_id', '学校id', 'int', 'Long', 'schoolId', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'input', '', 6, 'admin', '2024-02-16 18:39:49', '', '2024-02-26 13:00:23');
+INSERT INTO `gen_table_column` VALUES (27, 5, 'info_date', '信息日期', 'date', 'Date', 'infoDate', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'datetime', '', 4, '', '2024-02-17 22:19:49', '', '2024-02-26 13:00:23');
+INSERT INTO `gen_table_column` VALUES (28, 5, 'info_type', '信息类型', 'int', 'Long', 'infoType', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'select', '', 5, '', '2024-02-26 13:00:02', '', '2024-02-26 13:00:23');
+INSERT INTO `gen_table_column` VALUES (29, 6, 'field_id', '学科类别Id', 'int', 'Long', 'fieldId', '1', '0', '0', '0', NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2024-02-26 21:53:04', '', '2024-02-26 21:54:10');
+INSERT INTO `gen_table_column` VALUES (30, 6, 'field_name', '学科类别名称', 'varchar(255)', 'String', 'fieldName', '0', '0', '1', '1', '1', '1', '1', 'LIKE', 'input', '', 2, 'admin', '2024-02-26 21:53:04', '', '2024-02-26 21:54:10');
+INSERT INTO `gen_table_column` VALUES (31, 6, 'field_code', '学科类别代码', 'varchar(255)', 'String', 'fieldCode', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'input', '', 3, 'admin', '2024-02-26 21:53:04', '', '2024-02-26 21:54:10');
+INSERT INTO `gen_table_column` VALUES (32, 6, 'parent_id', '所属门类', 'int', 'Long', 'parentId', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'input', '', 4, 'admin', '2024-02-26 21:53:04', '', '2024-02-26 21:54:10');
+INSERT INTO `gen_table_column` VALUES (33, 6, 'major_type', '专业类型', 'int', 'Long', 'majorType', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'select', '', 5, 'admin', '2024-02-26 21:53:04', '', '2024-02-26 21:54:10');
 
 -- ----------------------------
 -- Table structure for qrtz_blob_triggers
@@ -413,7 +424,7 @@ CREATE TABLE `sys_dict_data`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`dict_code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 103 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 105 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dict_data
@@ -450,6 +461,8 @@ INSERT INTO `sys_dict_data` VALUES (29, 2, '失败', '1', 'sys_common_status', '
 INSERT INTO `sys_dict_data` VALUES (100, 0, '教授', '1', 'user_teacher_position', NULL, 'primary', 'N', '0', 'admin', '2024-01-20 18:25:59', '', NULL, NULL);
 INSERT INTO `sys_dict_data` VALUES (101, 1, '副教授', '2', 'user_teacher_position', NULL, 'primary', 'N', '0', 'admin', '2024-01-20 18:26:20', '', NULL, NULL);
 INSERT INTO `sys_dict_data` VALUES (102, 2, '讲师', '3', 'user_teacher_position', NULL, 'primary', 'N', '0', 'admin', '2024-01-20 18:26:47', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (103, 0, '招生公告', '1', 'user_info_type', NULL, 'primary', 'N', '0', 'admin', '2024-02-26 12:39:48', 'admin', '2024-02-26 12:40:30', '招生公告');
+INSERT INTO `sys_dict_data` VALUES (104, 1, '招生简章', '2', 'user_info_type', NULL, 'primary', 'N', '0', 'admin', '2024-02-26 12:40:16', 'admin', '2024-02-26 12:40:44', '招生简章');
 
 -- ----------------------------
 -- Table structure for sys_dict_type
@@ -467,7 +480,7 @@ CREATE TABLE `sys_dict_type`  (
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`dict_id`) USING BTREE,
   UNIQUE INDEX `dict_type`(`dict_type` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 102 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dict_type
@@ -483,6 +496,7 @@ INSERT INTO `sys_dict_type` VALUES (8, '通知状态', 'sys_notice_status', '0',
 INSERT INTO `sys_dict_type` VALUES (9, '操作类型', 'sys_oper_type', '0', 'admin', '2024-01-10 13:44:26', '', NULL, '操作类型列表');
 INSERT INTO `sys_dict_type` VALUES (10, '系统状态', 'sys_common_status', '0', 'admin', '2024-01-10 13:44:26', '', NULL, '登录状态列表');
 INSERT INTO `sys_dict_type` VALUES (100, '导师职位', 'user_teacher_position', '0', 'admin', '2024-01-20 18:25:06', '', NULL, '导师职位列表');
+INSERT INTO `sys_dict_type` VALUES (101, '信息类型', 'user_info_type', '0', 'admin', '2024-02-26 12:37:07', '', NULL, '信息的类型');
 
 -- ----------------------------
 -- Table structure for sys_job
@@ -526,7 +540,7 @@ CREATE TABLE `sys_job_log`  (
   `exception_info` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '异常信息',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`job_log_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_job_log
@@ -549,7 +563,7 @@ CREATE TABLE `sys_logininfor`  (
   PRIMARY KEY (`info_id`) USING BTREE,
   INDEX `idx_sys_logininfor_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_logininfor_lt`(`login_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 184 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 199 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_logininfor
@@ -641,6 +655,18 @@ INSERT INTO `sys_logininfor` VALUES (183, 'admin', '127.0.0.1', '内网IP', 'Chr
 INSERT INTO `sys_logininfor` VALUES (184, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '1', '用户不存在/密码错误', '2024-01-24 22:46:22');
 INSERT INTO `sys_logininfor` VALUES (185, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '1', '用户不存在/密码错误', '2024-01-24 22:46:25');
 INSERT INTO `sys_logininfor` VALUES (186, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2024-01-24 22:46:35');
+INSERT INTO `sys_logininfor` VALUES (187, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2024-01-26 16:21:21');
+INSERT INTO `sys_logininfor` VALUES (188, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2024-02-16 18:02:09');
+INSERT INTO `sys_logininfor` VALUES (189, 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-02-16 18:32:42');
+INSERT INTO `sys_logininfor` VALUES (190, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2024-02-17 20:49:36');
+INSERT INTO `sys_logininfor` VALUES (191, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2024-02-17 22:11:45');
+INSERT INTO `sys_logininfor` VALUES (192, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2024-02-24 20:44:41');
+INSERT INTO `sys_logininfor` VALUES (193, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2024-02-26 08:17:37');
+INSERT INTO `sys_logininfor` VALUES (194, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2024-02-26 12:33:59');
+INSERT INTO `sys_logininfor` VALUES (195, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2024-02-26 15:03:07');
+INSERT INTO `sys_logininfor` VALUES (196, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2024-02-26 17:56:12');
+INSERT INTO `sys_logininfor` VALUES (197, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '退出成功', '2024-02-26 23:02:31');
+INSERT INTO `sys_logininfor` VALUES (198, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Windows 10', '0', '登录成功', '2024-02-26 23:05:24');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -667,7 +693,7 @@ CREATE TABLE `sys_menu`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2019 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2021 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -757,10 +783,10 @@ INSERT INTO `sys_menu` VALUES (1057, '生成删除', 116, 3, '#', '', '', 1, 0, 
 INSERT INTO `sys_menu` VALUES (1058, '导入代码', 116, 4, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:import', '#', 'admin', '2024-01-10 13:44:25', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (1059, '预览代码', 116, 5, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:preview', '#', 'admin', '2024-01-10 13:44:25', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (1060, '生成代码', 116, 6, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:code', '#', 'admin', '2024-01-10 13:44:25', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2000, '考研信息', 0, 0, 'user', NULL, NULL, 1, 0, 'M', '0', '0', NULL, 'education', 'admin', '2024-01-13 23:08:42', '', NULL, '');
-INSERT INTO `sys_menu` VALUES (2001, '查院校', 2000, 1, 'checkUniversities', 'user/checkUniversities/index', NULL, 1, 0, 'C', '0', '0', '', 'build', 'admin', '2024-01-13 23:10:02', 'admin', '2024-01-13 23:12:31', '');
-INSERT INTO `sys_menu` VALUES (2002, '查专业', 2000, 2, 'checkMajor', 'user/checkMajor/index', NULL, 1, 0, 'C', '0', '0', '', 'job', 'admin', '2024-01-13 23:12:00', 'admin', '2024-01-13 23:12:38', '');
-INSERT INTO `sys_menu` VALUES (2003, '查导师', 2000, 3, 'viewMentors', 'user/viewMentors/index', NULL, 1, 0, 'C', '0', '0', NULL, 'peoples', 'admin', '2024-01-15 23:55:06', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2000, '考研信息', 0, 0, 'user', NULL, NULL, 1, 0, 'M', '1', '1', '', 'education', 'admin', '2024-01-13 23:08:42', 'admin', '2024-02-16 18:58:42', '');
+INSERT INTO `sys_menu` VALUES (2001, '查院校', 0, 0, 'checkUniversities', 'user/checkUniversities/index', NULL, 1, 0, 'C', '0', '0', '', 'build', 'admin', '2024-01-13 23:10:02', 'admin', '2024-02-16 18:57:15', '');
+INSERT INTO `sys_menu` VALUES (2002, '查专业', 0, 0, 'checkMajor', 'user/checkMajor/index', NULL, 1, 0, 'C', '0', '0', '', 'job', 'admin', '2024-01-13 23:12:00', 'admin', '2024-02-16 18:57:27', '');
+INSERT INTO `sys_menu` VALUES (2003, '查导师', 0, 0, 'viewMentors', 'user/viewMentors/index', NULL, 1, 0, 'C', '0', '0', '', 'peoples', 'admin', '2024-01-15 23:55:06', 'admin', '2024-02-16 18:57:42', '');
 INSERT INTO `sys_menu` VALUES (2004, '信息管理', 0, 0, 'wx', NULL, NULL, 1, 0, 'M', '0', '0', NULL, 'tree', 'admin', '2024-01-18 10:07:54', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2005, '地区管理', 2004, 0, 'area', 'wx/area/index', NULL, 1, 0, 'C', '0', '0', 'user:area:list', 'international', 'admin', '2024-01-18 10:10:40', 'admin', '2024-01-18 10:17:57', '');
 INSERT INTO `sys_menu` VALUES (2006, '学校管理', 2004, 2, 'school', 'wx/school/index', NULL, 1, 0, 'C', '0', '0', 'user:school:list', 'build', 'admin', '2024-01-18 14:55:51', 'admin', '2024-01-18 14:57:01', '');
@@ -776,6 +802,8 @@ INSERT INTO `sys_menu` VALUES (2015, '评论新增', 2013, 2, '#', '', NULL, 1, 
 INSERT INTO `sys_menu` VALUES (2016, '评论修改', 2013, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'user:comment:edit', '#', 'admin', '2024-01-22 10:31:08', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2017, '评论删除', 2013, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'user:comment:remove', '#', 'admin', '2024-01-22 10:31:08', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2018, '评论导出', 2013, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'user:comment:export', '#', 'admin', '2024-01-22 10:31:08', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2019, '招生信息管理', 2004, 9, 'info', 'wx/info/index', NULL, 1, 0, 'C', '0', '0', 'user:info:list', 'input', 'admin', '2024-02-16 19:09:44', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2020, '门类管理', 2004, 10, 'field', 'wx/field/index', NULL, 1, 0, 'C', '0', '0', 'user:field:list', '#', 'admin', '2024-02-26 22:02:00', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -793,7 +821,7 @@ CREATE TABLE `sys_notice`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`notice_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '通知公告表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '通知公告表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_notice
@@ -827,7 +855,7 @@ CREATE TABLE `sys_oper_log`  (
   INDEX `idx_sys_oper_log_bt`(`business_type` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_ot`(`oper_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 190 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 221 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_oper_log
@@ -922,6 +950,37 @@ INSERT INTO `sys_oper_log` VALUES (186, '评论', 1, 'com.ruoyi.user.controller.
 INSERT INTO `sys_oper_log` VALUES (187, '评论', 1, 'com.ruoyi.user.controller.CommentController.add()', 'POST', 1, 'admin', '研发部门', '/user/comment', '127.0.0.1', '内网IP', '{\"commentContent\":\"老师太强了\",\"commentDate\":\"2024-01-22 12:03:21\",\"commentId\":8,\"params\":{},\"teacherId\":9,\"userName\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-01-22 12:03:21', 5);
 INSERT INTO `sys_oper_log` VALUES (188, '评论', 1, 'com.ruoyi.user.controller.CommentController.add()', 'POST', 1, 'admin', '研发部门', '/user/comment', '127.0.0.1', '内网IP', '{\"commentContent\":\"赞赞赞\",\"commentDate\":\"2024-01-22 12:03:28\",\"commentId\":9,\"params\":{},\"teacherId\":9,\"userName\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-01-22 12:03:28', 13);
 INSERT INTO `sys_oper_log` VALUES (189, '评论', 1, 'com.ruoyi.user.controller.CommentController.add()', 'POST', 1, 'admin', '研发部门', '/user/comment', '127.0.0.1', '内网IP', '{\"commentContent\":\"老师太厉害了\",\"commentDate\":\"2024-01-23 01:12:12\",\"commentId\":10,\"params\":{},\"teacherId\":9,\"userName\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-01-23 01:12:12', 21);
+INSERT INTO `sys_oper_log` VALUES (190, '代码生成', 6, 'com.ruoyi.generator.controller.GenController.importTableSave()', 'POST', 1, 'admin', '研发部门', '/tool/gen/importTable', '127.0.0.1', '内网IP', '{\"tables\":\"wx_info\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-16 18:39:49', 42);
+INSERT INTO `sys_oper_log` VALUES (191, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', '研发部门', '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"info\",\"className\":\"Info\",\"columns\":[{\"capJavaField\":\"InfoId\",\"columnComment\":\"信息id\",\"columnId\":23,\"columnName\":\"info_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":true,\"insert\":false,\"isIncrement\":\"1\",\"isInsert\":\"0\",\"isPk\":\"1\",\"isRequired\":\"0\",\"javaField\":\"infoId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"InfoTitle\",\"columnComment\":\"信息标题\",\"columnId\":24,\"columnName\":\"info_title\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"infoTitle\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"InfoLink\",\"columnComment\":\"信息链接\",\"columnId\":25,\"columnName\":\"info_link\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"infoLink\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":3,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"SchoolId\",\"columnComment\":\"学校id\",\"columnId\":26,\"columnName\":\"school_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaFie', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-16 18:50:02', 21);
+INSERT INTO `sys_oper_log` VALUES (192, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"user/checkUniversities/index\",\"createTime\":\"2024-01-13 23:10:02\",\"icon\":\"build\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":2001,\"menuName\":\"查院校\",\"menuType\":\"C\",\"orderNum\":1,\"params\":{},\"parentId\":0,\"path\":\"checkUniversities\",\"perms\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-16 18:57:02', 10);
+INSERT INTO `sys_oper_log` VALUES (193, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"user/checkUniversities/index\",\"createTime\":\"2024-01-13 23:10:02\",\"icon\":\"build\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":2001,\"menuName\":\"查院校\",\"menuType\":\"C\",\"orderNum\":0,\"params\":{},\"parentId\":0,\"path\":\"checkUniversities\",\"perms\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-16 18:57:15', 4);
+INSERT INTO `sys_oper_log` VALUES (194, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"user/checkMajor/index\",\"createTime\":\"2024-01-13 23:12:00\",\"icon\":\"job\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":2002,\"menuName\":\"查专业\",\"menuType\":\"C\",\"orderNum\":0,\"params\":{},\"parentId\":0,\"path\":\"checkMajor\",\"perms\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-16 18:57:27', 4);
+INSERT INTO `sys_oper_log` VALUES (195, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"user/viewMentors/index\",\"createTime\":\"2024-01-15 23:55:06\",\"icon\":\"peoples\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":2003,\"menuName\":\"查导师\",\"menuType\":\"C\",\"orderNum\":0,\"params\":{},\"parentId\":0,\"path\":\"viewMentors\",\"perms\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-16 18:57:42', 12);
+INSERT INTO `sys_oper_log` VALUES (196, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"createTime\":\"2024-01-13 23:08:42\",\"icon\":\"education\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":2000,\"menuName\":\"考研信息\",\"menuType\":\"M\",\"orderNum\":0,\"params\":{},\"parentId\":0,\"path\":\"user\",\"perms\":\"\",\"status\":\"1\",\"updateBy\":\"admin\",\"visible\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-16 18:58:42', 5);
+INSERT INTO `sys_oper_log` VALUES (197, '菜单管理', 1, 'com.ruoyi.web.controller.system.SysMenuController.add()', 'POST', 1, 'admin', '研发部门', '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"wx/info/index\",\"createBy\":\"admin\",\"icon\":\"input\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuName\":\"招生信息管理\",\"menuType\":\"C\",\"orderNum\":9,\"params\":{},\"parentId\":2004,\"path\":\"info\",\"perms\":\"user:info:list\",\"status\":\"0\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-16 19:09:44', 13);
+INSERT INTO `sys_oper_log` VALUES (198, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.synchDb()', 'GET', 1, 'admin', '研发部门', '/tool/gen/synchDb/wx_info', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-17 22:19:49', 91);
+INSERT INTO `sys_oper_log` VALUES (199, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', '研发部门', '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"info\",\"className\":\"Info\",\"columns\":[{\"capJavaField\":\"InfoId\",\"columnComment\":\"信息id\",\"columnId\":23,\"columnName\":\"info_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":true,\"insert\":true,\"isIncrement\":\"1\",\"isInsert\":\"1\",\"isPk\":\"1\",\"isRequired\":\"0\",\"javaField\":\"infoId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"updateTime\":\"2024-02-17 22:19:49\",\"usableColumn\":false},{\"capJavaField\":\"InfoTitle\",\"columnComment\":\"信息标题\",\"columnId\":24,\"columnName\":\"info_title\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"infoTitle\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"updateTime\":\"2024-02-17 22:19:49\",\"usableColumn\":false},{\"capJavaField\":\"InfoLink\",\"columnComment\":\"信息链接\",\"columnId\":25,\"columnName\":\"info_link\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"0\",\"isRequired\":\"1\",\"javaField\":\"infoLink\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":false,\"queryType\":\"EQ\",\"required\":true,\"sort\":3,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"updateTime\":\"2024-02-17 22:19:49\",\"usableColumn\":false},{\"capJavaField\":\"InfoDate\",\"columnComment\":\"信息日期\",\"columnId\":27,\"columnName\":\"info_date\",\"columnType\":\"date\",\"createBy\":\"\",\"createTime\":\"2024-02-17 22:19:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"datetime\",\"increment\":false,\"insert\":true,\"isEd', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-17 22:21:39', 22);
+INSERT INTO `sys_oper_log` VALUES (200, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', '研发部门', '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"info\",\"className\":\"Info\",\"columns\":[{\"capJavaField\":\"InfoId\",\"columnComment\":\"信息id\",\"columnId\":23,\"columnName\":\"info_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":true,\"insert\":true,\"isIncrement\":\"1\",\"isInsert\":\"1\",\"isPk\":\"1\",\"isRequired\":\"0\",\"javaField\":\"infoId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"updateTime\":\"2024-02-17 22:21:39\",\"usableColumn\":false},{\"capJavaField\":\"InfoTitle\",\"columnComment\":\"信息标题\",\"columnId\":24,\"columnName\":\"info_title\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"infoTitle\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"updateTime\":\"2024-02-17 22:21:39\",\"usableColumn\":false},{\"capJavaField\":\"InfoLink\",\"columnComment\":\"信息链接\",\"columnId\":25,\"columnName\":\"info_link\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"0\",\"isRequired\":\"1\",\"javaField\":\"infoLink\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":false,\"queryType\":\"EQ\",\"required\":true,\"sort\":3,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"updateTime\":\"2024-02-17 22:21:39\",\"usableColumn\":false},{\"capJavaField\":\"InfoDate\",\"columnComment\":\"信息日期\",\"columnId\":27,\"columnName\":\"info_date\",\"columnType\":\"date\",\"createBy\":\"\",\"createTime\":\"2024-02-17 22:19:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"datetime\",\"increment\":false,\"insert\":true,\"isEd', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-17 22:24:08', 14);
+INSERT INTO `sys_oper_log` VALUES (201, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', '研发部门', '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"info\",\"className\":\"Info\",\"columns\":[{\"capJavaField\":\"InfoId\",\"columnComment\":\"信息id\",\"columnId\":23,\"columnName\":\"info_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":true,\"insert\":true,\"isIncrement\":\"1\",\"isInsert\":\"1\",\"isPk\":\"1\",\"isRequired\":\"0\",\"javaField\":\"infoId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"updateTime\":\"2024-02-17 22:24:08\",\"usableColumn\":false},{\"capJavaField\":\"InfoTitle\",\"columnComment\":\"信息标题\",\"columnId\":24,\"columnName\":\"info_title\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"infoTitle\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"updateTime\":\"2024-02-17 22:24:08\",\"usableColumn\":false},{\"capJavaField\":\"InfoLink\",\"columnComment\":\"信息链接\",\"columnId\":25,\"columnName\":\"info_link\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"0\",\"isRequired\":\"1\",\"javaField\":\"infoLink\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":false,\"queryType\":\"EQ\",\"required\":true,\"sort\":3,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"updateTime\":\"2024-02-17 22:24:08\",\"usableColumn\":false},{\"capJavaField\":\"InfoDate\",\"columnComment\":\"信息日期\",\"columnId\":27,\"columnName\":\"info_date\",\"columnType\":\"date\",\"createBy\":\"\",\"createTime\":\"2024-02-17 22:19:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"datetime\",\"increment\":false,\"insert\":true,\"isEd', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 08:22:33', 27);
+INSERT INTO `sys_oper_log` VALUES (202, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', '研发部门', '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"info\",\"className\":\"Info\",\"columns\":[{\"capJavaField\":\"InfoId\",\"columnComment\":\"信息id\",\"columnId\":23,\"columnName\":\"info_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":true,\"insert\":false,\"isIncrement\":\"1\",\"isInsert\":\"0\",\"isPk\":\"1\",\"isRequired\":\"0\",\"javaField\":\"infoId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"updateTime\":\"2024-02-26 08:22:33\",\"usableColumn\":false},{\"capJavaField\":\"InfoTitle\",\"columnComment\":\"信息标题\",\"columnId\":24,\"columnName\":\"info_title\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"infoTitle\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"updateTime\":\"2024-02-26 08:22:33\",\"usableColumn\":false},{\"capJavaField\":\"InfoLink\",\"columnComment\":\"信息链接\",\"columnId\":25,\"columnName\":\"info_link\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"0\",\"isRequired\":\"1\",\"javaField\":\"infoLink\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":false,\"queryType\":\"EQ\",\"required\":true,\"sort\":3,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"updateTime\":\"2024-02-26 08:22:33\",\"usableColumn\":false},{\"capJavaField\":\"InfoDate\",\"columnComment\":\"信息日期\",\"columnId\":27,\"columnName\":\"info_date\",\"columnType\":\"date\",\"createBy\":\"\",\"createTime\":\"2024-02-17 22:19:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"datetime\",\"increment\":false,\"insert\":true,\"isE', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 08:27:16', 40);
+INSERT INTO `sys_oper_log` VALUES (203, '招生信息', 1, 'com.ruoyi.user.controller.InfoController.add()', 'POST', 1, 'admin', '研发部门', '/user/info', '127.0.0.1', '内网IP', '{\"infoDate\":\"2023-04-13\",\"infoId\":1,\"infoLink\":\"https://www.kaoyan.cn/news/224674\",\"infoTitle\":\"关于2023年部分专业继续接收调剂考生的通知\",\"params\":{},\"schoolId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 08:35:06', 12);
+INSERT INTO `sys_oper_log` VALUES (204, '招生信息', 1, 'com.ruoyi.user.controller.InfoController.add()', 'POST', 1, 'admin', '研发部门', '/user/info', '127.0.0.1', '内网IP', '{\"infoDate\":\"2024-01-05\",\"infoId\":2,\"infoLink\":\"https://www.kaoyan.cn/news/230395\",\"infoTitle\":\"2024年全国硕士研究生招生考试上海海事大学报名点（代码 3131）网上确认公告\",\"params\":{},\"schoolId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 08:37:55', 10);
+INSERT INTO `sys_oper_log` VALUES (205, '招生信息', 2, 'com.ruoyi.user.controller.InfoController.edit()', 'PUT', 1, 'admin', '研发部门', '/user/info', '127.0.0.1', '内网IP', '{\"infoDate\":\"2023-04-13\",\"infoId\":1,\"infoLink\":\"https://www.kaoyan.cn/news/224674\",\"infoTitle\":\"关于2023年部分专业继续接收调剂考生的通知\",\"params\":{},\"schoolId\":9,\"schoolName\":\"清华大学\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 09:21:40', 19);
+INSERT INTO `sys_oper_log` VALUES (206, '招生信息', 2, 'com.ruoyi.user.controller.InfoController.edit()', 'PUT', 1, 'admin', '研发部门', '/user/info', '127.0.0.1', '内网IP', '{\"infoDate\":\"2024-01-05\",\"infoId\":2,\"infoLink\":\"https://www.kaoyan.cn/news/230395\",\"infoTitle\":\"2024年全国硕士研究生招生考试上海海事大学报名点（代码 3131）网上确认公告\",\"params\":{},\"schoolId\":19,\"schoolName\":\"清华大学\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 09:21:50', 11);
+INSERT INTO `sys_oper_log` VALUES (207, '字典类型', 1, 'com.ruoyi.web.controller.system.SysDictTypeController.add()', 'POST', 1, 'admin', '研发部门', '/system/dict/type', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"dictName\":\"信息类型\",\"dictType\":\"user_info_type\",\"params\":{},\"remark\":\"信息的类型\",\"status\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 12:37:07', 106);
+INSERT INTO `sys_oper_log` VALUES (208, '字典数据', 1, 'com.ruoyi.web.controller.system.SysDictDataController.add()', 'POST', 1, 'admin', '研发部门', '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"default\":false,\"dictLabel\":\"招生公告\",\"dictSort\":0,\"dictType\":\"user_info_type\",\"dictValue\":\"1\",\"listClass\":\"primary\",\"params\":{},\"status\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 12:39:48', 14);
+INSERT INTO `sys_oper_log` VALUES (209, '字典数据', 1, 'com.ruoyi.web.controller.system.SysDictDataController.add()', 'POST', 1, 'admin', '研发部门', '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"default\":false,\"dictLabel\":\"招生简章\",\"dictSort\":1,\"dictType\":\"user_info_type\",\"dictValue\":\"2\",\"listClass\":\"primary\",\"params\":{},\"status\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 12:40:16', 13);
+INSERT INTO `sys_oper_log` VALUES (210, '字典数据', 2, 'com.ruoyi.web.controller.system.SysDictDataController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"createTime\":\"2024-02-26 12:39:48\",\"default\":false,\"dictCode\":103,\"dictLabel\":\"招生公告\",\"dictSort\":0,\"dictType\":\"user_info_type\",\"dictValue\":\"1\",\"isDefault\":\"N\",\"listClass\":\"primary\",\"params\":{},\"remark\":\"招生公告\",\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 12:40:30', 9);
+INSERT INTO `sys_oper_log` VALUES (211, '字典数据', 2, 'com.ruoyi.web.controller.system.SysDictDataController.edit()', 'PUT', 1, 'admin', '研发部门', '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"createTime\":\"2024-02-26 12:40:16\",\"default\":false,\"dictCode\":104,\"dictLabel\":\"招生简章\",\"dictSort\":1,\"dictType\":\"user_info_type\",\"dictValue\":\"2\",\"isDefault\":\"N\",\"listClass\":\"primary\",\"params\":{},\"remark\":\"招生简章\",\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 12:40:44', 13);
+INSERT INTO `sys_oper_log` VALUES (212, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.synchDb()', 'GET', 1, 'admin', '研发部门', '/tool/gen/synchDb/wx_info', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 13:00:02', 119);
+INSERT INTO `sys_oper_log` VALUES (213, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', '研发部门', '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"info\",\"className\":\"Info\",\"columns\":[{\"capJavaField\":\"InfoId\",\"columnComment\":\"信息id\",\"columnId\":23,\"columnName\":\"info_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":true,\"insert\":false,\"isIncrement\":\"1\",\"isInsert\":\"0\",\"isPk\":\"1\",\"isRequired\":\"0\",\"javaField\":\"infoId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"updateTime\":\"2024-02-26 13:00:02\",\"usableColumn\":false},{\"capJavaField\":\"InfoTitle\",\"columnComment\":\"信息标题\",\"columnId\":24,\"columnName\":\"info_title\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"infoTitle\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"updateTime\":\"2024-02-26 13:00:02\",\"usableColumn\":false},{\"capJavaField\":\"InfoLink\",\"columnComment\":\"信息链接\",\"columnId\":25,\"columnName\":\"info_link\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-16 18:39:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"infoLink\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":3,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"updateTime\":\"2024-02-26 13:00:02\",\"usableColumn\":false},{\"capJavaField\":\"InfoDate\",\"columnComment\":\"信息日期\",\"columnId\":27,\"columnName\":\"info_date\",\"columnType\":\"date\",\"createBy\":\"\",\"createTime\":\"2024-02-17 22:19:49\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"datetime\",\"increment\":false,\"insert\":true,\"isEd', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 13:00:23', 32);
+INSERT INTO `sys_oper_log` VALUES (214, '招生信息', 2, 'com.ruoyi.user.controller.InfoController.edit()', 'PUT', 1, 'admin', '研发部门', '/user/info', '127.0.0.1', '内网IP', '{\"infoDate\":\"2023-04-13\",\"infoId\":1,\"infoLink\":\"https://www.kaoyan.cn/news/224674\",\"infoTitle\":\"关于2023年部分专业继续接收调剂考生的通知\",\"infoType\":2,\"params\":{},\"schoolId\":9,\"schoolName\":\"青岛大学\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 13:10:35', 18);
+INSERT INTO `sys_oper_log` VALUES (215, '代码生成', 6, 'com.ruoyi.generator.controller.GenController.importTableSave()', 'POST', 1, 'admin', '研发部门', '/tool/gen/importTable', '127.0.0.1', '内网IP', '{\"tables\":\"wx_field\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 21:53:04', 61);
+INSERT INTO `sys_oper_log` VALUES (216, '代码生成', 2, 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', 1, 'admin', '研发部门', '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"field\",\"className\":\"Field\",\"columns\":[{\"capJavaField\":\"FieldId\",\"columnComment\":\"学科类别Id\",\"columnId\":29,\"columnName\":\"field_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2024-02-26 21:53:04\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":false,\"insert\":false,\"isIncrement\":\"0\",\"isInsert\":\"0\",\"isPk\":\"1\",\"isRequired\":\"0\",\"javaField\":\"fieldId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":6,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"FieldName\",\"columnComment\":\"学科类别名称\",\"columnId\":30,\"columnName\":\"field_name\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-26 21:53:04\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"fieldName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":6,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"FieldCode\",\"columnComment\":\"学科类别代码\",\"columnId\":31,\"columnName\":\"field_code\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-26 21:53:04\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"fieldCode\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":3,\"superColumn\":false,\"tableId\":6,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"ParentId\",\"columnComment\":\"所属门类\",\"columnId\":32,\"columnName\":\"parent_id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2024-02-26 21:53:04\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequi', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 21:54:10', 17);
+INSERT INTO `sys_oper_log` VALUES (217, '菜单管理', 1, 'com.ruoyi.web.controller.system.SysMenuController.add()', 'POST', 1, 'admin', '研发部门', '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"wx/field/index\",\"createBy\":\"admin\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuName\":\"门类管理\",\"menuType\":\"C\",\"orderNum\":10,\"params\":{},\"parentId\":2004,\"path\":\"field\",\"perms\":\"user:field:list\",\"status\":\"0\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 22:02:00', 7);
+INSERT INTO `sys_oper_log` VALUES (218, '学科类别', 1, 'com.ruoyi.user.controller.FieldController.add()', 'POST', 1, 'admin', '研发部门', '/user/field', '127.0.0.1', '内网IP', '{\"fieldCode\":\"0101\",\"fieldName\":\"哲学\",\"majorType\":1,\"params\":{},\"parentId\":1}', NULL, 1, '\r\n### Error updating database.  Cause: java.sql.SQLException: Field \'field_id\' doesn\'t have a default value\r\n### The error may exist in file [D:\\idea项目（java）\\kaoyan_2024\\RuoYi-Vue-master\\ruoyi-user\\target\\classes\\mapper\\user\\FieldMapper.xml]\r\n### The error may involve com.ruoyi.user.mapper.FieldMapper.insertField-Inline\r\n### The error occurred while setting parameters\r\n### SQL: insert into wx_field          ( field_name,             field_code,             parent_id,             major_type )           values ( ?,             ?,             ?,             ? )\r\n### Cause: java.sql.SQLException: Field \'field_id\' doesn\'t have a default value\n; Field \'field_id\' doesn\'t have a default value; nested exception is java.sql.SQLException: Field \'field_id\' doesn\'t have a default value', '2024-02-26 22:07:19', 112);
+INSERT INTO `sys_oper_log` VALUES (219, '学科类别', 1, 'com.ruoyi.user.controller.FieldController.add()', 'POST', 1, 'admin', '研发部门', '/user/field', '127.0.0.1', '内网IP', '{\"fieldCode\":\"0101\",\"fieldName\":\"哲学\",\"majorType\":1,\"params\":{},\"parentId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 22:09:04', 11);
+INSERT INTO `sys_oper_log` VALUES (220, '学科类别', 1, 'com.ruoyi.user.controller.FieldController.add()', 'POST', 1, 'admin', '研发部门', '/user/field', '127.0.0.1', '内网IP', '{\"fieldCode\":\"0151\",\"fieldName\":\"应用伦理\",\"majorType\":1,\"params\":{},\"parentId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-26 22:10:00', 74);
 
 -- ----------------------------
 -- Table structure for sys_post
@@ -939,7 +998,7 @@ CREATE TABLE `sys_post`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`post_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '岗位信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '岗位信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_post
@@ -1123,7 +1182,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 103, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2024-01-24 22:46:36', 'admin', '2024-01-10 13:44:25', '', '2024-01-24 22:46:35', '管理员');
+INSERT INTO `sys_user` VALUES (1, 103, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2024-02-26 23:05:24', 'admin', '2024-01-10 13:44:25', '', '2024-02-26 23:05:24', '管理员');
 INSERT INTO `sys_user` VALUES (2, 105, 'ry', '若依', '00', 'ry@qq.com', '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2024-01-10 13:44:25', 'admin', '2024-01-10 13:44:25', '', NULL, '测试员');
 
 -- ----------------------------
@@ -1215,7 +1274,7 @@ CREATE TABLE `wx_comment`  (
   `comment_date` datetime NOT NULL COMMENT '评论时间',
   `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '评论人',
   PRIMARY KEY (`comment_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of wx_comment
@@ -25527,6 +25586,45 @@ INSERT INTO `wx_dscore` VALUES (234, 2023, 352, 56, 37, 37, 56, 70, 2);
 INSERT INTO `wx_dscore` VALUES (235, 2022, 351, 56, 37, 37, 56, 70, 2);
 INSERT INTO `wx_dscore` VALUES (236, 2021, 336, 53, 35, 35, 53, 70, 2);
 INSERT INTO `wx_dscore` VALUES (237, 2022, 100, 21, 12, 12, 21, 6, 1);
+
+-- ----------------------------
+-- Table structure for wx_field
+-- ----------------------------
+DROP TABLE IF EXISTS `wx_field`;
+CREATE TABLE `wx_field`  (
+  `field_id` int NOT NULL AUTO_INCREMENT COMMENT '学科类别Id',
+  `field_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '学科类别名称',
+  `field_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '学科类别代码',
+  `parent_id` int NOT NULL COMMENT '所属门类',
+  `major_type` int NOT NULL COMMENT '专业类型',
+  PRIMARY KEY (`field_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of wx_field
+-- ----------------------------
+INSERT INTO `wx_field` VALUES (1, '哲学', '0101', 1, 1);
+INSERT INTO `wx_field` VALUES (2, '应用伦理', '0151', 1, 1);
+
+-- ----------------------------
+-- Table structure for wx_info
+-- ----------------------------
+DROP TABLE IF EXISTS `wx_info`;
+CREATE TABLE `wx_info`  (
+  `info_id` int NOT NULL AUTO_INCREMENT COMMENT '信息id',
+  `info_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '信息标题',
+  `info_link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '信息链接',
+  `info_date` date NOT NULL COMMENT '信息日期',
+  `info_type` int NOT NULL COMMENT '信息类型',
+  `school_id` int NOT NULL COMMENT '学校id',
+  PRIMARY KEY (`info_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of wx_info
+-- ----------------------------
+INSERT INTO `wx_info` VALUES (1, '关于2023年部分专业继续接收调剂考生的通知', 'https://www.kaoyan.cn/news/224674', '2023-04-13', 2, 9);
+INSERT INTO `wx_info` VALUES (2, '2024年全国硕士研究生招生考试上海海事大学报名点（代码 3131）网上确认公告', 'https://www.kaoyan.cn/news/230395', '2024-01-05', 1, 19);
 
 -- ----------------------------
 -- Table structure for wx_major

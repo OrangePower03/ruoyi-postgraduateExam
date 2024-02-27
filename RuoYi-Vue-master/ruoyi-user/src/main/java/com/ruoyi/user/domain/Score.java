@@ -10,7 +10,7 @@ import lombok.Data;
  * @author ruoyi
  * @date 2023-04-02
  */
-public class Score extends BaseEntity implements Comparable<Score>
+public class Score extends BaseEntity  implements Comparable<Score>
 {
     private static final long serialVersionUID = 1L;
 
@@ -58,6 +58,9 @@ public class Score extends BaseEntity implements Comparable<Score>
     @Excel(name = "专业二")
     private Long scoreMajor;
 
+    /** 表中该有的都得有*/
+    private Long connectId;
+
     private Long schoolId;
 
     @Override
@@ -81,9 +84,6 @@ public class Score extends BaseEntity implements Comparable<Score>
 
     @Override
     public int compareTo(Score other) {
-        if(schoolName == null) {
-            schoolName = "";
-        }
         return schoolName.compareTo(other.getSchoolName());
     }
 
@@ -204,4 +204,11 @@ public class Score extends BaseEntity implements Comparable<Score>
         this.scoreMajor = scoreMajor;
     }
 
+    public Long getConnectId() {
+        return connectId;
+    }
+
+    public void setConnectId(Long connectId) {
+        this.connectId = connectId;
+    }
 }

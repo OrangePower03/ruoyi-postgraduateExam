@@ -2,15 +2,13 @@
 <configuration>
     <!-- 日志存放路径 -->
 	<property name="log.path" value="/home/ruoyi/logs" />
-    <!-- 彩色日志输出格式 -->
-	<property name="log.color.pattern" value="%yellow(%d{HH:mm:ss.SSS}) [%thread] %red(%-5level) %logger{20} - [%method,%line] - %blue(%msg%n)" />
     <!-- 日志输出格式 -->
 	<property name="log.pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method,%line] - %msg%n" />
 
 	<!-- 控制台输出 -->
 	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<pattern>${log.color.pattern}</pattern>
+			<pattern>${log.pattern}</pattern>
 		</encoder>
 	</appender>
 	
