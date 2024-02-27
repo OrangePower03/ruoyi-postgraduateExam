@@ -2,9 +2,6 @@ package com.ruoyi.user.service.impl;
 
 import java.util.List;
 
-import com.ruoyi.common.constant.HttpStatus;
-import com.ruoyi.common.exception.ServiceException;
-import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.user.domain.UserScoreInfo;
 import com.ruoyi.user.mapper.UserScoreInfoMapper;
 import com.ruoyi.user.service.IUserScoreInfoService;
