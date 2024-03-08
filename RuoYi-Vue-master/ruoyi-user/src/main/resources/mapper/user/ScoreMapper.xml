@@ -174,4 +174,29 @@
             #{scoreId}
         </foreach>
     </delete>
+
+    <select id="selectByMajorAndScoreAll" resultType="com.ruoyi.user.domain.Score" resultMap="ScoreResult">
+        select tem.*,ws.school_id,ws.school_name from (
+        select * from wx_score where
+        score_year >= #{first_year}
+        and #{scoreAll}+#{floatScore} >= score_all
+        and score_all >= #{scoreAll}-#{floatScore}
+        and connect_id in(
+        select connect_id from wx_mcd where major_id in(
+        select major_id from wx_major where major_name=#{majorName}
+        )
+        )
+        ) AS tem INNER JOIN wx_mcd as wmc on wmc.connect_id =tem.connect_id
+        INNER JOIN wx_department as wd on wd.department_id=wmc.department_id
+        INNER JOIN wx_school AS ws on ws.school_id=wd.department_school_id
+        ORDER BY ws.school_name
+    </select>
+
+    <select id="getSchoolNameByScoreConnectId" resultType="java.lang.String">
+        select school_name from wx_school where school_id in (
+            select department_school_id from wx_department where department_id in(
+                select department_id from wx_mcd where connect_id=#{connectId}
+            )
+        )
+    </select>
 </mapper>

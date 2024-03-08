@@ -86,4 +86,22 @@
             #{schoolId}
         </foreach>
     </delete>
+
+     <select id="findAreaTypeBySchoolName" resultType="java.lang.Integer">
+        select area_type from wx_area where area_id in (
+            select school_area from wx_school where school_name=#{schoolName}
+        )
+    </select>
+
+    <select id="selectQSBySchoolName" resultType="java.lang.Float">
+        select QS from wx_school where school_name=#{schoolName}
+    </select>
+
+    <select id="selectRKBySchoolName" resultType="java.lang.Float">
+        select RK from wx_school where school_name=#{schoolName}
+    </select>
+
+    <select id="selectAreaIdBySchoolName" resultType="java.lang.Integer">
+        select school_area from wx_school where school_name=#{schoolName}
+    </select>
 </mapper>

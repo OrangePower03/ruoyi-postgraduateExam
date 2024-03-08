@@ -101,4 +101,10 @@
             #{scoreId}
         </foreach>
     </delete>
+
+    <select id="selectByMajorName" resultType="com.ruoyi.user.domain.DScore" resultMap="DScoreResult">
+        select * from wx_dscore where major_id in (
+            select major_id from wx_major where major_name = #{majorName}
+        )
+    </select>
 </mapper>

@@ -65,5 +65,13 @@ public interface SchoolMapper
      * @param schoolIds 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteWxSchoolBySchoolIds(Long[] schoolIds);
+    int deleteWxSchoolBySchoolIds(Long[] schoolIds);
+
+    float selectQSBySchoolName(String schoolName);
+
+    float selectRKBySchoolName(String schoolName);
+
+    int selectAreaIdBySchoolName(String schoolName);
+
+    int findAreaTypeBySchoolName(String schoolName);
 }

@@ -27,6 +27,11 @@
         where area_id = #{areaId}
     </select>
 
+    <select id="selectAreaIdByAreaName" resultType="java.lang.Integer">
+        select  area_id from wx_area where area_name = #{areaName}
+    </select>
+
+
     <insert id="insertWxArea" parameterType="Area">
         insert into wx_area
         <trim prefix="(" suffix=")" suffixOverrides=",">
