@@ -29,8 +29,6 @@ public interface IScoreService
      */
     public List<Score> selectWxScoreList(Score wxScore);
 
-    public List<Score> selectThreeRetestLine(Score score);
-
     /**
      * 查询【请填写功能名称】
      *

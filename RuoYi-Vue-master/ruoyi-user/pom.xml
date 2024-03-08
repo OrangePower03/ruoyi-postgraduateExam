@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.ruoyi</groupId>
         <artifactId>ruoyi</artifactId>
-        <version>3.8.7</version>
+        <version>3.8.5</version>
     </parent>
 
     <artifactId>ruoyi-user</artifactId>
@@ -43,6 +43,10 @@
             <artifactId>spring-test</artifactId>
             <version>5.3.2</version>
         </dependency>
+        <!--<dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/com.google.zxing/javase -->
         <dependency>

@@ -501,18 +501,17 @@ public class SysUserServiceImpl implements ISysUserService
                     BeanValidators.validateWithException(validator, user);
                     user.setPassword(SecurityUtils.encryptPassword(password));
                     user.setCreateBy(operName);
-                    userMapper.insertUser(user);
+                    this.insertUser(user);
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、账号 " + user.getUserName() + " 导入成功");
                 }
                 else if (isUpdateSupport)
                 {
                     BeanValidators.validateWithException(validator, user);
-                    checkUserAllowed(u);
-                    checkUserDataScope(u.getUserId());
-                    user.setUserId(u.getUserId());
+                    checkUserAllowed(user);
+                    checkUserDataScope(user.getUserId());
                     user.setUpdateBy(operName);
-                    userMapper.updateUser(user);
+                    this.updateUser(user);
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、账号 " + user.getUserName() + " 更新成功");
                 }

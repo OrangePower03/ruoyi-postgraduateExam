@@ -66,6 +66,4 @@ public interface DScoreMapper
      * @return 结果
      */
     public int deleteWxDscoreByScoreIds(Long[] scoreIds);
-
-    List<DScore> selectByMajorName(String majorName);
 }

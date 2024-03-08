@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.system;
 
+import com.ruoyi.system.mapper.SysUserRoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +14,7 @@ import com.ruoyi.system.service.ISysConfigService;
 
 /**
  * 注册验证
- * 
+ *
  * @author ruoyi
  */
 @RestController
@@ -25,6 +26,9 @@ public class SysRegisterController extends BaseController
     @Autowired
     private ISysConfigService configService;
 
+    @Autowired
+    private SysUserRoleMapper sysUserRoleMapper;
+
     @PostMapping("/register")
     public AjaxResult register(@RequestBody RegisterBody user)
     {
@@ -33,6 +37,11 @@ public class SysRegisterController extends BaseController
             return error("当前系统没有开启注册功能！");
         }
         String msg = registerService.register(user);
-        return StringUtils.isEmpty(msg) ? success() : error(msg);
+        if(StringUtils.isEmpty(msg)){
+            sysUserRoleMapper.insertByUserName(user.getUsername());
+            return success();
+        }
+        else
+            return error(msg);
     }
 }

@@ -12,7 +12,6 @@
         <result property="majorDepartmentName"    column="department_name"    />
         <result property="majorType"    column="major_type"    />
         <result property="majorSchoolName"    column="school_name"    />
-        <result property="schoolId"    column="school_id"    />
         <result property="connectId"    column="connect_id"    />
     </resultMap>
 
@@ -27,8 +26,8 @@
     </sql>
 
     <sql id="selectWxMajorVo2">
-        SELECT wm.major_id,wm.major_code,wm.major_name,wm.major_type,wmc.connect_id,
-               wd.department_id,wd.department_name,wsc.school_name,wsc.school_id
+        SELECT wm.major_id,wm.major_code,wm.major_name,wm.major_type,
+               wmc.connect_id,wd.department_id,wd.department_name,wsc.school_name
         from wx_mcd as wmc
                  INNER JOIN wx_major as wm on wmc.major_id=wm.major_id
                  INNER JOIN wx_department as wd on wd.department_id=wmc.department_id
@@ -38,14 +37,11 @@
     <select id="selectWxMajorList" parameterType="Major" resultMap="MajorResult">
         <include refid="selectWxMajorVo2"/>
         <where>
-            <if test="majorId != null "> and wm.major_id = #{majorId} </if>
             <if test="majorCode != null and majorCode != ''"> and wm.major_code like concat('%', #{majorCode}, '%')</if>
             <if test="majorName != null and majorName != ''"> and wm.major_name like concat('%', #{majorName}, '%')</if>
             <if test="majorDepartmentName != null and majorDepartmentName != ''"> and wd.department_name like concat('%', #{majorDepartmentName}, '%')</if>
             <if test="majorType != null "> and wm.major_type = #{majorType}</if>
             <if test="majorSchoolName != null and majorSchoolName != ''"> and wsc.school_name like concat('%', #{majorSchoolName}, '%')</if>
-            <if test="schoolId != null "> and wsc.school_id = #{schoolId}</if>
-            <if test="majorDepartmentId != null "> and wd.department_id = #{majorDepartmentId}</if>
         </where>
     </select>
 
@@ -63,7 +59,7 @@
     <select id="selectMajorList" parameterType="Major" resultMap="MajorResult">
         <include refid="selectWxMajorVo"/>
         <where>
-            <if test="majorCode != null and majorCode != ''"> and major_code like concat( #{majorCode}, '%')</if>
+            <if test="majorCode != null and majorCode != ''"> and major_code like concat('%', #{majorCode}, '%')</if>
             <if test="majorName != null and majorName != ''"> and major_name like concat('%', #{majorName}, '%')</if>
             <if test="majorType != null "> and major_type = #{majorType}</if>
         </where>

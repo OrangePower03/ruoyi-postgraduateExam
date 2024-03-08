@@ -12,7 +12,6 @@ import com.ruoyi.user.domain.minSchool;
  */
 public interface SchoolMapper
 {
-    public int findAreaTypeBySchoolName(String schoolName);
     /**
      * 查询【请填写功能名称】
      *
@@ -67,10 +66,4 @@ public interface SchoolMapper
      * @return 结果
      */
     public int deleteWxSchoolBySchoolIds(Long[] schoolIds);
-
-    public float selectQSBySchoolName(String schoolName);
-
-    public float selectRKBySchoolName(String schoolName);
-
-    public int selectAreaIdBySchoolName(String schoolName);
 }

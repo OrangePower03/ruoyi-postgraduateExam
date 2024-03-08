@@ -242,6 +242,9 @@ export default {
         "levelId":2,
         "levelName":"211，双一流",
       },{
+        "levelId":3,
+        "levelName":"211"
+      },{
         "levelId":4,
         "levelName":"双一流"
       },{
@@ -267,7 +270,6 @@ export default {
       this.loading = true;
       listSchool(this.queryParams).then(response => {
         this.schoolList = response.rows;
-        this.total = response.total;
         this.loading = false;
       });
     },

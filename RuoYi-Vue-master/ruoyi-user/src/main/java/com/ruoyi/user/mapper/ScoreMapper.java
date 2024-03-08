@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ruoyi.user.domain.AllInfo;
 import com.ruoyi.user.domain.Score;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * 【请填写功能名称】Mapper接口
@@ -37,8 +36,6 @@ public interface ScoreMapper
      * @return 【请填写功能名称】集合
      */
     public List<Score> selectWxScoreList(Score wxScore);
-
-    public List<Score> selectThreeRetestLine(Score score);
 
     /**
      * 新增【请填写功能名称】
@@ -79,11 +76,4 @@ public interface ScoreMapper
      * @return 【请填写功能名称】
      */
     public List<AllInfo> selectAllInfoList(AllInfo allInfo);
-
-    List<Score> selectByMajorAndScoreAll(@Param("majorName") String majorName,
-                                         @Param("scoreAll") Long scoreAll,
-                                         @Param("floatScore") int floatScore,
-                                         @Param("first_year") int first_year);
-
-    String getSchoolNameByScoreConnectId(Long connectId);
 }

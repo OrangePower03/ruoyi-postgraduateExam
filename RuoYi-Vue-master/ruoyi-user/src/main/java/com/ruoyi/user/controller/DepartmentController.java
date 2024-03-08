@@ -51,9 +51,6 @@ public class DepartmentController extends BaseController
     @GetMapping("/departmentList")
     public TableDataInfo departmentList(Department wxDepartment)
     {
-        System.out.println("**************************");
-        System.out.println(wxDepartment);
-        System.out.println("**************************");
         List<Department> list = wxDepartmentService.selectWxDepartmentList(wxDepartment);
         return getDataTable(list);
     }

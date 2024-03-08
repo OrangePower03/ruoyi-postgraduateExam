@@ -46,11 +46,6 @@ public class ScoreServiceImpl implements IScoreService
     }
 
     @Override
-    public List<Score> selectThreeRetestLine(Score score) {
-        return wxScoreMapper.selectThreeRetestLine(score);
-    }
-
-    @Override
     public Score scoreJudge(Score score) {
         return wxScoreMapper.scoreJudge(score);
     }

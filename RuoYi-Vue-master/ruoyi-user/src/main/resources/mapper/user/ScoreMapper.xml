@@ -18,7 +18,6 @@
         <result property="majorCode"    column="major_code"    />
         <result property="departmentName"    column="department_name"    />
         <result property="schoolName"    column="school_name"    />
-        <result property="schoolId"    column="school_id"    />
     </resultMap>
 
     <resultMap type="AllInfo" id="AllInfoResult">
@@ -92,20 +91,6 @@
         select score_id, score_year, score_all, score_math, score_english, score_politics, score_major, connect_id from wx_score
     </sql>
 
-    <select id="selectThreeRetestLine" parameterType="Score" resultMap="ScoreResult">
-        SELECT s.score_id,s.score_year,s.score_all,s.score_english,s.score_politics,s.score_math,
-               s.score_major,s.major_name,s.major_code,s.major_type,s.department_name,s.school_name
-        from
-            (SELECT ws.score_id,ws.score_year,ws.score_all,ws.score_english,ws.score_politics,ws.score_math,
-                    ws.score_major,wm.major_name,wm.major_code,wm.major_type,wd.department_name,wsc.school_name,
-                    ROW_NUMBER() OVER(PARTITION BY ws.score_year ORDER BY ws.score_all ASC) AS rn
-             from wx_score as ws
-                      inner JOIN wx_mcd as wmc on ws.connect_id=wmc.connect_id
-                      INNER JOIN wx_major as wm on wm.major_id=wmc.major_id
-                      INNER JOIN wx_department as wd on wd.department_id=wmc.department_id
-                      INNER JOIN wx_school as wsc on wsc.school_id=wd.department_school_id where wmc.connect_id=#{scoreMajorId} ) as s where s.rn=1
-    </select>
-
     <select id="selectWxScoreList" parameterType="Score" resultMap="ScoreResult">
         SELECT ws.score_id,ws.score_year,ws.score_all,ws.score_english,ws.score_politics,ws.score_math,
         ws.score_major,wm.major_name,wm.major_code,wm.major_type,wd.department_name,wsc.school_name
@@ -121,7 +106,7 @@
             <if test="scoreEnglish != null "> and #{scoreEnglish}>=ws.score_english</if>
             <if test="scorePolitics != null "> and #{scorePolitics}>=ws.score_politics</if>
             <if test="scoreMajor != null "> and #{scoreMajor}>=ws.score_major</if>
-            <if test="scoreMajorId != null "> and ws.connect_id = #{scoreMajorId}</if>
+            <if test="scoreMajorId != null "> and ws.score_major_id = #{scoreMajorId}</if>
             <if test="majorName != null and majorName != ''"> and wm.major_name like concat('%', #{majorName}, '%')</if>
             <if test="majorType != null "> and wm.major_type = #{majorType}</if>
             <if test="majorCode != null "> and wm.major_code = #{majorCode}</if>
@@ -136,31 +121,6 @@
            INNER JOIN wx_department as wd on wd.department_id=wmc.department_id
            INNER JOIN wx_school as ws on ws.school_id=wd.department_school_id
         where ws.school_name=#{schoolName} and wd.department_name = #{departmentName}
-    </select>
-
-    <select id="selectByMajorAndScoreAll" resultType="com.ruoyi.user.domain.common.ScoreWithSchoolName" resultMap="ScoreResult">
-        select tem.*,ws.school_id,ws.school_name from (
-        select * from wx_score where
-        score_year >= #{first_year}
-        and #{scoreAll}+#{floatScore} >= score_all
-        and score_all >= #{scoreAll}-#{floatScore}
-        and connect_id in(
-        select connect_id from wx_mcd where major_id in(
-        select major_id from wx_major where major_name=#{majorName}
-        )
-        )
-        ) AS tem INNER JOIN wx_mcd as wmc on wmc.connect_id =tem.connect_id
-        INNER JOIN wx_department as wd on wd.department_id=wmc.department_id
-        INNER JOIN wx_school AS ws on ws.school_id=wd.department_school_id
-        ORDER BY ws.school_name
-    </select>
-
-    <select id="getSchoolNameByScoreConnectId" resultType="java.lang.String">
-        select school_name from wx_school where school_id in (
-            select department_school_id from wx_department where department_id in(
-                select department_id from wx_mcd where connect_id=#{connectId}
-            )
-        )
     </select>
 
     <select id="selectWxScoreByScoreId" parameterType="Long" resultMap="ScoreResult">

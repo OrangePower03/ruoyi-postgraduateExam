@@ -32,12 +32,8 @@ export default {
   // 关闭指定tab页签
   closePage(obj) {
     if (obj === undefined) {
-      return store.dispatch('tagsView/delView', router.currentRoute).then(({ visitedViews }) => {
-        const latestView = visitedViews.slice(-1)[0]
-        if (latestView) {
-          return router.push(latestView.fullPath)
-        }
-        return router.push('/');
+      return store.dispatch('tagsView/delView', router.currentRoute).then(({ lastPath }) => {
+        return router.push(lastPath || '/');
       });
     }
     return store.dispatch('tagsView/delView', obj);
@@ -60,7 +56,7 @@ export default {
   },
   // 添加tab页签
   openPage(title, url, params) {
-    const obj = { path: url, meta: { title: title } }
+    var obj = { path: url, meta: { title: title } }
     store.dispatch('tagsView/addView', obj);
     return router.push({ path: url, query: params });
   },

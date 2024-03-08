@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询地区列表
+// 查询【请填写功能名称】列表
 export function listArea(query) {
   return request({
     url: '/user/area/list',
@@ -9,7 +9,7 @@ export function listArea(query) {
   })
 }
 
-// 查询地区详细
+// 查询【请填写功能名称】详细
 export function getArea(areaId) {
   return request({
     url: '/user/area/' + areaId,
@@ -17,7 +17,7 @@ export function getArea(areaId) {
   })
 }
 
-// 新增地区
+// 新增【请填写功能名称】
 export function addArea(data) {
   return request({
     url: '/user/area',
@@ -26,7 +26,7 @@ export function addArea(data) {
   })
 }
 
-// 修改地区
+// 修改【请填写功能名称】
 export function updateArea(data) {
   return request({
     url: '/user/area',
@@ -35,7 +35,7 @@ export function updateArea(data) {
   })
 }
 
-// 删除地区
+// 删除【请填写功能名称】
 export function delArea(areaId) {
   return request({
     url: '/user/area/' + areaId,

@@ -5,10 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.user.domain.AllInfo;
 import com.ruoyi.user.domain.Score;
-import com.ruoyi.user.domain.dto.RecommendDto;
-import com.ruoyi.user.domain.vo.RecommendVo;
 import com.ruoyi.user.service.IScoreService;
-import com.ruoyi.user.service.RecommendService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,8 +36,6 @@ public class ScoreController extends BaseController
 {
     @Autowired
     private IScoreService wxScoreService;
-    @Autowired
-    private RecommendService recommendService;
 
     /**
      * 查询复试线列表
@@ -62,28 +57,9 @@ public class ScoreController extends BaseController
     public TableDataInfo AllInfoList(AllInfo allInfo)
     {
         List<AllInfo> list = wxScoreService.selectAllInfoList(allInfo);
+        System.out.println(list);
         return getDataTable(list);
     }
-
-    @PreAuthorize("@ss.hasPermi('user:score:list')")
-    @GetMapping("/recommend")
-    public TableDataInfo recommend(RecommendDto recommendDto)
-    {
-        List<RecommendVo> list = recommendService.recommend(recommendDto);
-        return getDataTable(list);
-    }
-
-    /**
-     * 查询近三年复试线
-     */
-    @PreAuthorize("@ss.hasPermi('user:score:list')")
-    @GetMapping("/ThreeRetestLine")
-    public TableDataInfo selectThreeRetestLine(Score score)
-    {
-        List<Score> list = wxScoreService.selectThreeRetestLine(score);
-        return getDataTable(list);
-    }
-
     /**
      * 导出复试线列表
      */

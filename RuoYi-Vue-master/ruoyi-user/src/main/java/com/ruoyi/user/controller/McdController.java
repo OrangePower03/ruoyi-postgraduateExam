@@ -73,9 +73,6 @@ public class McdController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody Connect wxMcd)
     {
-        System.out.println("***************************");
-        System.out.println(wxMcd);
-        System.out.println("***************************");
         return toAjax(wxMajorService.insertWxMcd(wxMcd));
     }
 

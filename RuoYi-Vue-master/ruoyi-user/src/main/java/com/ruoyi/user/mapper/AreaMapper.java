@@ -4,60 +4,58 @@ import java.util.List;
 import com.ruoyi.user.domain.Area;
 
 /**
- * 地区Mapper接口
+ * 【请填写功能名称】Mapper接口
  *
- * @author wx
- * @date 2024-01-18
+ * @author ruoyi
+ * @date 2023-03-26
  */
 public interface AreaMapper
 {
     /**
-     * 查询地区
+     * 查询【请填写功能名称】
      *
-     * @param areaId 地区主键
-     * @return 地区
+     * @param areaId 【请填写功能名称】主键
+     * @return 【请填写功能名称】
      */
-    public Area selectAreaByAreaId(Long areaId);
+    public Area selectWxAreaByAreaId(Long areaId);
 
     /**
-     * 查询地区列表
+     * 查询【请填写功能名称】列表
      *
-     * @param area 地区
-     * @return 地区集合
+     * @param wxArea 【请填写功能名称】
+     * @return 【请填写功能名称】集合
      */
-    public List<Area> selectAreaList(Area area);
+    public List<Area> selectWxAreaList(Area wxArea);
 
     /**
-     * 新增地区
+     * 新增【请填写功能名称】
      *
-     * @param area 地区
+     * @param wxArea 【请填写功能名称】
      * @return 结果
      */
-    public int insertArea(Area area);
+    public int insertWxArea(Area wxArea);
 
     /**
-     * 修改地区
+     * 修改【请填写功能名称】
      *
-     * @param area 地区
+     * @param wxArea 【请填写功能名称】
      * @return 结果
      */
-    public int updateArea(Area area);
+    public int updateWxArea(Area wxArea);
 
     /**
-     * 删除地区
+     * 删除【请填写功能名称】
      *
-     * @param areaId 地区主键
+     * @param areaId 【请填写功能名称】主键
      * @return 结果
      */
-    public int deleteAreaByAreaId(Long areaId);
+    public int deleteWxAreaByAreaId(Long areaId);
 
     /**
-     * 批量删除地区
+     * 批量删除【请填写功能名称】
      *
      * @param areaIds 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteAreaByAreaIds(Long[] areaIds);
-
-    public int selectAreaIdByAreaName(String area);
+    public int deleteWxAreaByAreaIds(Long[] areaIds);
 }

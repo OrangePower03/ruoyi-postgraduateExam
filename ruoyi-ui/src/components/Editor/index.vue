@@ -47,7 +47,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    /* 上传文件大小限制(MB) */
+    // 上传文件大小限制(MB)
     fileSize: {
       type: Number,
       default: 5,
@@ -129,6 +129,7 @@ export default {
       if (this.type == 'url') {
         let toolbar = this.Quill.getModule("toolbar");
         toolbar.addHandler("image", (value) => {
+          this.uploadType = "image";
           if (value) {
             this.$refs.upload.$children[0].$refs.input.click();
           } else {
@@ -157,13 +158,6 @@ export default {
     },
     // 上传前校检格式和大小
     handleBeforeUpload(file) {
-      const type = ["image/jpeg", "image/jpg", "image/png", "image/svg"];
-      const isJPG = type.includes(file.type);
-      // 检验文件格式
-      if (!isJPG) {
-        this.$message.error(`图片格式错误!`);
-        return false;
-      }
       // 校检文件大小
       if (this.fileSize) {
         const isLt = file.size / 1024 / 1024 < this.fileSize;
@@ -175,10 +169,10 @@ export default {
       return true;
     },
     handleUploadSuccess(res, file) {
+      // 获取富文本组件实例
+      let quill = this.Quill;
       // 如果上传成功
       if (res.code == 200) {
-        // 获取富文本组件实例
-        let quill = this.Quill;
         // 获取光标所在位置
         let length = quill.getSelection().index;
         // 插入图片  res.url为服务器返回的图片地址
@@ -212,9 +206,11 @@ export default {
   content: "保存";
   padding-right: 0px;
 }
+
 .ql-snow .ql-tooltip[data-mode="video"]::before {
   content: "请输入视频地址:";
 }
+
 .ql-snow .ql-picker.ql-size .ql-picker-label::before,
 .ql-snow .ql-picker.ql-size .ql-picker-item::before {
   content: "14px";
@@ -231,6 +227,7 @@ export default {
 .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="huge"]::before {
   content: "32px";
 }
+
 .ql-snow .ql-picker.ql-header .ql-picker-label::before,
 .ql-snow .ql-picker.ql-header .ql-picker-item::before {
   content: "文本";
@@ -259,6 +256,7 @@ export default {
 .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="6"]::before {
   content: "标题6";
 }
+
 .ql-snow .ql-picker.ql-font .ql-picker-label::before,
 .ql-snow .ql-picker.ql-font .ql-picker-item::before {
   content: "标准字体";

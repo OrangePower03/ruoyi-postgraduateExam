@@ -9,7 +9,7 @@ import static com.google.code.kaptcha.Constants.*;
 
 /**
  * 验证码配置
- *
+ * 
  * @author ruoyi
  */
 @Configuration
@@ -51,13 +51,9 @@ public class CaptchaConfig
         // 是否有边框 默认为true 我们可以自己设置yes，no
         properties.setProperty(KAPTCHA_BORDER, "yes");
         // 边框颜色 默认为Color.BLACK
-        properties.setProperty(KAPTCHA_BORDER_COLOR, "220,220,220");
-        //背景颜色渐变，起始颜色
-        properties.setProperty(KAPTCHA_BACKGROUND_CLR_FROM, "248,248,255");
-        //背景颜色渐变，结束颜色
-        properties.setProperty(KAPTCHA_BACKGROUND_CLR_TO, "248,248,255");
+        properties.setProperty(KAPTCHA_BORDER_COLOR, "105,179,90");
         // 验证码文本字符颜色 默认为Color.BLACK
-        properties.setProperty(KAPTCHA_TEXTPRODUCER_FONT_COLOR, "black");
+        properties.setProperty(KAPTCHA_TEXTPRODUCER_FONT_COLOR, "blue");
         // 验证码图片宽度 默认为200
         properties.setProperty(KAPTCHA_IMAGE_WIDTH, "160");
         // 验证码图片高度 默认为50
@@ -79,7 +75,7 @@ public class CaptchaConfig
         // 干扰实现类
         properties.setProperty(KAPTCHA_NOISE_IMPL, "com.google.code.kaptcha.impl.NoNoise");
         // 图片样式 水纹com.google.code.kaptcha.impl.WaterRipple 鱼眼com.google.code.kaptcha.impl.FishEyeGimpy 阴影com.google.code.kaptcha.impl.ShadowGimpy
-        properties.setProperty(KAPTCHA_OBSCURIFICATOR_IMPL, "com.google.code.kaptcha.impl.WaterRipple");
+        properties.setProperty(KAPTCHA_OBSCURIFICATOR_IMPL, "com.google.code.kaptcha.impl.ShadowGimpy");
         Config config = new Config(properties);
         defaultKaptcha.setConfig(config);
         return defaultKaptcha;

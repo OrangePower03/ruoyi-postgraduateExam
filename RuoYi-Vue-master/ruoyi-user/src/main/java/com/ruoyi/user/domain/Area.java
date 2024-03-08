@@ -6,10 +6,10 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 地区对象 wx_area
+ * 【请填写功能名称】对象 wx_area
  *
- * @author wx
- * @date 2024-01-18
+ * @author ruoyi
+ * @date 2023-03-26
  */
 public class Area extends BaseEntity
 {
@@ -22,8 +22,8 @@ public class Area extends BaseEntity
     @Excel(name = "地区名称")
     private String areaName;
 
-    /** 地区类型 */
-    @Excel(name = "地区类型")
+    /** 判断该地区是一区还是二区 */
+    @Excel(name = "地区类型", readConverterExp = "1=A区,2=B区")
     private Long areaType;
 
     public void setAreaId(Long areaId)

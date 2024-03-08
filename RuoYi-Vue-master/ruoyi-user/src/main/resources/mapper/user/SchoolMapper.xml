@@ -8,7 +8,6 @@
         <result property="schoolId"    column="school_id"    />
         <result property="schoolName"    column="school_name"    />
         <result property="schoolArea"    column="school_area"    />
-        <result property="areaType"    column="area_type"    />
         <result property="areaName"    column="area_name"    />
         <result property="schoolType"    column="school_type"    />
         <result property="schoolLevels"    column="school_levels"    />
@@ -25,19 +24,13 @@
         select school_id, school_name, school_area, school_type, school_levels,school_website,school_recruit from wx_school
     </sql>
 
-    <sql id="selectWxSchoolVo2">
-        select ws.school_id, ws.school_name, ws.school_area, ws.school_type, ws.school_levels,ws.school_website,ws.school_recruit,wa.area_name,wa.area_type from wx_school as ws left join wx_area as wa on ws.school_area=wa.area_id
-    </sql>
-
     <select id="selectWxSchoolList" parameterType="School" resultMap="SchoolResult">
-        <include refid="selectWxSchoolVo2"/>
+        select ws.school_id, ws.school_name, ws.school_area, ws.school_type, ws.school_levels,ws.school_website,ws.school_recruit,wa.area_name from wx_school as ws left join wx_area as wa on ws.school_area=wa.area_id
         <where>
-            <if test="schoolId != null "> and ws.school_id = #{schoolId}</if>
             <if test="schoolName != null and schoolName != ''"> and ws.school_name like concat('%', #{schoolName}, '%')</if>
             <if test="schoolArea != null "> and ws.school_area = #{schoolArea}</if>
             <if test="schoolType != null "> and ws.school_type = #{schoolType}</if>
             <if test="schoolLevels != null "> and ws.school_levels = #{schoolLevels}</if>
-            <if test="areaName != null "> and wa.area_name = #{areaName}</if>
         </where>
     </select>
 
@@ -45,26 +38,8 @@
         select school_id, school_name from wx_school
     </select>
 
-    <select id="findAreaTypeBySchoolName" resultType="java.lang.Integer">
-        select area_type from wx_area where area_id in (
-            select school_area from wx_school where school_name=#{schoolName}
-        )
-    </select>
-
-    <select id="selectQSBySchoolName" resultType="java.lang.Float">
-        select QS from wx_school where school_name=#{schoolName}
-    </select>
-
-    <select id="selectRKBySchoolName" resultType="java.lang.Float">
-        select RK from wx_school where school_name=#{schoolName}
-    </select>
-
-    <select id="selectAreaIdBySchoolName" resultType="java.lang.Integer">
-        select school_area from wx_school where school_name=#{schoolName}
-    </select>
-
     <select id="selectWxSchoolBySchoolId" parameterType="Long" resultMap="SchoolResult">
-        <include refid="selectWxSchoolVo2"/>
+        <include refid="selectWxSchoolVo"/>
         where school_id = #{schoolId}
     </select>
 

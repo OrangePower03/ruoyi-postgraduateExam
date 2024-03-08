@@ -30,9 +30,9 @@
         </el-select>
       </el-form-item>
       <el-form-item label="所在学院" prop="majorDepartmentId">
-        <el-select v-model="queryParams.majorDepartmentName" placeholder="请选择专业所在学院" filterable clearable :style="{width: '100%'}" value-key="departmentId" @keyup.enter.native="handleQuery">
-          <el-option v-for="item in DepartmentList" :key="item.departmentId" :label="item.departmentName"
-                     :value="item.departmentName"></el-option>
+        <el-select v-model="queryParams.majorDepartmentName" placeholder="请输入专业所在学院" filterable clearable :style="{width: '100%'}" value-key="departmentId" @change="departmentChange($event)" @keyup.enter.native="handleQuery">
+          <el-option v-for="item in DepartmentList" :key="item.departmentId" :label="item.schoolName+' '+item.departmentName"
+                     :value="item" :disabled="item.disabled"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="专业类型" prop="majorType">
@@ -101,8 +101,8 @@
       <el-table-column label="专业所在学校" align="center" prop="majorSchoolName" />
       <el-table-column label="专业类型" align="center" prop="majorType" >
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.majorType===1">学硕</el-tag>
-          <el-tag v-else>专硕</el-tag>
+          <el-tag v-if="scope.row.majorType===1">专硕</el-tag>
+          <el-tag v-else>学硕</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -136,26 +136,15 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="专业" prop="majorId">
-          <el-cascader v-model="form.majorId" :options="majorCascade" @change="majorChange" filterable clearable :style="{width: '100%'}"></el-cascader>
+          <el-select v-model="form.majorId" placeholder="请输入该专业的类型" filterable clearable :style="{width: '100%'}">
+            <el-option v-for="(item, index) in sMajorList" :key="index" :label="item.majorCode+' '+item.majorName"
+                       :value="item.majorId" :disabled="item.disabled"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="所在学院" prop="departmentId">
-          <el-select
-            v-model="form.departmentId"
-            filterable
-            remote
-            reserve-keyword
-            placeholder="请选择所在学院"
-            :style="{width: '100%'}"
-            :remote-method="remoteMethod"
-            :loading="loading">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-              :disabled="item.disabled"
-            >
-            </el-option>
+          <el-select v-model="form.departmentId" placeholder="请输入专业所在院" filterable clearable :style="{width: '100%'}">
+            <el-option v-for="(item, index) in DepartmentList" :key="index" :label="item.schoolName+' '+item.departmentName"
+                       :value="item.departmentId" :disabled="item.disabled"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -201,7 +190,7 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 查询专业表格数据
+      // 【请填写功能名称】表格数据
       majorList: [],
       // 弹出层标题
       title: "",
@@ -220,11 +209,7 @@ export default {
         majorType: null
       },
       // 表单参数
-      form: {
-        connectId:null,
-        majorId: null,
-        departmentId: null,
-      },
+      form: {},
       // 表单校验
       rules: {
         majorId: [
@@ -237,54 +222,18 @@ export default {
       DepartmentList:[],
       sMajorList:[],
       schoolList:[],
-      majorTypeList:[{ name:"学硕",value:1},{name:"专硕",value:2}],
-      type:0,
-      majorCascade:[{
-        value:"专硕",
-        label:"专硕",
-        children:[]
-      },{
-        value:"学硕",
-        label:"学硕",
-        children:[]
-      }],
-      schoolCascade:[],
-      testList:[],
-      options: [],
-      value:null
+      majorTypeList:[{ name:"专硕",value:1},{name:"学硕",value:2}],
+      type:0
     };
   },
   created() {
-    listDepartment().then(response => {
-      this.testList = response.rows.map(item => {
-        return { value: item.departmentId, label: item.schoolName+' '+item.departmentName };
-      });
-    });
     this.getList();
+    this.getDepartmentList();
     this.getSList();
     this.getSchool()
   },
   methods: {
-    remoteMethod(query){
-      if (query !== '') {
-        this.loading = true;
-        let i=0;
-        this.options = this.testList.filter(item => {
-          if (i>999)
-            return false
-          if (item.label.toLowerCase().indexOf(query.toLowerCase()) > -1){
-            i++;
-            return true;
-          }
-          return false
-        });
-        if(i===1000)
-          this.options.push({value:0,label:"数据加载上限为一千条，请输入更详细的信息吧！",disabled: true})
-        this.loading = false;
-      } else
-        this.options = [];
-    },
-    /** 查询专业列表 */
+    /** 查询【请填写功能名称】列表 */
     getList() {
       this.loading = true;
       listMajor(this.queryParams).then(response => {
@@ -297,25 +246,15 @@ export default {
       this.loading = true;
       listsMajor().then(response => {
         this.sMajorList = response.rows;
-        for (let i=0;i<this.sMajorList.length;i++){
-          if(this.sMajorList[i].majorType===1)
-            this.majorCascade[0].children.push({
-              value: this.sMajorList[i].majorId,
-              label: this.sMajorList[i].majorCode+' '+this.sMajorList[i].majorName
-            })
-          else
-            this.majorCascade[1].children.push({
-              value: this.sMajorList[i].majorId,
-              label: this.sMajorList[i].majorCode+' '+this.sMajorList[i].majorName
-            })
-        }
+        console.log(response.rows)
         this.loading = false;
       });
     },
-    getDepartmentList(name) {
+    getDepartmentList() {
       this.loading = true;
-      listDepartment({schoolName:name}).then(response => {
+      listDepartment().then(response => {
         this.DepartmentList = response.rows;
+        console.log(this.DepartmentList)
         this.loading = false;
       });
     },
@@ -323,25 +262,15 @@ export default {
       this.loading = true;
       listSchool().then(response => {
         this.schoolList = response.rows;
-        for (let i=0;i<this.schoolList.length;i++){
-          this.schoolCascade.push({
-            value:this.schoolList[i].schoolName,
-            label:this.schoolList[i].schoolName,
-            children:[]
-          })
-        }
         this.loading = false;
       });
     },
-    schoolChange(event){
-      this.queryParams.majorDepartmentName=null
-      if(event==='')
-        this.DepartmentList=null
-      else
-        this.getDepartmentList(event)
+    departmentChange(value){
+      this.queryParams.majorDepartmentName=value.departmentName
+      this.queryParams.majorSchoolName=value.schoolName
     },
-    majorChange(){
-      this.form.majorId=this.form.majorId[1]
+    schoolChange(){
+      this.queryParams.majorDepartmentName=null
     },
     // 取消按钮
     cancel() {
@@ -352,7 +281,9 @@ export default {
     reset() {
       this.form = {
         majorId: null,
-        departmentId: null,
+        majorName: null,
+        majorDepartmentId: null,
+        majorType: null,
         connectId:null,
       };
       this.resetForm("form");
@@ -386,14 +317,10 @@ export default {
       const connectId = row.connectId || this.ids
       getConnect(connectId).then(response => {
         this.form = response.data;
-        this.options = this.testList.filter(item => {
-          return item.value===this.form.departmentId;
-        });
         this.open = true;
         this.title = "修改院校专业";
         this.type=1
       });
-
     },
     /** 提交按钮 */
     submitForm() {
