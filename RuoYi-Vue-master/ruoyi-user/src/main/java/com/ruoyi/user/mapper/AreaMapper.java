@@ -57,7 +57,5 @@ public interface AreaMapper
      * @param areaIds 需要删除的数据主键集合
      * @return 结果
      */
-    int deleteWxAreaByAreaIds(Long[] areaIds);
-
-    int selectAreaIdByAreaName(String area);
+    public int deleteWxAreaByAreaIds(Long[] areaIds);
 }
