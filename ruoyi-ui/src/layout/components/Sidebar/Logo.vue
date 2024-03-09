@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: '研途易航',
+      title: process.env.VUE_APP_TITLE,
       logo: logoImg
     }
   }

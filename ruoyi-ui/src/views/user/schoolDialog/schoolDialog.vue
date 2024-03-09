@@ -35,11 +35,51 @@
         </div>
       </el-tab-pane>
 
-      <el-tab-pane label="招生专业" name="second">
+      <el-tab-pane label="招生信息" name="second">
         <div class="scorePane">
-          <div>
-          <el-form :model="schoolMajorForm" ref="queryForm" size="small" :inline="true" label-width="68px">
+          <div style="width: 100%;height: 720px;display: flex;justify-content: space-around">
+            <info-list ref="infoList"></info-list>
+            <info-list ref="infoList2"></info-list>
+          </div>
 
+
+<!--          <div style="display: flex;justify-content:space-around; height:100%;">-->
+<!--            <div style="width:48%;height:100%;display: flex;flex-direction: column;align-items: center">-->
+<!--              <div style="width: 100%;padding:10px;overflow: auto;box-shadow: 0 0 5px gainsboro;border: 1px solid gainsboro;height: 94%;border-radius: 15px;display: flex;flex-direction: column;align-items: center;">-->
+<!--                <div style="width: 100%;height: 500px;overflow: auto;">-->
+<!--                  <el-table v-loading="loading" :data="noticeList">-->
+<!--                    <el-table-column label="招生公告" align="center" prop="infoTitle" >-->
+<!--                      <template slot-scope="scope">-->
+<!--                        <el-link :href="scope.row.infoLink" type="primary" target="_blank">{{ scope.row.infoTitle }}</el-link>-->
+<!--                      </template>-->
+<!--                    </el-table-column>-->
+<!--                    <el-table-column label="时间" align="center" prop="infoDate" />-->
+<!--                  </el-table>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div style="width:48%;display: flex;flex-direction: column;align-items: center">-->
+<!--              <div style="width: 100%;padding:10px;overflow: auto;box-shadow: 0 0 5px gainsboro;border: 1px solid gainsboro;height: 94%;border-radius: 15px;display: flex;flex-direction: column;align-items: center;">-->
+<!--                <div style="width: 100%;height: 500px;overflow: auto;">-->
+<!--                  <el-table v-loading="loading" :data="rulesList">-->
+<!--                    <el-table-column label="招生简章" align="center" prop="infoTitle" >-->
+<!--                      <template slot-scope="scope">-->
+<!--                        <el-link :href="scope.row.infoLink" type="primary" target="_blank">{{ scope.row.infoLink }}</el-link>-->
+<!--                      </template>-->
+<!--                    </el-table-column>-->
+<!--                    <el-table-column label="时间" align="center" prop="infoDate" />-->
+<!--                  </el-table>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+        </div>
+      </el-tab-pane>
+
+      <el-tab-pane label="招生专业" name="third">
+        <div class="scorePane">
+          <el-form :model="schoolMajorForm" ref="queryForm" size="small" :inline="true" label-width="68px">
             <el-form-item label="专业" prop="majorId">
               <el-select v-model="schoolMajorForm.majorId" placeholder="请选择专业" clearable filterable :style="{width: '100%'}" @keyup.enter.native="handleQuery">
                 <el-option v-for="(item, index) in elMajorList" :key="index" :label="item.label"
@@ -64,29 +104,31 @@
             </el-form-item>
           </el-form>
 
-          <el-table v-loading="loading" :data="majorList">
-            <el-table-column label="专业代码" align="center" prop="majorCode" />
-            <el-table-column label="专业名称" align="center" prop="majorName" />
-            <el-table-column label="专业类型" align="center" prop="majorType" >
-              <template slot-scope="scope">
-                <el-tag v-if="scope.row.majorType===1">学硕</el-tag>
-                <el-tag v-else>专硕</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column label="所在学院" align="center" prop="majorDepartmentName" />
-          </el-table>
-            <pagination
-              v-show="total>0"
-              :total="total"
-              :page.sync="schoolMajorForm.pageNum"
-              :limit.sync="schoolMajorForm.pageSize"
-              @pagination="getMajorList"
-            />
+          <div style="height: 570px;overflow: auto">
+            <el-table v-loading="loading" :data="majorList">
+              <el-table-column label="专业代码" align="center" prop="majorCode" />
+              <el-table-column label="专业名称" align="center" prop="majorName" />
+              <el-table-column label="专业类型" align="center" prop="majorType" >
+                <template slot-scope="scope">
+                  <el-tag v-if="scope.row.majorType===1">学硕</el-tag>
+                  <el-tag v-else>专硕</el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column label="所在学院" align="center" prop="majorDepartmentName" />
+            </el-table>
           </div>
+
+          <pagination
+            v-show="total>0"
+            :total="total"
+            :page.sync="schoolMajorForm.pageNum"
+            :limit.sync="schoolMajorForm.pageSize"
+            @pagination="getMajorList"
+          />
         </div>
       </el-tab-pane>
 
-      <el-tab-pane label="复试分数线" name="third">
+      <el-tab-pane label="复试分数线" name="fourth">
         <div class="scorePane">
           <div class="scoreTable">
             <el-form :model="schoolMajorForm" ref="queryForm" size="small" :inline="true" label-width="68px">
@@ -164,7 +206,7 @@
                   <el-table-column label="专业二" align="center" prop="scoreMajor" />
                 </el-table>
               </el-card>
-              <el-card style=" height: 200px; border-radius: 15px;margin-top: 10px">
+              <el-card style="height: 200px; border-radius: 15px;margin-top: 10px">
                 <el-table v-loading="elLoading" :data="currentRetestLine">
                   <el-table-column label="考研年份" align="center" prop="scoreYear" />
                   <el-table-column label="复试线" align="center" prop="scoreAll" />
@@ -187,9 +229,11 @@ import { getSchool } from '@/api/wx/school'
 import { listDepartment, listMajor, majorList } from '@/api/wx/major'
 import { listRetest } from '@/api/wx/dscore'
 import { ThreeRetestLine } from '@/api/wx/score'
+import InfoList from '@/views/user/infoList/infoList.vue'
 
 export default {
   name: 'schoolDialog',
+  components: { InfoList },
   data(){
     return{
       title: "未知大学",
@@ -220,7 +264,22 @@ export default {
         majorDepartmentId:null,
         majorId:null
       },
+      noticeQueryParams:{
+        pageNum: 1,
+        pageSize: 10,
+        total:0,
+        infoType:1,
+        schoolId: null
+      },
+      rulesQueryParams:{
+        pageNum: 1,
+        pageSize: 10,
+        total:0,
+        infoType:2,
+        schoolId: null
+      },
       total:0,
+      total2:0,
       option : {
         title: {
           text: ''
@@ -291,10 +350,12 @@ export default {
       this.option.series[1].data=[]
       this.getMajorList()
     },
-    recommend(){
+    recommend (){
       this.$on('recommend', item => {
         this.schoolMajorForm.schoolId=item.schoolId
-        this.activeName = 'third'
+        this.noticeQueryParams.schoolId=item.schoolId
+        this.rulesQueryParams.schoolId=item.schoolId
+        this.activeName = 'fourth'
         this.getSchoolInfo(item.schoolId)
         this.getAllDepartmentList(item.schoolId)
         this.schoolMajorForm.majorId=item.majorId
@@ -312,6 +373,8 @@ export default {
     changeDialogShow(){
       this.$on('schoolDialogShow', id => {
         this.schoolMajorForm.schoolId=id
+        this.noticeQueryParams.schoolId=id
+        this.rulesQueryParams.schoolId=id
         this.activeName = 'first'
         this.getSchoolInfo(id)
         this.getAllDepartmentList(id)
@@ -347,14 +410,17 @@ export default {
     getMajorList(){
       this.loading = true;
       listMajor(this.schoolMajorForm).then(response => {
-        this.majorList = response.rows;
-        console.log(this.majorList)
-        this.total = response.total;
         this.loading = false;
+        this.majorList = response.rows;
+        this.total = response.total;
       });
     },
-    handleClick() {
+    handleClick(event) {
       this.resetQuery()
+      if(event.index==='1'){
+        this.$refs.infoList.$emit('setInfoType',{schoolId:this.schoolMajorForm.schoolId,infoType:1})
+        this.$refs.infoList2.$emit('setInfoType',{schoolId:this.schoolMajorForm.schoolId,infoType:2})
+      }
     },
     setScoreCharts(row){
       this.chartTitle=row.majorCode+' '+row.majorName

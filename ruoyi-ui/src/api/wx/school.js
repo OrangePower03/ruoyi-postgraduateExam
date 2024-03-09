@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询【请填写功能名称】列表
+// 查询学校列表
 export function listSchool(query) {
   return request({
     url: '/user/school/list',
@@ -9,7 +9,7 @@ export function listSchool(query) {
   })
 }
 
-// 查询【请填写功能名称】详细
+// 查询学校详细
 export function getSchool(schoolId) {
   return request({
     url: '/user/school/' + schoolId,
@@ -17,7 +17,7 @@ export function getSchool(schoolId) {
   })
 }
 
-// 新增【请填写功能名称】
+// 新增学校
 export function addSchool(data) {
   return request({
     url: '/user/school',
@@ -26,7 +26,7 @@ export function addSchool(data) {
   })
 }
 
-// 修改【请填写功能名称】
+// 修改学校
 export function updateSchool(data) {
   return request({
     url: '/user/school',
@@ -35,7 +35,7 @@ export function updateSchool(data) {
   })
 }
 
-// 删除【请填写功能名称】
+// 删除学校
 export function delSchool(schoolId) {
   return request({
     url: '/user/school/' + schoolId,

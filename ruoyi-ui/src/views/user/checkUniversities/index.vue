@@ -61,6 +61,7 @@
             <el-tag v-else-if="scope.row.schoolLevels===2">211，双一流</el-tag>
             <el-tag v-else-if="scope.row.schoolLevels===3">双一流</el-tag>
             <el-tag v-else-if="scope.row.schoolLevels===4">普通院校</el-tag>
+            <el-tag v-else-if="scope.row.schoolLevels===5">科研院所</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="自划线" align="center" prop="schoolType" >

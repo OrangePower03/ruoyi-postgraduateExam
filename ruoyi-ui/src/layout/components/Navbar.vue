@@ -1,30 +1,36 @@
 <template>
   <div class="navbar">
-    <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
-    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" v-if="!topNav"/>
-    <top-nav id="topmenu-container" class="topmenu-container" v-if="topNav"/>
-
+    <div style="display: flex">
+      <div class="sidebar-logo" >
+        <span>考研信息网</span>
+      </div>
+      <breadcrumb id="breadcrumb-container" class="breadcrumb-container" v-if="!topNav"/>
+      <top-nav id="topmenu-container" class="topmenu-container" v-if="topNav"/>
+    </div>
     <div class="right-menu">
+<!--      <template v-if="device!=='mobile'">-->
+<!--        <search id="header-search" class="right-menu-item" />-->
+
+<!--        <el-tooltip content="源码地址" effect="dark" placement="bottom">-->
+<!--          <ruo-yi-git id="ruoyi-git" class="right-menu-item hover-effect" />-->
+<!--        </el-tooltip>-->
+
+<!--        <el-tooltip content="文档地址" effect="dark" placement="bottom">-->
+<!--          <ruo-yi-doc id="ruoyi-doc" class="right-menu-item hover-effect" />-->
+<!--        </el-tooltip>-->
+
+<!--        <screenfull id="screenfull" class="right-menu-item hover-effect" />-->
+
+<!--        <el-tooltip content="布局大小" effect="dark" placement="bottom">-->
+<!--          <size-select id="size-select" class="right-menu-item hover-effect" />-->
+<!--        </el-tooltip>-->
+
+<!--      </template>-->
       <template v-if="device!=='mobile'">
         <search id="header-search" class="right-menu-item" />
-
-<!--        <el-tooltip content="源码地址" effect="dark" placement="bottom">
-          <ruo-yi-git id="ruoyi-git" class="right-menu-item hover-effect" />
-        </el-tooltip>
-
-        <el-tooltip content="文档地址" effect="dark" placement="bottom">
-          <ruo-yi-doc id="ruoyi-doc" class="right-menu-item hover-effect" />
-        </el-tooltip>-->
-
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
-
-        <el-tooltip content="布局大小" effect="dark" placement="bottom">
-          <size-select id="size-select" class="right-menu-item hover-effect" />
-        </el-tooltip>
-
       </template>
-
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
           <img :src="avatar" class="user-avatar">
@@ -117,7 +123,19 @@ export default {
   position: relative;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .sidebar-logo{
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+    margin-left: 30px;
+    height: 50px;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: "华文行楷", cursive;
+  }
   .hamburger-container {
     line-height: 46px;
     height: 100%;

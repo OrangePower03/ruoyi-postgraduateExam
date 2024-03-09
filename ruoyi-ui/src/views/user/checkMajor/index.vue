@@ -43,6 +43,7 @@
 import MajorDialog from '@/views/user/majorDialog/majorDialog.vue'
 import majorDialog from '@/views/user/majorDialog/majorDialog.vue'
 import { listSMajor } from '@/api/wx/major'
+import { listAllField, listField } from '@/api/wx/field'
 
 export default {
   components: { MajorDialog },
@@ -62,10 +63,59 @@ export default {
         children: [{
           value: '01',
           label: '01哲学',
-          children: [{
-            value: '0151',
-            label: '0151应用理论',
-          }]
+          children: []
+        },{
+          value: '02',
+          label: '02经济学',
+          children: []
+        },{
+          value: '03',
+          label: '03法学',
+          children: []
+        },{
+          value: '04',
+          label: '04教育学',
+          children: []
+        },{
+          value: '05',
+          label: '05文学',
+          children: []
+        },{
+          value: '06',
+          label: '06历史学',
+          children: []
+        },{
+          value: '07',
+          label: '07理学',
+          children: []
+        },{
+          value: '08',
+          label: '08工学',
+          children: []
+        },{
+          value: '09',
+          label: '09农学',
+          children: []
+        },{
+          value: '10',
+          label: '10医学',
+          children: []
+        },{
+          value: '11',
+          label: '11军事学',
+          children: []
+        },{
+          value: '12',
+          label: '12管理学',
+          children: []
+        },{
+          value: '13',
+          label: '13艺术学',
+          children: []
+        },{
+          value: '14',
+          label: '14交叉学科',
+          children: []
         }]
       },{
         value: '2',
@@ -73,31 +123,89 @@ export default {
         children: [{
           value: '01',
           label: '01哲学',
-          children: [{
-            value: '0101',
-            label: '0101哲学'
-          }]
+          children: []
         },{
           value: '02',
           label: '02经济学',
-          children: [{
-            value: '0201',
-            label: '0201理论经济学',
-          },{
-            value: '0202',
-            label: '0202应用经济学',
-          },{
-            value: '0270',
-            label: '0270统计学',
-          },{
-            value: '0271',
-            label: '0271区域国别学',
-          }]
+          children: []
+        },{
+          value: '03',
+          label: '03法学',
+          children: []
+        },{
+          value: '04',
+          label: '04教育学',
+          children: []
+        },{
+          value: '05',
+          label: '05文学',
+          children: []
+        },{
+          value: '06',
+          label: '06历史学',
+          children: []
+        },{
+          value: '07',
+          label: '07理学',
+          children: []
+        },{
+          value: '08',
+          label: '08工学',
+          children: []
+        },{
+          value: '09',
+          label: '09农学',
+          children: []
+        },{
+          value: '10',
+          label: '10医学',
+          children: []
+        },{
+          value: '11',
+          label: '11军事学',
+          children: []
+        },{
+          value: '12',
+          label: '12管理学',
+          children: []
+        },{
+          value: '13',
+          label: '13艺术学',
+          children: []
+        },{
+          value: '14',
+          label: '14交叉学科',
+          children: []
         }]
       }]
     };
   },
+  created() {
+    this.setField()
+  },
   methods:{
+    setField(){
+      this.loading = true;
+      listAllField().then(response => {
+        for(let i=0;i<2;i++){
+          for(let j=0;j<14;j++){
+            let items=response.rows.filter(item=>{
+              return item.parentId===j+1&&item.majorType===i+1
+            })
+
+            for(let z=0;z<items.length;z++){
+              this.options[i].children[j].children.push({
+                value:items[z].fieldCode,
+                label:items[z].fieldCode+items[z].fieldName
+              })
+            }
+            console.log(this.options[i].children[j].children)
+          }
+        }
+
+        this.loading = false;
+      });
+    },
     majorDialogChange(row){
       this.$refs.majorDialog.$emit('majorDialogShow', row)
     },
@@ -118,7 +226,6 @@ export default {
 </script>
 
 <style>
-
   .cascader{
     margin-right: 12px;
   }
@@ -128,10 +235,10 @@ export default {
   }
   .el-cascader-panel {
     height: 725px;
-    width: 542px;
+    width: 543px;
     border-radius: 15px;
   }
   .el-scrollbar__wrap{
-    overflow: hidden
+    overflow: initial !important
   }
 </style>
