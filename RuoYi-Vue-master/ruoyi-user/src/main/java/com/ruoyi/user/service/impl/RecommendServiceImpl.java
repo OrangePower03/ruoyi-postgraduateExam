@@ -11,7 +11,6 @@ import com.ruoyi.user.domain.DScore;
 import com.ruoyi.user.domain.Score;
 import com.ruoyi.user.domain.UserScoreInfo;
 import com.ruoyi.user.domain.common.ScoreCommon;
-import com.ruoyi.user.domain.common.ScoreWithSchoolName;
 import com.ruoyi.user.domain.dto.RecommendDto;
 import com.ruoyi.user.domain.vo.RecommendVo;
 import com.ruoyi.user.domain.vo.SchoolWithScoreVo;
@@ -33,6 +32,7 @@ public class RecommendServiceImpl implements RecommendService {
     private final AreaMapper areaMapper;
     private final RedisCache redisCache;
 
+    private static final int TOP_NUMBER=9;
     private static final int FLUCTUATE=10; // 分数浮动大小
     private static final int NEAR_YEAR=3;  // 近三年的分数，以后改这就行了
     public static final int NOW_YEAR=2023; // 从2023年开始算分，一直往前算三年
@@ -66,16 +66,16 @@ public class RecommendServiceImpl implements RecommendService {
 
         List<SchoolWithScoreVo> schools= getAllFloatSchool(recommendDto, isOverA);
         if(StringUtils.isNotEmpty(schools)) {
-            //cqtodo 得到一个空的学校怎么办（
+            return new ArrayList<>();
         }
 
         // 此时的schools是具有往年复试线的平均分和学校名
-        FWV(recommendDto, schools);
-        DV(recommendDto, schools);
-        WV(schools);
+        BWV(recommendDto, schools);
+        DAWV(recommendDto, schools);
+        FWV(schools);
         schools = schools.stream()
                 .sorted()  // 注意要从大到小的取最大的九个数据
-                .limit(9)
+                .limit(TOP_NUMBER)
                 .collect(Collectors.toList());
 
         normalizeAlgorithm(schools);
@@ -83,8 +83,7 @@ public class RecommendServiceImpl implements RecommendService {
         return packaging(schools);
     }
 
-    @Override
-    public void WV(List<SchoolWithScoreVo> schools) {
+    private void FWV(List<SchoolWithScoreVo> schools) {
         schools.forEach(school-> school.setUnhandledPower((float) (0.4 * school.getDv() + 0.6 * school.getFwv())));
     }
 
@@ -92,10 +91,15 @@ public class RecommendServiceImpl implements RecommendService {
      * 校验数据完整性，避免分数输入的不全，现暂无智能推测分数算法
      * 因为用户本身是带有分数的，所以如果不输入分数就会默认使用用户本身的分数
      */
-    @Override
-    public void verify(RecommendDto recommendDto) {
+    private void verify(RecommendDto recommendDto) {
         Long userId = SecurityUtils.getLoginUser().getUser().getUserId();
         UserScoreInfo userScoreInfo = userMapper.selectWxUserScoreInfoByUserId(userId);
+        if(StringUtils.isEmpty(recommendDto.getMajorName())) {
+            if(Objects.isNull(userScoreInfo.getMajorName())){
+                throw new ServiceException("专业不能为空", HttpStatus.BAD_REQUEST);
+            }
+            recommendDto.setMajorName(userScoreInfo.getMajorName());
+        }
         if(StringUtils.isEmpty(recommendDto.getScoreAll())) {
             if(Objects.isNull(userScoreInfo.getScoreAll())) {
                 throw new ServiceException("请输入您的成绩",HttpStatus.BAD_REQUEST);
@@ -131,8 +135,7 @@ public class RecommendServiceImpl implements RecommendService {
     /**
      * 归一化后的学校
      */
-    @Override
-    public void normalizeAlgorithm(List<SchoolWithScoreVo> schools) {
+    private void normalizeAlgorithm(List<SchoolWithScoreVo> schools) {
         float min=101f;
         float max=0f;
         for(SchoolWithScoreVo school : schools) {
@@ -151,15 +154,13 @@ public class RecommendServiceImpl implements RecommendService {
         }
     }
 
-    @Override
-    public void DV(RecommendDto recommendDto, List<SchoolWithScoreVo> schools) {
+    private void DAWV(RecommendDto recommendDto, List<SchoolWithScoreVo> schools) {
         schools.forEach(school ->
                 school.setDv((float) (recommendDto.scoreAll-school.scoreAll))
         );
     }
 
-    @Override
-    public void FWV(RecommendDto recommendDto, List<SchoolWithScoreVo> schools) {
+    private void BWV(RecommendDto recommendDto, List<SchoolWithScoreVo> schools) {
         String area = recommendDto.getArea();
 
         int areaId = StringUtils.isEmpty(area) ? -1 : areaMapper.selectAreaIdByAreaName(area);
@@ -187,8 +188,7 @@ public class RecommendServiceImpl implements RecommendService {
      * 取这个专业下的学校近几年下的复试线平均分在浮动范围内的
      * @return 在浮动范围内的所有学校
      */
-    @Override
-    public List<SchoolWithScoreVo> getAllFloatSchool(RecommendDto recommendDto, boolean isOverA) {
+    private List<SchoolWithScoreVo> getAllFloatSchool(RecommendDto recommendDto, boolean isOverA) {
         Long scoreAll = recommendDto.getScoreAll();
         String majorName = recommendDto.getMajorName();
         int first_year=NOW_YEAR-NEAR_YEAR+1;
@@ -198,20 +198,24 @@ public class RecommendServiceImpl implements RecommendService {
             return new ArrayList<>();
         }
 
-//        // 此时要将所有的学校根据学校名字来独立拉出来
-//        for(Score score : scoreList) {
-//            score.setSchoolName(scoreMapper.getSchoolNameByScoreConnectId(score.getConnectId()));
-//        }
-//
-//
-//
-//        // 将相同学校计算平均分，先排序再计算
-//        Collections.sort(scoreList);
+        // 此时要将所有的学校根据学校名字来独立拉出来
+        for(Score score : scoreList) {
+            score.setSchoolName(scoreMapper.getSchoolNameByScoreConnectId(score.getScoreMajorId()));
+        }
+
+        // 将相同学校计算平均分，先排序再计算
+        Collections.sort(scoreList);
         if(!isOverA) {
             // 没过A线但过了B的，得把A区学校割去
             scoreList.removeIf(score ->
                     schoolMapper.findAreaTypeBySchoolName(score.getSchoolName()) == SystemConstants.AREA_TYPE_A
             );
+        }
+        // 假如学校名没筛出来就剔除了
+        scoreList.removeIf(score -> "".equals(score.getSchoolName()));
+
+        if(scoreList.size() == 0) {
+            return Collections.emptyList();
         }
 
         String schoolName = scoreList.get(0).getSchoolName();
@@ -251,8 +255,7 @@ public class RecommendServiceImpl implements RecommendService {
      * 拿用户的分数判断是否过了国家线
      * @return A: 过A线，B: 过B但未过A，C: 未过线
      */
-    @Override
-    public String compareCountryScore(RecommendDto recommendDto) {
+    private String compareCountryScore(RecommendDto recommendDto) {
         List<DScore> dScores = wxDScoreMapper.selectByMajorName(recommendDto.getMajorName());
         if(dScores.size() == 0) {
             //cqtodo 如果这个专业的国家线并没有加入数据库怎么办
@@ -280,8 +283,7 @@ public class RecommendServiceImpl implements RecommendService {
      * @param areaType 地区的类型，A是1、B是2
      * @return 返回算好的平均分
      */
-    @Override
-    public ScoreCommon getAreaTypeAverageScore(List<DScore> dScores, Long areaType) {
+    private ScoreCommon getAreaTypeAverageScore(List<DScore> dScores, Long areaType) {
         ScoreCommon averageScore=new ScoreCommon();
         List<DScore> areaScore = dScores.stream()
                 .filter(dScore -> areaType.equals(dScore.getAreaType()))
@@ -297,22 +299,17 @@ public class RecommendServiceImpl implements RecommendService {
         return averageScore;
     }
 
-    @Override
-    public boolean doCompareCountryScore(RecommendDto recommendDto, ScoreCommon areaAAverageScore) {
-        if(recommendDto.getScoreAll() >= areaAAverageScore.scoreAll           &&
-                recommendDto.getScorePolitics() >= areaAAverageScore.scorePolitics &&
-                recommendDto.getScoreEnglish() >= areaAAverageScore.scoreEnglish   &&
-                recommendDto.getScoreMath() >= areaAAverageScore.scoreMath         &&
-                recommendDto.getScoreMajor() >= areaAAverageScore.scoreMajor)      {
-            return true;
-        }
-        return false;
+    private boolean doCompareCountryScore(RecommendDto recommendDto, ScoreCommon areaAAverageScore) {
+        return recommendDto.getScoreAll() >= areaAAverageScore.scoreAll &&
+               recommendDto.getScorePolitics() >= areaAAverageScore.scorePolitics &&
+               recommendDto.getScoreEnglish() >= areaAAverageScore.scoreEnglish &&
+               recommendDto.getScoreMath() >= areaAAverageScore.scoreMath &&
+               recommendDto.getScoreMajor() >= areaAAverageScore.scoreMajor;
     }
 
     /**
      * 封装vo发送前端咯
      */
-    @Override
     public List<RecommendVo> packaging(List<SchoolWithScoreVo> schools) {
         return schools.stream()
                 .map(school -> {
@@ -328,7 +325,9 @@ public class RecommendServiceImpl implements RecommendService {
                 .collect(Collectors.toList());
     }
 
-    @Override
+    /**
+     * 压缩数据的算法
+     */
     public void compressAlgorithm(List<SchoolWithScoreVo> schools, boolean areaIsSame) {
         int size = schools.size();
         // 降序排列QS
@@ -347,6 +346,5 @@ public class RecommendServiceImpl implements RecommendService {
                 schools.get(i).setArea((float) (100-i));
             }
         }
-
     }
 }
