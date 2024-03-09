@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.user.mapper.InfoMapper">
+
+    <resultMap type="Info" id="InfoResult">
+        <result property="infoId"    column="info_id"    />
+        <result property="infoTitle"    column="info_title"    />
+        <result property="infoLink"    column="info_link"    />
+        <result property="infoDate"    column="info_date"    />
+        <result property="infoType"    column="info_type"    />
+        <result property="schoolId"    column="school_id"    />
+        <result property="schoolName"    column="school_name"    />
+    </resultMap>
+
+    <sql id="selectInfoVo">
+        select wi.info_id, wi.info_title, wi.info_link, wi.info_date, wi.school_id, wi.info_type ,ws.school_name
+        from wx_info as wi INNER JOIN wx_school as ws on wi.school_id=ws.school_id
+    </sql>
+
+    <select id="selectInfoList" parameterType="Info" resultMap="InfoResult">
+        <include refid="selectInfoVo"/>
+        <where>
+            <if test="infoTitle != null  and infoTitle != ''"> and wi.info_title = #{infoTitle}</if>
+            <if test="infoType != null "> and wi.info_type= #{infoType}</if>
+            <if test="infoDate != null "> and wi.info_date = #{infoDate}</if>
+            <if test="schoolId != null "> and wi.school_id= #{schoolId}</if>
+        </where>
+    </select>
+
+    <select id="selectInfoByInfoId" parameterType="Long" resultMap="InfoResult">
+        <include refid="selectInfoVo"/>
+        where info_id = #{infoId}
+    </select>
+
+    <insert id="insertInfo" parameterType="Info" useGeneratedKeys="true" keyProperty="infoId">
+        insert into wx_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="infoTitle != null and infoTitle != ''">info_title,</if>
+            <if test="infoLink != null and infoLink != ''">info_link,</if>
+            <if test="infoDate != null">info_date,</if>
+            <if test="infoType != null">info_type,</if>
+            <if test="schoolId != null">school_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="infoTitle != null and infoTitle != ''">#{infoTitle},</if>
+            <if test="infoLink != null and infoLink != ''">#{infoLink},</if>
+            <if test="infoDate != null">#{infoDate},</if>
+            <if test="infoType != null">#{infoType},</if>
+            <if test="schoolId != null">#{schoolId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateInfo" parameterType="Info">
+        update wx_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="infoTitle != null and infoTitle != ''">info_title = #{infoTitle},</if>
+            <if test="infoLink != null and infoLink != ''">info_link = #{infoLink},</if>
+            <if test="infoDate != null">info_date = #{infoDate},</if>
+            <if test="infoType != null">info_type = #{infoType},</if>
+            <if test="schoolId != null">school_id = #{schoolId},</if>
+        </trim>
+        where info_id = #{infoId}
+    </update>
+
+    <delete id="deleteInfoByInfoId" parameterType="Long">
+        delete from wx_info where info_id = #{infoId}
+    </delete>
+
+    <delete id="deleteInfoByInfoIds" parameterType="String">
+        delete from wx_info where info_id in
+        <foreach item="infoId" collection="array" open="(" separator="," close=")">
+            #{infoId}
+        </foreach>
+    </delete>
+</mapper>

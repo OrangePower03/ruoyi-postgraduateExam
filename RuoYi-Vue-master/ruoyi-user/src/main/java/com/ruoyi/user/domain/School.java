@@ -1,7 +1,5 @@
 package com.ruoyi.user.domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
@@ -37,6 +35,8 @@ public class School extends BaseEntity
 
     private String schoolWebsite;
     private String schoolRecruit;
+
+    private Long areaType;
 
     public void setSchoolId(Long schoolId)
     {
@@ -109,6 +109,14 @@ public class School extends BaseEntity
         return schoolRecruit;
     }
 
+    public void setAreaType(Long areaType) {
+        this.areaType = areaType;
+    }
+
+    public Long getAreaType() {
+        return areaType;
+    }
+
     @Override
     public String toString() {
         return "School{" +
@@ -118,8 +126,9 @@ public class School extends BaseEntity
                 ", areaName='" + areaName + '\'' +
                 ", schoolType=" + schoolType +
                 ", schoolLevels=" + schoolLevels +
-                ", schoolRecruit='" + schoolRecruit + '\'' +
                 ", schoolWebsite='" + schoolWebsite + '\'' +
+                ", schoolRecruit='" + schoolRecruit + '\'' +
+                ", areaType=" + areaType +
                 '}';
     }
 }

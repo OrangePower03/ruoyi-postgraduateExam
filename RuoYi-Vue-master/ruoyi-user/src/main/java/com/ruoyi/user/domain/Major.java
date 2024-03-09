@@ -32,6 +32,8 @@ public class Major extends BaseEntity
     @Excel(name = "院系名称")
     private String majorDepartmentName;
 
+    private Long schoolId;
+
     @Excel(name = "学校名称")
     private String majorSchoolName;
 
@@ -112,6 +114,14 @@ public class Major extends BaseEntity
         return connectId;
     }
 
+    public void setSchoolId(Long schoolId) {
+        this.schoolId = schoolId;
+    }
+
+    public Long getSchoolId() {
+        return schoolId;
+    }
+
     @Override
     public String toString() {
         return "Major{" +
@@ -120,6 +130,7 @@ public class Major extends BaseEntity
                 ", majorName='" + majorName + '\'' +
                 ", majorDepartmentId=" + majorDepartmentId +
                 ", majorDepartmentName='" + majorDepartmentName + '\'' +
+                ", schoolId=" + schoolId +
                 ", majorSchoolName='" + majorSchoolName + '\'' +
                 ", connectId=" + connectId +
                 ", majorType=" + majorType +

@@ -20,8 +20,9 @@
         from wx_department as wd left join wx_school as ws on
         ws.school_id=wd.department_school_id
         <where>
-            <if test="departmentName != null  and departmentName != ''"> and department_name like concat('%', #{departmentName}, '%')</if>
-            <if test="departmentSchoolId != null  and departmentSchoolId != ''"> and department_school_id = #{departmentSchoolId}</if>
+            <if test="departmentName != null  and departmentName != ''"> and wd.department_name like concat('%', #{departmentName}, '%')</if>
+            <if test="departmentSchoolId != null "> and wd.department_school_id = #{departmentSchoolId}</if>
+            <if test="schoolName != null  and schoolName != ''"> and ws.school_name = #{schoolName}</if>
         </where>
     </select>
 

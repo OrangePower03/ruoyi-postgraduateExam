@@ -2,7 +2,7 @@ package com.ruoyi.common.core.domain.model;
 
 /**
  * 用户登录对象
- *
+ * 
  * @author ruoyi
  */
 public class LoginBody
@@ -65,15 +65,5 @@ public class LoginBody
     public void setUuid(String uuid)
     {
         this.uuid = uuid;
-    }
-
-    @Override
-    public String toString() {
-        return "LoginBody{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", code='" + code + '\'' +
-                ", uuid='" + uuid + '\'' +
-                '}';
     }
 }

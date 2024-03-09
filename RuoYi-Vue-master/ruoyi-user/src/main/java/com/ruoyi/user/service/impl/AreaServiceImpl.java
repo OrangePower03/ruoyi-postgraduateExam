@@ -1,95 +1,93 @@
 package com.ruoyi.user.service.impl;
 
 import java.util.List;
-
-import com.ruoyi.framework.web.domain.server.Sys;
-import com.ruoyi.user.domain.Area;
-import com.ruoyi.user.service.IAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.user.mapper.AreaMapper;
+import com.ruoyi.user.domain.Area;
+import com.ruoyi.user.service.IAreaService;
 
 /**
- * 【请填写功能名称】Service业务层处理
+ * 地区Service业务层处理
  *
- * @author ruoyi
- * @date 2023-03-26
+ * @author wx
+ * @date 2024-01-18
  */
 @Service
 public class AreaServiceImpl implements IAreaService
 {
     @Autowired
-    private AreaMapper wxAreaMapper;
+    private AreaMapper areaMapper;
 
     /**
-     * 查询【请填写功能名称】
+     * 查询地区
      *
-     * @param areaId 【请填写功能名称】主键
-     * @return 【请填写功能名称】
+     * @param areaId 地区主键
+     * @return 地区
      */
     @Override
-    public Area selectWxAreaByAreaId(Long areaId)
+    public Area selectAreaByAreaId(Long areaId)
     {
-        return wxAreaMapper.selectWxAreaByAreaId(areaId);
+        return areaMapper.selectAreaByAreaId(areaId);
     }
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询地区列表
      *
-     * @param wxArea 【请填写功能名称】
-     * @return 【请填写功能名称】
+     * @param area 地区
+     * @return 地区
      */
     @Override
-    public List<Area> selectWxAreaList(Area wxArea)
+    public List<Area> selectAreaList(Area area)
     {
-        return wxAreaMapper.selectWxAreaList(wxArea);
+        return areaMapper.selectAreaList(area);
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增地区
      *
-     * @param wxArea 【请填写功能名称】
+     * @param area 地区
      * @return 结果
      */
     @Override
-    public int insertWxArea(Area wxArea)
+    public int insertArea(Area area)
     {
-        return wxAreaMapper.insertWxArea(wxArea);
+        return areaMapper.insertArea(area);
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改地区
      *
-     * @param wxArea 【请填写功能名称】
+     * @param area 地区
      * @return 结果
      */
     @Override
-    public int updateWxArea(Area wxArea)
+    public int updateArea(Area area)
     {
-        return wxAreaMapper.updateWxArea(wxArea);
+        return areaMapper.updateArea(area);
     }
 
     /**
-     * 批量删除【请填写功能名称】
+     * 批量删除地区
      *
-     * @param areaIds 需要删除的【请填写功能名称】主键
+     * @param areaIds 需要删除的地区主键
      * @return 结果
      */
     @Override
-    public int deleteWxAreaByAreaIds(Long[] areaIds)
+    public int deleteAreaByAreaIds(Long[] areaIds)
     {
-        return wxAreaMapper.deleteWxAreaByAreaIds(areaIds);
+        return areaMapper.deleteAreaByAreaIds(areaIds);
     }
 
     /**
-     * 删除【请填写功能名称】信息
+     * 删除地区信息
      *
-     * @param areaId 【请填写功能名称】主键
+     * @param areaId 地区主键
      * @return 结果
      */
     @Override
-    public int deleteWxAreaByAreaId(Long areaId)
+    public int deleteAreaByAreaId(Long areaId)
     {
-        return wxAreaMapper.deleteWxAreaByAreaId(areaId);
+        return areaMapper.deleteAreaByAreaId(areaId);
     }
 }
