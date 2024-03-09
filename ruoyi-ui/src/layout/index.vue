@@ -71,7 +71,7 @@ export default {
     position: relative;
     height: 102%;
     width: 100%;
-    background-image: url('../assets/images/background.jpg');
+    background-image: url('../assets/images/color2.png');
 
     background-repeat: no-repeat;
     background-size: 100% 100%;
