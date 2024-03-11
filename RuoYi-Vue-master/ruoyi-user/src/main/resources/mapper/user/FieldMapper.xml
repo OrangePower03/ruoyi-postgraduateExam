@@ -31,6 +31,10 @@
         where field_id = #{fieldId}
     </select>
 
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(1) from wx_field
+    </select>
+
     <insert id="insertField" parameterType="Field">
         insert into wx_field
         <trim prefix="(" suffix=")" suffixOverrides=",">

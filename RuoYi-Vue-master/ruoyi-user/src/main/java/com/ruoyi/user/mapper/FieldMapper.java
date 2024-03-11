@@ -58,4 +58,6 @@ public interface FieldMapper
      * @return 结果
      */
     public int deleteFieldByFieldIds(Long[] fieldIds);
+
+    int getCount();
 }
