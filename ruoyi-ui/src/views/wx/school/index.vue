@@ -88,9 +88,9 @@
         <template slot-scope="scope">
           <el-tag v-if="scope.row.schoolLevels===1">985，211，双一流</el-tag>
           <el-tag v-else-if="scope.row.schoolLevels===2">211，双一流</el-tag>
-          <el-tag v-else-if="scope.row.schoolLevels===3">双一流</el-tag>
-          <el-tag v-else-if="scope.row.schoolLevels===4">普通院校</el-tag>
-          <el-tag v-else-if="scope.row.schoolLevels===5">科研院所</el-tag>
+<!--          <el-tag v-else-if="scope.row.schoolLevels===3">双一流</el-tag>-->
+          <el-tag v-else-if="scope.row.schoolLevels===4">双一流</el-tag>
+          <el-tag v-else-if="scope.row.schoolLevels===5">普通院校</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="是否为自划线学校" align="center" prop="schoolType" >
@@ -242,14 +242,11 @@ export default {
         "levelId":2,
         "levelName":"211，双一流",
       },{
-        "levelId":3,
+        "levelId":4,
         "levelName":"双一流"
       },{
-        "levelId":4,
-        "levelName":"普通院校"
-      },{
         "levelId":5,
-        "levelName":"科研院所"
+        "levelName":"普通院校"
       }],
       typeOptions:[{
         "typeName":"是",

@@ -9,8 +9,8 @@
             <el-descriptions-item label="学校层次">
               <el-tag v-if="schoolInfo.schoolLevels===1">985，211，双一流</el-tag>
               <el-tag v-else-if="schoolInfo.schoolLevels===2">211，双一流</el-tag>
-              <el-tag v-else-if="schoolInfo.schoolLevels===3">双一流</el-tag>
-              <el-tag v-else-if="schoolInfo.schoolLevels===4">普通高校</el-tag>
+              <el-tag v-else-if="schoolInfo.schoolLevels===4">双一流</el-tag>
+              <el-tag v-else-if="schoolInfo.schoolLevels===5">普通高校</el-tag>
             </el-descriptions-item>
             <el-descriptions-item label="所在地区">
               <el-tag size="small" v-if="schoolInfo.areaType===1">{{ schoolInfo.areaName }}/A区</el-tag>

@@ -73,7 +73,7 @@ public class SchoolController extends BaseController
     /**
      * 获取学校信息详细信息
      */
-    @PreAuthorize("@ss.hasPermi('user:school:query')")
+    @PreAuthorize("@ss.hasPermi('user:school:list')")
     @GetMapping(value = "/{schoolId}")
     public AjaxResult getInfo(@PathVariable("schoolId") Long schoolId)
     {
