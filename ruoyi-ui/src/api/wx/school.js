@@ -12,7 +12,7 @@ export function listSchool(query) {
 // 查询学校详细
 export function getSchool(schoolId) {
   return request({
-    url: '/user/school/' + schoolId,
+      url: '/user/school/' + schoolId,
     method: 'get'
   })
 }

@@ -2,7 +2,9 @@ package com.ruoyi.user.service.impl;
 
 import java.util.List;
 
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.user.domain.AllInfo;
+import com.ruoyi.user.domain.UserScoreInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.user.mapper.ScoreMapper;
@@ -163,5 +165,10 @@ public class ScoreServiceImpl implements IScoreService
         successMsg.append(i);
         successMsg.append("数据,全部插入成功");
         return successMsg.toString();
-    };
+    }
+
+    @Override
+    public UserScoreInfo getScore() {
+        return wxScoreMapper.getUserScore(SecurityUtils.getUserId());
+    }
 }

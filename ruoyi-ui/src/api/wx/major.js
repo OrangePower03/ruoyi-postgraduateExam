@@ -15,6 +15,14 @@ export function majorList(query) {
     params: query
   })
 }
+export function listGetScore(query) {
+  return request({
+    url: '/user/score/user/score',
+    method: 'get',
+    params: query
+  })
+}
+
 
 export function listSMajor(query) {
   return request({
@@ -31,6 +39,7 @@ export function listsMajor(query) {
     params: query
   })
 }
+
 
 // 查询【请填写功能名称】详细
 export function getMajor(majorId) {

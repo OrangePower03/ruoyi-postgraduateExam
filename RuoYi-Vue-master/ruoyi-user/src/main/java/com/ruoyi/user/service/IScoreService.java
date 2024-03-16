@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.ruoyi.user.domain.AllInfo;
 import com.ruoyi.user.domain.Score;
+import com.ruoyi.user.domain.UserScoreInfo;
+import com.ruoyi.user.domain.common.ScoreCommon;
 
 /**
  * 【请填写功能名称】Service接口
@@ -75,4 +77,6 @@ public interface IScoreService
     public List<AllInfo> selectAllInfoList(AllInfo allInfo);
 
     String importData(List<Score> scoreList);
+
+    UserScoreInfo getScore();
 }

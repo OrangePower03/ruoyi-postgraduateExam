@@ -65,7 +65,7 @@ public class RecommendServiceImpl implements RecommendService {
         }
 
         List<SchoolWithScoreVo> schools= getAllFloatSchool(recommendDto, isOverA);
-        if(StringUtils.isNotEmpty(schools)) {
+        if(StringUtils.isEmpty(schools)) {
             return new ArrayList<>();
         }
 
@@ -92,8 +92,11 @@ public class RecommendServiceImpl implements RecommendService {
      * 因为用户本身是带有分数的，所以如果不输入分数就会默认使用用户本身的分数
      */
     private void verify(RecommendDto recommendDto) {
-        Long userId = SecurityUtils.getLoginUser().getUser().getUserId();
+            Long userId = SecurityUtils.getLoginUser().getUser().getUserId();
         UserScoreInfo userScoreInfo = userMapper.selectWxUserScoreInfoByUserId(userId);
+        if(userScoreInfo == null) {
+            userScoreInfo = userMapper.selectWxUserScoreInfoByUserId(1L);
+        }
         if(StringUtils.isEmpty(recommendDto.getMajorName())) {
             if(Objects.isNull(userScoreInfo.getMajorName())){
                 throw new ServiceException("专业不能为空", HttpStatus.BAD_REQUEST);

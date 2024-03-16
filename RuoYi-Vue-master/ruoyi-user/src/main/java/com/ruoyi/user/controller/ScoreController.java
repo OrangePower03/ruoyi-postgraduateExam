@@ -3,6 +3,7 @@ package com.ruoyi.user.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.user.domain.AllInfo;
 import com.ruoyi.user.domain.Score;
 import com.ruoyi.user.domain.dto.RecommendDto;
@@ -71,6 +72,13 @@ public class ScoreController extends BaseController
     {
         List<RecommendVo> list = recommendService.recommend(recommendDto);
         return getDataTable(list);
+    }
+
+    @PreAuthorize("@ss.hasPermi('user:score:list')")
+    @GetMapping("/user/score")
+    public AjaxResult getScore()
+    {
+        return success(wxScoreService.getScore());
     }
 
     /**

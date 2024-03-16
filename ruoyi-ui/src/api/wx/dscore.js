@@ -16,7 +16,13 @@ export function listRetest(query) {
     params: query
   })
 }
-
+// export function listGetScore(query) {
+//   return request({
+//     url: '/user/dscore/retestList',
+//     method: 'get',
+//     params: query
+//   })
+// }
 
 // 查询【请填写功能名称】详细
 export function getDscore(scoreId) {

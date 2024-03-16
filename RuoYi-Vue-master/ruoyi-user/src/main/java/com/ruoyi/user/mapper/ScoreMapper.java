@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.user.domain.AllInfo;
 import com.ruoyi.user.domain.Score;
+import com.ruoyi.user.domain.UserScoreInfo;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -86,4 +87,6 @@ public interface ScoreMapper
                                          @Param("first_year") int first_year);
 
     String getSchoolNameByScoreConnectId(Long connectId);
+
+    UserScoreInfo getUserScore(Long userId);
 }

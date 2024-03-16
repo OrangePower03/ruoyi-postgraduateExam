@@ -110,15 +110,6 @@ export default {
         dataset: {
           source: [
             ['推荐指数', '平均复试线', '大学名称', '大学Id'],
-            // [100.0, 385, '中国科学技术大学',35],
-            // [73.0, 375, '浙江大学',31],
-            // [59.5, 370, '武汉大学',37],
-            // [32.4, 360, '北京大学',30],
-            // [32.4, 360, '清华大学',29],
-            // [24.3, 357, '南京大学',34],
-            // [18.9, 355, '中山大学',40],
-            // [5.4, 350, '山东大学',50],
-            // [0.0, 348, '南开大学',48],
           ]
         },
         grid: { containLabel: true },
@@ -215,6 +206,7 @@ export default {
     this.getArea()
     this.getSList()
     this.getNationalLine()
+    this.getUserScoreInfo()
   },
   methods: {
     algorithm(){
@@ -231,6 +223,24 @@ export default {
             response.rows[i].schoolName,response.rows[i].schoolId])
       });
     },
+    getUserScoreInfo() {
+      listScoreinfo().then(response => {
+        this.majorInfo = response.data;
+        if(this.majorInfo===null)
+        {
+          this.queryParams.majorName="金融"
+        }
+        else{
+          this.queryParams.scoreAll=''+this.majorInfo.scoreAll
+          this.queryParams.scoreEnglish=''+this.majorInfo.scoreEnglish
+          this.queryParams.scorePolitics=''+this.majorInfo.scorePolitics
+          this.queryParams.scoreMath=''+this.majorInfo.scoreMath
+          this.queryParams.scoreMajor=''+this.majorInfo.scoreMajor
+          this.queryParams.majorName=this.majorInfo.majorName
+          this.queryParams.areaName=this.majorInfo.areaName
+        }
+      });
+    },
     getNationalLine() {
       this.elLoading = true;
       listRetest({ majorId: this.nowMajorId,areaType: 1}).then(response => {
@@ -244,6 +254,7 @@ export default {
           this.option2.series[1].data=[response.rows[0].scoreAll,response.rows[1].scoreAll,response.rows[2].scoreAll]
       });
     },
+
     openDrawer(event){
       if (event.data[3]!==undefined)
         this.$refs.homePageSchoolDialog.$emit("recommend",{schoolId:event.data[3],majorId:this.nowMajorId})
@@ -290,6 +301,7 @@ export default {
         if(valid){
           this.algorithm()
           this.getNationalLine()
+
         }
         else
           this.$modal.msgWarning("信息有误！");

@@ -167,6 +167,9 @@
         <include refid="selectWxScoreVo"/>
         where score_id = #{scoreId}
     </select>
+    <select id="getUserScore" resultType="com.ruoyi.user.domain.UserScoreInfo">
+        select score_all, score_english, score_politics, score_math, score_major from wx_user_scoreinfo
+    </select>
 
     <insert id="insertWxScore" parameterType="Score" useGeneratedKeys="true" keyProperty="scoreId">
         insert into wx_score
