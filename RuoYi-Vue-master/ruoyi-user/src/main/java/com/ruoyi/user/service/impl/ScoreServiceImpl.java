@@ -14,7 +14,6 @@ import com.ruoyi.user.service.IScoreService;
 /**
  * 【请填写功能名称】Service业务层处理
  *
- * @author ruoyi
  * @date 2023-04-02
  */
 @Service
@@ -169,6 +168,7 @@ public class ScoreServiceImpl implements IScoreService
 
     @Override
     public UserScoreInfo getScore() {
-        return wxScoreMapper.getUserScore(SecurityUtils.getUserId());
+        UserScoreInfo userScore = wxScoreMapper.getUserScore(SecurityUtils.getUserId());
+        return userScore == null ?  wxScoreMapper.getUserScore(1L) : userScore;
     }
 }

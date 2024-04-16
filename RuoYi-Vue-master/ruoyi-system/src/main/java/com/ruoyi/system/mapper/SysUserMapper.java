@@ -7,7 +7,6 @@ import com.ruoyi.common.core.domain.entity.SysUser;
 /**
  * 用户表 数据层
  * 
- * @author ruoyi
  */
 public interface SysUserMapper
 {

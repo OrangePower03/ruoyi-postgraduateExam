@@ -7,7 +7,6 @@ import com.ruoyi.user.domain.minSchool;
 /**
  * 【请填写功能名称】Mapper接口
  *
- * @author ruoyi
  * @date 2023-03-26
  */
 public interface SchoolMapper

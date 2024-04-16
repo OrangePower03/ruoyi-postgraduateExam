@@ -8,7 +8,6 @@ import com.ruoyi.common.core.domain.BaseEntity;
 /**
  * 【请填写功能名称】对象 wx_feedback
  *
- * @author ruoyi
  * @date 2023-04-25
  */
 public class Feedback extends BaseEntity

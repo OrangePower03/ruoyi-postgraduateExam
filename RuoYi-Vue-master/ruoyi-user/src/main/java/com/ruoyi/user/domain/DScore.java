@@ -8,7 +8,6 @@ import com.ruoyi.common.core.domain.BaseEntity;
 /**
  * 【请填写功能名称】对象 wx_dscore
  *
- * @author ruoyi
  * @date 2023-04-23
  */
 public class DScore extends BaseEntity

@@ -6,7 +6,6 @@ import java.util.List;
 /**
  * 招生信息Mapper接口
  *
- * @author ruoyi
  * @date 2024-02-16
  */
 public interface InfoMapper

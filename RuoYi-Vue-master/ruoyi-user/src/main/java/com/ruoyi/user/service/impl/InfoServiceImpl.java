@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 /**
  * 招生信息Service业务层处理
  *
- * @author ruoyi
  * @date 2024-02-16
  */
 @Service

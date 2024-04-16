@@ -25,7 +25,6 @@ import com.ruoyi.common.core.page.TableDataInfo;
 /**
  * 国家线Controller
  *
- * @author ruoyi
  * @date 2023-04-23
  */
 @RestController

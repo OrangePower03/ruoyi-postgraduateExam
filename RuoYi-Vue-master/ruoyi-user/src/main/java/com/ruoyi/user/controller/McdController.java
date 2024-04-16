@@ -27,7 +27,6 @@ import com.ruoyi.common.core.page.TableDataInfo;
 /**
  * 【请填写功能名称】Controller
  *
- * @author ruoyi
  * @date 2023-04-01
  */
 @RestController

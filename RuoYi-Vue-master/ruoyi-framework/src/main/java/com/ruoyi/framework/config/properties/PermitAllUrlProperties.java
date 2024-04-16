@@ -21,7 +21,6 @@ import com.ruoyi.common.annotation.Anonymous;
 /**
  * 设置Anonymous注解允许匿名访问的url
  * 
- * @author ruoyi
  */
 @Configuration
 public class PermitAllUrlProperties implements InitializingBean, ApplicationContextAware

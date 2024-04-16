@@ -3,7 +3,6 @@ package com.ruoyi.common.enums;
 /**
  * 操作人类别
  * 
- * @author ruoyi
  */
 public enum OperatorType
 {

@@ -23,8 +23,6 @@ import com.ruoyi.system.domain.SysCache;
 
 /**
  * 缓存监控
- * 
- * @author ruoyi
  */
 @RestController
 @RequestMapping("/monitor/cache")

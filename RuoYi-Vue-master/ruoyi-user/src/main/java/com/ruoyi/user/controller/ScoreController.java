@@ -31,7 +31,6 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * 复试线Controller
  *
- * @author ruoyi
  * @date 2023-04-02
  */
 @RestController

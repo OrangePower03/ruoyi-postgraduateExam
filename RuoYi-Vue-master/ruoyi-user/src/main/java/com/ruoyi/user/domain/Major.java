@@ -8,7 +8,6 @@ import com.ruoyi.common.core.domain.BaseEntity;
 /**
  * 【请填写功能名称】对象 wx_major
  *
- * @author ruoyi
  * @date 2023-04-01
  */
 public class Major extends BaseEntity

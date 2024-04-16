@@ -6,7 +6,6 @@ import com.ruoyi.user.domain.Department;
 /**
  * 【请填写功能名称】Service接口
  *
- * @author ruoyi
  * @date 2023-03-29
  */
 public interface IDepartmentService

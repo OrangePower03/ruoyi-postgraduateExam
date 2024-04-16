@@ -8,7 +8,6 @@ import com.ruoyi.common.core.domain.BaseEntity;
 /**
  * 【请填写功能名称】对象 wx_department
  *
- * @author ruoyi
  * @date 2023-03-29
  */
 public class Department extends BaseEntity

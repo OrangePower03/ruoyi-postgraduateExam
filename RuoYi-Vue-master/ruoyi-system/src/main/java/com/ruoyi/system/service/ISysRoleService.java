@@ -8,7 +8,6 @@ import com.ruoyi.system.domain.SysUserRole;
 /**
  * 角色业务层
  * 
- * @author ruoyi
  */
 public interface ISysRoleService
 {

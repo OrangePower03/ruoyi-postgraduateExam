@@ -12,7 +12,6 @@ import com.ruoyi.common.core.domain.BaseEntity;
 /**
  * 岗位表 sys_post
  * 
- * @author ruoyi
  */
 public class SysPost extends BaseEntity
 {

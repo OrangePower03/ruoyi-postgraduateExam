@@ -6,7 +6,6 @@ import com.ruoyi.user.domain.Feedback;
 /**
  * 【请填写功能名称】Service接口
  *
- * @author ruoyi
  * @date 2023-04-25
  */
 public interface IFeedbackService

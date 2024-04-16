@@ -25,7 +25,6 @@ import com.ruoyi.common.utils.StringUtils;
 /**
  * 通用http发送方法
  * 
- * @author ruoyi
  */
 public class HttpUtils
 {

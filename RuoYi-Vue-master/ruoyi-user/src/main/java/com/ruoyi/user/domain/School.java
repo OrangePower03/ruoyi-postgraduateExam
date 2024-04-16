@@ -6,7 +6,6 @@ import com.ruoyi.common.core.domain.BaseEntity;
 /**
  * 【请填写功能名称】对象 wx_school
  *
- * @author ruoyi
  * @date 2023-03-26
  */
 public class School extends BaseEntity

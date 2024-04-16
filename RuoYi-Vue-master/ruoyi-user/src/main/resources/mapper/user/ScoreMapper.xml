@@ -168,7 +168,7 @@
         where score_id = #{scoreId}
     </select>
     <select id="getUserScore" resultType="com.ruoyi.user.domain.UserScoreInfo">
-        select score_all, score_english, score_politics, score_math, score_major from wx_user_scoreinfo
+        select score_all, score_english, score_politics, score_math, score_major,major_name,area_name,major_type from wx_user_scoreinfo
     </select>
 
     <insert id="insertWxScore" parameterType="Score" useGeneratedKeys="true" keyProperty="scoreId">

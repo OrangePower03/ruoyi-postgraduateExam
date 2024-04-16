@@ -6,7 +6,6 @@ import com.ruoyi.user.domain.DScore;
 /**
  * 【请填写功能名称】Mapper接口
  *
- * @author ruoyi
  * @date 2023-04-23
  */
 public interface DScoreMapper

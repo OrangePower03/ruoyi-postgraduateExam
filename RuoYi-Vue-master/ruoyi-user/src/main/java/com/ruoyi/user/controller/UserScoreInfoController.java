@@ -26,7 +26,6 @@ import com.ruoyi.common.core.page.TableDataInfo;
 /**
  * 用户考研信息Controller
  *
- * @author ruoyi
  * @date 2023-04-26
  */
 @RestController

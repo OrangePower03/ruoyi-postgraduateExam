@@ -6,7 +6,6 @@ import com.ruoyi.user.domain.Teacher;
 /**
  * 导师表Service接口
  *
- * @author wx
  * @date 2024-01-20
  */
 public interface ITeacherService

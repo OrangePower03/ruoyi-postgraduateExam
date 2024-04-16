@@ -8,7 +8,6 @@ import com.ruoyi.common.core.domain.BaseEntity;
 /**
  * 招生信息对象 wx_info
  *
- * @author ruoyi
  * @date 2024-02-17
  */
 public class Info extends BaseEntity

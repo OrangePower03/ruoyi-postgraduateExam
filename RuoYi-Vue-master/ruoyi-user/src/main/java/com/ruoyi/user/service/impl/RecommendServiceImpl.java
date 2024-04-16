@@ -39,16 +39,14 @@ public class RecommendServiceImpl implements RecommendService {
     public static final float QS_WEIGHT=0.5f; // QS排名的权重
     public static final float RK_WEIGHT=0.4f; // 软科的权重
     public static final float AREA_WEIGHT=0.1f; // 地区的权重
+    public static final float DAWV_WEIGHT=0.4f; // 地区的权重
+    public static final float BWV_WEIGHT=0.6f; // 地区的权重
 
     /**
      * 推荐算法主体
      */
     @Override
     public List<RecommendVo> recommend(RecommendDto recommendDto) {
-        if(StringUtils.isEmpty(recommendDto.getMajorName())) {
-            throw new ServiceException("专业不能为空", HttpStatus.BAD_REQUEST);
-        }
-
         verify(recommendDto);
 
         // 是否过了A区线
@@ -84,7 +82,7 @@ public class RecommendServiceImpl implements RecommendService {
     }
 
     private void FWV(List<SchoolWithScoreVo> schools) {
-        schools.forEach(school-> school.setUnhandledPower((float) (0.4 * school.getDv() + 0.6 * school.getFwv())));
+        schools.forEach(school-> school.setUnhandledPower((DAWV_WEIGHT * school.getDv() + BWV_WEIGHT * school.getFwv())));
     }
 
     /**
@@ -92,7 +90,7 @@ public class RecommendServiceImpl implements RecommendService {
      * 因为用户本身是带有分数的，所以如果不输入分数就会默认使用用户本身的分数
      */
     private void verify(RecommendDto recommendDto) {
-            Long userId = SecurityUtils.getLoginUser().getUser().getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUser().getUserId();
         UserScoreInfo userScoreInfo = userMapper.selectWxUserScoreInfoByUserId(userId);
         if(userScoreInfo == null) {
             userScoreInfo = userMapper.selectWxUserScoreInfoByUserId(1L);

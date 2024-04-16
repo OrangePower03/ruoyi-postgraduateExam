@@ -19,8 +19,6 @@ import com.ruoyi.system.service.ISysMenuService;
 
 /**
  * 登录验证
- * 
- * @author ruoyi
  */
 @RestController
 public class SysLoginController
