@@ -68,6 +68,17 @@
         where school_id = #{schoolId}
     </select>
 
+    <select id="getSchoolNameById" resultType="java.lang.String">
+        select school_name from wx_school where school_id = #{schoolId}
+    </select>
+
+    <select id="getSchoolNameByIds" resultType="java.lang.String">
+        select school_name from wx_school where school_id in
+        <foreach collection="schoolIds" item="schoolId" open="(" separator="," close=")">
+            #{schoolId}
+        </foreach>
+    </select>
+
     <insert id="insertWxSchool" parameterType="School" useGeneratedKeys="true" keyProperty="schoolId">
         insert into wx_school
         <trim prefix="(" suffix=")" suffixOverrides=",">

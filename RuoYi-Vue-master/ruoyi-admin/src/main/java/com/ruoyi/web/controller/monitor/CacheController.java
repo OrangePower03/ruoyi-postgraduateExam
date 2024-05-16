@@ -56,7 +56,7 @@ public class CacheController
 
         List<Map<String, String>> pieList = new ArrayList<>();
         commandStats.stringPropertyNames().forEach(key -> {
-            Map<String, String> data = new HashMap<>(2);
+            Map<String, String> data = new HashMap<>();
             String property = commandStats.getProperty(key);
             data.put("name", StringUtils.removeStart(key, "cmdstat_"));
             data.put("value", StringUtils.substringBetween(property, "calls=", ",usec"));

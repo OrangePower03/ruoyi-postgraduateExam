@@ -12,7 +12,7 @@
         <result property="scoreEnglish"    column="score_english"    />
         <result property="scorePolitics"    column="score_politics"    />
         <result property="scoreMajor"    column="score_major"    />
-        <result property="scoreMajorId"    column="connect_id"    />
+        <result property="connectId"    column="connect_id"    />
         <result property="majorName"    column="major_name"    />
         <result property="majorType"    column="major_type"    />
         <result property="majorCode"    column="major_code"    />
@@ -138,7 +138,7 @@
         where ws.school_name=#{schoolName} and wd.department_name = #{departmentName}
     </select>
 
-    <select id="selectByMajorAndScoreAll" resultType="com.ruoyi.user.domain.common.ScoreWithSchoolName" resultMap="ScoreResult">
+    <select id="selectByMajorAndScoreAll" resultType="com.ruoyi.user.domain.Score" resultMap="ScoreResult">
         select tem.*,ws.school_id,ws.school_name from (
         select * from wx_score where
         score_year >= #{first_year}
@@ -155,10 +155,68 @@
         ORDER BY ws.school_name
     </select>
 
+    <select id="getConnectIdByMajorName" resultType="java.lang.Long">
+        select connect_id from wx_mcd where major_id = (
+            select major_id from wx_major where major_name = #{majorName}
+        )
+        and
+        connect_id in(
+            select connect_id from wx_score where
+                score_year >= #{first_year}
+            and #{scoreAll}+#{floatScore} >= score_all
+            and score_all >= #{scoreAll}-#{floatScore}
+        )
+    </select>
+
+
+    <select id="selectByMajorAndSchoolIdAndScoreAll" resultType="com.ruoyi.user.domain.Score" resultMap="ScoreResult">
+        select score_all,score_math,score_english,score_politics,score_major,connect_id from wx_score where connect_id in(
+            select connect_id from wx_mcd where department_id in(
+                select department_id from wx_department where department_school_id in
+                <foreach collection="schoolIds" item="schoolId" open="(" separator="," close=")">
+                    #{schoolId}
+                </foreach>
+            )
+            and major_id = (
+                select major_id from wx_major where major_name=#{majorName}
+            )
+        )
+        and score_year >= #{first_year}
+        and #{scoreAll}+#{floatScore} >= score_all
+        and score_all >= #{scoreAll}-#{floatScore}
+    </select>
+
+    <select id="selectByMajorAndSchoolId" resultType="com.ruoyi.user.domain.Score" resultMap="ScoreResult">
+        select score_all,score_math,score_english,score_politics,score_major,connect_id from wx_score
+        where connect_id in(
+            select connect_id from wx_mcd where department_id in(
+                select department_id from wx_department where department_school_id in
+                <foreach collection="schoolIds" item="schoolId" open="(" separator="," close=")">
+                    #{schoolId}
+                </foreach>
+            )
+            and major_id = (
+                select major_id from wx_major where major_name=#{majorName}
+            )
+        )
+        and score_year >= #{first_year}
+    </select>
+
+
+
+    <select id="getSchoolIdByScoreConnectId" resultType="java.lang.Long">
+        select department_school_id from wx_department where department_id in(
+            select department_id from wx_mcd where connect_id in
+            <foreach collection="connectIds" item="connectId" open="(" separator="," close=")">
+                #{connectId}
+            </foreach>
+        )
+    </select>
+
     <select id="getSchoolNameByScoreConnectId" resultType="java.lang.String">
-        select school_name from wx_school where school_id in (
-            select department_school_id from wx_department where department_id in(
-                select department_id from wx_mcd where connect_id=#{connectId}
+        select school_name from wx_school where school_id = (
+            select department_school_id from wx_department where department_id =(
+                select department_id from wx_mcd where connect_id = #{connectId}
             )
         )
     </select>
@@ -217,4 +275,14 @@
             #{scoreId}
         </foreach>
     </delete>
+
+
+
+
+    <select id="getSchoolIdByConnectId" resultType="Long">
+        select department_school_id from wx_department where department_id =(
+            select department_id from wx_mcd where connect_id = #{connectId}
+        )
+    </select>
+
 </mapper>

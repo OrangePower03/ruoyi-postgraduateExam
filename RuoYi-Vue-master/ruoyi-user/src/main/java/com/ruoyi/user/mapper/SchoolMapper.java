@@ -3,6 +3,7 @@ package com.ruoyi.user.mapper;
 import java.util.List;
 import com.ruoyi.user.domain.School;
 import com.ruoyi.user.domain.minSchool;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 【请填写功能名称】Mapper接口
@@ -72,4 +73,8 @@ public interface SchoolMapper
     public float selectRKBySchoolName(String schoolName);
 
     public int selectAreaIdBySchoolName(String schoolName);
+
+    String getSchoolNameById(Long schoolId);
+
+    List<String> getSchoolNameByIds(@Param("schoolIds") List<Long> schoolIds);
 }

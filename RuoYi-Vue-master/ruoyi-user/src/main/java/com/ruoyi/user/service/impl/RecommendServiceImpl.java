@@ -41,9 +41,17 @@ public class RecommendServiceImpl implements RecommendService {
     public static final float AREA_WEIGHT=0.1f; // 地区的权重
     public static final float DAWV_WEIGHT=0.4f; // 地区的权重
     public static final float BWV_WEIGHT=0.6f; // 地区的权重
+    Map<Long, String> connectIdToSchoolName=new HashMap<>();
 
     /**
      * 推荐算法主体
+     * 首先对发来的数据进行校验，校验数据的完整性和正确性
+     * 接着会先对用户的分数进行国家线的过线评估
+     * 接着设定浮动分数来将临近的学校和三年分数拉出来
+     * 接着执行算法
+     * 每一个学校都拥有QS国内排名和RK软科排名，并且根据学校的地理位置得到BWV权重
+     * 然后根据用户分数和学校三年的平均分做比较得到DAWV
+     * 最后将这两个权重集成在一起得到FWV，排序返回
      */
     @Override
     public List<RecommendVo> recommend(RecommendDto recommendDto) {
@@ -95,6 +103,7 @@ public class RecommendServiceImpl implements RecommendService {
         if(userScoreInfo == null) {
             userScoreInfo = userMapper.selectWxUserScoreInfoByUserId(1L);
         }
+
         if(StringUtils.isEmpty(recommendDto.getMajorName())) {
             if(Objects.isNull(userScoreInfo.getMajorName())){
                 throw new ServiceException("专业不能为空", HttpStatus.BAD_REQUEST);
@@ -131,6 +140,19 @@ public class RecommendServiceImpl implements RecommendService {
             }
             recommendDto.setScoreMajor(userScoreInfo.getScoreMajor());
         }
+
+        if(!verifyScore(recommendDto)) {
+            throw new ServiceException("分数不符合考研机制，请重新输入", HttpStatus.BAD_REQUEST);
+        }
+        recommendDto.setScoreAll(recommendDto.getScoreEnglish() + recommendDto.getScoreMajor() +
+                                 recommendDto.getScorePolitics() + recommendDto.getScoreMath());
+    }
+
+    private boolean verifyScore(RecommendDto recommendDto) {
+        return !(recommendDto.getScoreMath() > 150 ||
+                recommendDto.getScoreEnglish() > 100 ||
+                recommendDto.getScoreMath() > 150 ||
+                recommendDto.getScorePolitics() > 100 );
     }
 
     /**
@@ -193,31 +215,50 @@ public class RecommendServiceImpl implements RecommendService {
         Long scoreAll = recommendDto.getScoreAll();
         String majorName = recommendDto.getMajorName();
         int first_year=NOW_YEAR-NEAR_YEAR+1;
-        // 先把所有的分数拉出来，放入封装了Score的类中
-        List<Score> scoreList = scoreMapper.selectByMajorAndScoreAll(majorName, scoreAll, FLUCTUATE, first_year);
-        if(StringUtils.isNull(scoreList)) {
+        // 先把这个专业的connectId拉出来
+        List<Long> connectIds = scoreMapper.getConnectIdByMajorName(majorName, scoreAll, FLUCTUATE, first_year);
+        if(StringUtils.isNull(connectIds)) {
             return new ArrayList<>();
         }
+        // 排序，否则学校和connectId对不上的
+        Collections.sort(connectIds);
+        // 获取到所有的学校id
+        List<Long> schoolIds = scoreMapper.getSchoolIdByScoreConnectId(connectIds);
 
-        // 此时要将所有的学校根据学校名字来独立拉出来
-        for(Score score : scoreList) {
-            score.setSchoolName(scoreMapper.getSchoolNameByScoreConnectId(score.getScoreMajorId()));
+//        for(int i=0;i<connectIds.size();i++) {
+//            if (!scoreMapper.getSchoolIdByConnectId(connectIds.get(i)).equals(schoolIds.get(i))) {
+//                throw new RuntimeException("学校未对上，系统错误，仅供测试使用，上线请删除");
+//            }
+//        }
+//        connectIds.forEach(connectId -> System.out.print(connectId + ","));
+
+        // 根据connectId映射到学校名字，还是要遍历所有的数据，无法，但按照学校id获取学校名有索引，性能趋近于O(1)
+        for(int i=0;i<connectIds.size();i++) {
+            connectIdToSchoolName.put(connectIds.get(i), schoolMapper.getSchoolNameById(schoolIds.get(i)));
         }
 
-        // 将相同学校计算平均分，先排序再计算
-        Collections.sort(scoreList);
+
+        // 通过学校id获取到分数们，此时没办法直接获取到学校
+        List<Score> scoreList = scoreMapper.selectByMajorAndSchoolId(majorName, schoolIds, first_year);
+
+        // 这一步最慢，有待优化
+//        scoreList.forEach(score -> score.setSchoolName(scoreMapper.getSchoolNameByScoreConnectId(score.getConnectId())));
+        // 使用map映射优化
+        scoreList.forEach(score -> score.setSchoolName(connectIdToSchoolName.get(score.getConnectId())));
+
         if(!isOverA) {
             // 没过A线但过了B的，得把A区学校割去
             scoreList.removeIf(score ->
                     schoolMapper.findAreaTypeBySchoolName(score.getSchoolName()) == SystemConstants.AREA_TYPE_A
             );
         }
-        // 假如学校名没筛出来就剔除了
-        scoreList.removeIf(score -> "".equals(score.getSchoolName()));
 
-        if(scoreList.size() == 0) {
+        if(scoreList.isEmpty()) {
             return Collections.emptyList();
         }
+
+        // 将相同学校计算平均分，先排序再计算
+        Collections.sort(scoreList);
 
         String schoolName = scoreList.get(0).getSchoolName();
         List<SchoolWithScoreVo> result=new ArrayList<>();

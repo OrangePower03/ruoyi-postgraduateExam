@@ -1,6 +1,7 @@
 package com.ruoyi.user.mapper;
 
 import java.util.List;
+import java.util.Set;
 
 import com.ruoyi.user.domain.AllInfo;
 import com.ruoyi.user.domain.Score;
@@ -80,12 +81,33 @@ public interface ScoreMapper
      */
     public List<AllInfo> selectAllInfoList(AllInfo allInfo);
 
+    @Deprecated
     List<Score> selectByMajorAndScoreAll(@Param("majorName") String majorName,
                                          @Param("scoreAll") Long scoreAll,
                                          @Param("floatScore") int floatScore,
                                          @Param("first_year") int first_year);
 
-    String getSchoolNameByScoreConnectId(Long connectId);
+    Long getSchoolIdByConnectId(Long connectId);
+
+    List<Long> getConnectIdByMajorName(@Param("majorName") String majorName,
+                                       @Param("scoreAll") Long scoreAll,
+                                       @Param("floatScore") int floatScore,
+                                       @Param("first_year") int first_year);
+
+    @Deprecated
+    List<Score> selectByMajorAndSchoolIdAndScoreAll(@Param("majorName") String majorName,
+                                                  @Param("schoolIds") List<Long> schoolIds,
+                                                  @Param("scoreAll") Long scoreAll,
+                                                  @Param("floatScore") int floatScore,
+                                                  @Param("first_year") int first_year);
+
+    List<Score> selectByMajorAndSchoolId(@Param("majorName") String majorName,
+                                         @Param("schoolIds") List<Long> schoolIds,
+                                         @Param("first_year") int first_year);
+
+    String getSchoolNameByScoreConnectId(@Param("connectId") Long connectId);
+
+    List<Long> getSchoolIdByScoreConnectId(@Param("connectIds") List<Long> connectIds);
 
     UserScoreInfo getUserScore(Long userId);
 }
