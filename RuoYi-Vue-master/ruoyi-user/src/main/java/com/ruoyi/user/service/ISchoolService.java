@@ -2,6 +2,7 @@ package com.ruoyi.user.service;
 
 import java.util.List;
 import com.ruoyi.user.domain.School;
+import com.ruoyi.user.domain.dto.AnalysisDto;
 import com.ruoyi.user.domain.minSchool;
 
 /**
@@ -65,4 +66,6 @@ public interface ISchoolService
      * @return 结果
      */
     public int deleteWxSchoolBySchoolId(Long schoolId);
+
+    String analysis(AnalysisDto analysisDto);
 }

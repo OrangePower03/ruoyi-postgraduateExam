@@ -11,6 +11,7 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 
 /**
  * spring redis 工具类
@@ -272,5 +273,16 @@ public class RedisCache
 
     public Long add(String key, float longitude, double latitude, String station) {
         return redisTemplate.opsForGeo().add(key, new Point(longitude, latitude), station);
+    }
+
+    public Long incr(String key) {
+        return redisTemplate.opsForValue().increment(key);
+    }
+
+    public void setExpireIfPermanent(String key, int time, TimeUnit timeUnit) {
+        Long expire = redisTemplate.getExpire(key); // 不存在返回-2，持久化返回-1
+        if (Objects.nonNull(expire) && expire == -1){
+            redisTemplate.expire(key, time, timeUnit);
+        }
     }
 }

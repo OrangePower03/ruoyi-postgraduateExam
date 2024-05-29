@@ -161,7 +161,7 @@ public class ScoreController extends BaseController
         ExcelUtil<Score> util = new ExcelUtil<>(Score.class);
         //返回文件中的所有数据
         List<Score> scoreList = util.importExcel(file.getInputStream());
-        System.out.println(scoreList);
+//        System.out.println(scoreList);
         // 数据库操作
         String message = wxScoreService.importData(scoreList);
         //返回消息

@@ -3,6 +3,7 @@ package com.ruoyi.user.mapper;
 import java.util.List;
 import java.util.Set;
 
+import com.ruoyi.common.annotation.SystemTestCode;
 import com.ruoyi.user.domain.AllInfo;
 import com.ruoyi.user.domain.Score;
 import com.ruoyi.user.domain.UserScoreInfo;
@@ -105,6 +106,7 @@ public interface ScoreMapper
                                          @Param("schoolIds") List<Long> schoolIds,
                                          @Param("first_year") int first_year);
 
+    @SystemTestCode
     String getSchoolNameByScoreConnectId(@Param("connectId") Long connectId);
 
     List<Long> getSchoolIdByScoreConnectId(@Param("connectIds") List<Long> connectIds);

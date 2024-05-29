@@ -57,4 +57,6 @@ public interface UserScoreInfoMapper
      * @return 结果
      */
     public int deleteWxUserScoreInfoByUserIds(Long[] userIds);
+
+    String findAreaNameByUserId(Long userId);
 }

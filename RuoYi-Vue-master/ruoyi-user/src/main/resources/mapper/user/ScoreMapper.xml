@@ -189,14 +189,15 @@
     <select id="selectByMajorAndSchoolId" resultType="com.ruoyi.user.domain.Score" resultMap="ScoreResult">
         select score_all,score_math,score_english,score_politics,score_major,connect_id from wx_score
         where connect_id in(
-            select connect_id from wx_mcd where department_id in(
+            select connect_id from wx_mcd where major_id = (
+                select major_id from wx_major where major_name=#{majorName}
+            )
+            and
+            department_id in(
                 select department_id from wx_department where department_school_id in
                 <foreach collection="schoolIds" item="schoolId" open="(" separator="," close=")">
                     #{schoolId}
                 </foreach>
-            )
-            and major_id = (
-                select major_id from wx_major where major_name=#{majorName}
             )
         )
         and score_year >= #{first_year}

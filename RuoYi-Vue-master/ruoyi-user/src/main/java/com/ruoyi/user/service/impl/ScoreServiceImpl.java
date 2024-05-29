@@ -117,7 +117,7 @@ public class ScoreServiceImpl implements IScoreService
         StringBuilder failureMsg2 = new StringBuilder();
         failureMsg.append("表中第");
         for(Score score : scoreList){
-            System.out.println(score);
+//            System.out.println(score);
             if(score.getScoreYear()==null||score.getMajorCode()==null||score.getMajorName()==null||score.getSchoolName()==null||score.getDepartmentName()==null||score.getScoreAll()==null||score.getScoreMath()==null||score.getScoreEnglish()==null||score.getScorePolitics()==null||score.getScoreMajor()==null){
                 if(i==1){
                     failureMsg.append(j);
