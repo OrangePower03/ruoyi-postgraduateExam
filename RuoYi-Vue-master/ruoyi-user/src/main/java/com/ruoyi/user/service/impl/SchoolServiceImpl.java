@@ -2,15 +2,15 @@ package com.ruoyi.user.service.impl;
 
 import java.util.List;
 
+import com.ruoyi.common.constant.CacheConstants;
+import com.ruoyi.common.core.redis.RedisCache;
+import com.ruoyi.common.utils.AssertUtils;
 import com.ruoyi.common.utils.SecurityUtils;
-import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.user.domain.School;
-import com.ruoyi.user.domain.dto.AnalysisDto;
 import com.ruoyi.user.domain.minSchool;
+import com.ruoyi.user.domain.vo.AnalysisResultVo;
 import com.ruoyi.user.mapper.SchoolMapper;
-import com.ruoyi.user.mapper.UserScoreInfoMapper;
 import com.ruoyi.user.service.ISchoolService;
-import com.ruoyi.user.utils.QwenPlusUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +26,8 @@ public class SchoolServiceImpl implements ISchoolService
 {
     @Autowired
     private SchoolMapper wxSchoolMapper;
+    @Autowired
+    private RedisCache redisCache;
 
     /**
      * 查询【请填写功能名称】
@@ -92,6 +94,8 @@ public class SchoolServiceImpl implements ISchoolService
         return wxSchoolMapper.deleteWxSchoolBySchoolIds(schoolIds);
     }
 
+
+
     /**
      * 删除【请填写功能名称】信息
      *
@@ -104,10 +108,26 @@ public class SchoolServiceImpl implements ISchoolService
         return wxSchoolMapper.deleteWxSchoolBySchoolId(schoolId);
     }
 
+//    @Override
+//    public String analysis(AnalysisDto analysisDto) {
+//        log.info("userId:{}", SecurityUtils.getUserId());
+//        log.info("message:{}", analysisDto);
+//        return QwenPlusUtils.call(analysisDto.getAnalysisDetail());
+//    }
+
+    /**
+     * 从redis中获取大模型数据
+     * @param schoolName 想要获取的学校
+     * @return AnalysisResultVo
+     *       返回分析报告，包括学校简介、学校分析
+     * @throws com.ruoyi.common.exception.ServiceException
+     *       如果未找到学校，也不是没查到，就是学校名错误，会返回错误
+     */
     @Override
-    public String analysis(AnalysisDto analysisDto) {
-        log.info("userId:{}", SecurityUtils.getUserId());
-        log.info("message:{}", analysisDto);
-        return QwenPlusUtils.call(analysisDto.getAnalysisDetail());
+    public AnalysisResultVo analysis(String schoolName) {
+        Long userId = SecurityUtils.getUserId();
+        AnalysisResultVo analysisResult = redisCache.getCacheMapValue(CacheConstants.QWEN_PLUS_KEY + userId, schoolName);
+        AssertUtils.nonNull(analysisResult, "正在生成中，稍等");
+        return analysisResult;
     }
 }

@@ -1,5 +1,6 @@
 package com.ruoyi.user.service.impl;
 
+import com.ruoyi.common.constant.CacheConstants;
 import com.ruoyi.common.constant.HttpStatus;
 import com.ruoyi.common.constant.SystemConstants;
 import com.ruoyi.common.core.redis.RedisCache;
@@ -10,16 +11,22 @@ import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.user.domain.DScore;
 import com.ruoyi.user.domain.Score;
 import com.ruoyi.user.domain.UserScoreInfo;
+import com.ruoyi.user.domain.common.QwenAnalysisThread;
 import com.ruoyi.user.domain.common.ScoreCommon;
 import com.ruoyi.user.domain.dto.RecommendDto;
 import com.ruoyi.user.domain.vo.RecommendVo;
 import com.ruoyi.user.domain.vo.SchoolWithScoreVo;
 import com.ruoyi.user.mapper.*;
 import com.ruoyi.user.service.RecommendService;
+import com.ruoyi.user.utils.QwenPlusUtils;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,6 +51,10 @@ public class RecommendServiceImpl implements RecommendService {
     private static final Map<Long, String> connectIdToSchoolName=new HashMap<>();
     private static final Map<Long, Long> connectIdToSchoolId=new HashMap<>();
 
+    @Autowired
+    private ThreadPoolTaskExecutor taskExecutor;
+
+
     /**
      * 推荐算法主体
      * 首先对发来的数据进行校验，校验数据的完整性和正确性
@@ -54,9 +65,10 @@ public class RecommendServiceImpl implements RecommendService {
      * 然后根据用户分数和学校三年的平均分做比较得到DAWV
      * 最后将这两个权重集成在一起得到FWV，排序返回
      */
+    @NotNull
     @Override
     public List<RecommendVo> recommend(RecommendDto recommendDto) {
-        verify(recommendDto);
+        Long userId = verify(recommendDto);
 
         // 是否过了A区线
         boolean isOverA=true;
@@ -86,8 +98,15 @@ public class RecommendServiceImpl implements RecommendService {
                 .collect(Collectors.toList());
 
         normalizeAlgorithm(schools);
+        List<RecommendVo> result = packaging(schools);
 
-        return packaging(schools);
+        if(!redisCache.hasKey(CacheConstants.QWEN_PLUS_USER_KEY + userId)) {
+            List<String> schoolNames = result.stream().map(RecommendVo::getSchoolName).collect(Collectors.toList());
+            List<String> questions = createQuestions(recommendDto.getMajorName(), schoolNames);
+            analyseFromAI(questions, userId, schoolNames);
+        }
+
+        return result;
     }
 
     private void FWV(List<SchoolWithScoreVo> schools) {
@@ -98,7 +117,7 @@ public class RecommendServiceImpl implements RecommendService {
      * 校验数据完整性，避免分数输入的不全，现暂无智能推测分数算法
      * 因为用户本身是带有分数的，所以如果不输入分数就会默认使用用户本身的分数
      */
-    private void verify(RecommendDto recommendDto) {
+    private Long verify(RecommendDto recommendDto) {
         Long userId = SecurityUtils.getLoginUser().getUser().getUserId();
         UserScoreInfo userScoreInfo = userMapper.selectWxUserScoreInfoByUserId(userId);
         if(userScoreInfo == null) {
@@ -147,6 +166,7 @@ public class RecommendServiceImpl implements RecommendService {
         }
         recommendDto.setScoreAll(recommendDto.getScoreEnglish() + recommendDto.getScoreMajor() +
                                  recommendDto.getScorePolitics() + recommendDto.getScoreMath());
+        return userId;
     }
 
     private boolean verifyScore(RecommendDto recommendDto) {
@@ -394,6 +414,20 @@ public class RecommendServiceImpl implements RecommendService {
             for(int i=0;i < size;i++) {
                 schools.get(i).setArea((float) (100-i));
             }
+        }
+    }
+
+    @Override
+    public void analyseFromAI(List<String> questions, Long userId, List<String> schoolNames) {
+        redisCache.setCacheObject(CacheConstants.QWEN_PLUS_USER_KEY + userId, 0, CacheConstants.QWEN_PLUS_USER_KEY_EXPIRE_TIME, TimeUnit.SECONDS);
+        for(int i=0;i<questions.size();i++) {
+            taskExecutor.execute(
+                new QwenAnalysisThread(
+                    questions.get(i),
+                    userId,
+                    schoolNames.get(i)
+                )
+            );
         }
     }
 }

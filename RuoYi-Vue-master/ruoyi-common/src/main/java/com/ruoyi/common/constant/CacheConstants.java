@@ -40,4 +40,14 @@ public class CacheConstants
      * 登录账户密码错误次数 redis key
      */
     public static final String PWD_ERR_CNT_KEY = "pwd_err_cnt:";
+
+    /**
+     * 通义千问的hash的key
+     * 用户使用大模型的最短间隔，单位都是s
+     */
+    public static final String QWEN_PLUS_KEY = "QWEN_PLUS_ANALYSIS:";
+    public static final long QWEN_PLUS_KEY_EXPIRE_TIME = 1800;
+
+    public static final String QWEN_PLUS_USER_KEY = "QWEN_PLUS_USER:";
+    public static final int QWEN_PLUS_USER_KEY_EXPIRE_TIME = 60;
 }

@@ -2,8 +2,8 @@ package com.ruoyi.user.service;
 
 import java.util.List;
 import com.ruoyi.user.domain.School;
-import com.ruoyi.user.domain.dto.AnalysisDto;
 import com.ruoyi.user.domain.minSchool;
+import com.ruoyi.user.domain.vo.AnalysisResultVo;
 
 /**
  * 【请填写功能名称】Service接口
@@ -67,5 +67,7 @@ public interface ISchoolService
      */
     public int deleteWxSchoolBySchoolId(Long schoolId);
 
-    String analysis(AnalysisDto analysisDto);
+    AnalysisResultVo analysis(String schoolName);
+
+//    String analysis(AnalysisDto analysisDto);
 }

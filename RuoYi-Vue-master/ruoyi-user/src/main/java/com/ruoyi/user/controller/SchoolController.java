@@ -6,20 +6,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.user.domain.School;
-import com.ruoyi.user.domain.dto.AnalysisDto;
 import com.ruoyi.user.domain.minSchool;
 import com.ruoyi.user.mapper.UserScoreInfoMapper;
 import com.ruoyi.user.service.ISchoolService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -122,13 +114,19 @@ public class SchoolController extends BaseController
         return toAjax(wxSchoolService.deleteWxSchoolBySchoolIds(schoolIds));
     }
 
+//    @PreAuthorize("@ss.hasPermi('user:school:list')")
+//    @PostMapping("/analysis")
+//    public AjaxResult analysis(@RequestBody AnalysisDto analysisDto) {
+//        if(!analysisDto.verify()) {
+//            return AjaxResult.error("学校和专业不能为空");
+//        }
+//        return AjaxResult.success(wxSchoolService.analysis(analysisDto));
+//    }
+
     @PreAuthorize("@ss.hasPermi('user:school:list')")
-    @PostMapping("/analysis")
-    public AjaxResult analysis(@RequestBody AnalysisDto analysisDto) {
-        if(!analysisDto.verify()) {
-            return AjaxResult.error("学校和专业不能为空");
-        }
-        return AjaxResult.success(wxSchoolService.analysis(analysisDto));
+    @GetMapping("/analysis")
+    public AjaxResult analysis(@RequestParam(value = "schoolName", required = true) String schoolName) {
+        return AjaxResult.success(wxSchoolService.analysis(schoolName));
     }
 
 }

@@ -8,6 +8,11 @@ import com.alibaba.dashscope.common.MessageManager;
 import com.alibaba.dashscope.common.Role;
 import com.alibaba.dashscope.exception.InputRequiredException;
 import com.alibaba.dashscope.exception.NoApiKeyException;
+import com.ruoyi.common.utils.AssertUtils;
+import com.ruoyi.user.domain.vo.AnalysisResultVo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class QwenPlusUtils {
@@ -30,18 +35,9 @@ public class QwenPlusUtils {
                 .build();
         try {
             GenerationResult result = new Generation().call(param);
-            return standardizing(result.getOutput().getChoices().get(0).getMessage().getContent());
+            return result.getOutput().getChoices().get(0).getMessage().getContent();
         } catch (NoApiKeyException | InputRequiredException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private static String standardizing(String content) {
-        String[] ss = content.split("\n");
-        StringBuilder sb=new StringBuilder();
-        for(int i=1;i<ss.length;i++)
-            if(!"".equals(ss[i]))
-                sb.append(ss[i]).append("\n");
-        return sb.toString();
     }
 }
