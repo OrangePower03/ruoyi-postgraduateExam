@@ -41,7 +41,8 @@ public class RecommendServiceImpl implements RecommendService {
     public static final float AREA_WEIGHT=0.1f; // 地区的权重
     public static final float DAWV_WEIGHT=0.4f; // 地区的权重
     public static final float BWV_WEIGHT=0.6f; // 地区的权重
-    Map<Long, String> connectIdToSchoolName=new HashMap<>();
+    private static final Map<Long, String> connectIdToSchoolName=new HashMap<>();
+    private static final Map<Long, Long> connectIdToSchoolId=new HashMap<>();
 
     /**
      * 推荐算法主体
@@ -234,9 +235,10 @@ public class RecommendServiceImpl implements RecommendService {
 
         // 根据connectId映射到学校名字，还是要遍历所有的数据，无法，但按照学校id获取学校名有索引，性能趋近于O(1)
         for(int i=0;i<connectIds.size();i++) {
-            connectIdToSchoolName.put(connectIds.get(i), schoolMapper.getSchoolNameById(schoolIds.get(i)));
+            connectIdToSchoolId.put(connectIds.get(i), schoolIds.get(i));
+            if(!connectIdToSchoolName.containsKey(connectIds.get(i)))
+                connectIdToSchoolName.put(connectIds.get(i), schoolMapper.getSchoolNameById(schoolIds.get(i)));
         }
-
 
         // 通过学校id获取到分数们，此时没办法直接获取到学校
         List<Score> scoreList = scoreMapper.selectByMajorAndSchoolId(majorName, schoolIds, first_year);
@@ -244,7 +246,12 @@ public class RecommendServiceImpl implements RecommendService {
         // 这一步最慢，有待优化
 //        scoreList.forEach(score -> score.setSchoolName(scoreMapper.getSchoolNameByScoreConnectId(score.getConnectId())));
         // 使用map映射优化
-        scoreList.forEach(score -> score.setSchoolName(connectIdToSchoolName.get(score.getConnectId())));
+
+        for (int i = 0; i < scoreList.size(); i++) {
+            Score score = scoreList.get(i);
+            score.setSchoolName(connectIdToSchoolName.get(score.getConnectId()));
+            score.setSchoolId(connectIdToSchoolId.get(score.getConnectId()));
+        }
 
         if(!isOverA) {
             // 没过A线但过了B的，得把A区学校割去

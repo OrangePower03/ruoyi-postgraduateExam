@@ -2,10 +2,16 @@ package com.ruoyi.user.service.impl;
 
 import java.util.List;
 
+import com.ruoyi.common.utils.SecurityUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.user.domain.School;
+import com.ruoyi.user.domain.dto.AnalysisDto;
 import com.ruoyi.user.domain.minSchool;
 import com.ruoyi.user.mapper.SchoolMapper;
+import com.ruoyi.user.mapper.UserScoreInfoMapper;
 import com.ruoyi.user.service.ISchoolService;
+import com.ruoyi.user.utils.QwenPlusUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +20,7 @@ import org.springframework.stereotype.Service;
  *
  * @date 2023-03-26
  */
+@Slf4j
 @Service
 public class SchoolServiceImpl implements ISchoolService
 {
@@ -95,5 +102,12 @@ public class SchoolServiceImpl implements ISchoolService
     public int deleteWxSchoolBySchoolId(Long schoolId)
     {
         return wxSchoolMapper.deleteWxSchoolBySchoolId(schoolId);
+    }
+
+    @Override
+    public String analysis(AnalysisDto analysisDto) {
+        log.info("userId:{}", SecurityUtils.getUserId());
+        log.info("message:{}", analysisDto);
+        return QwenPlusUtils.call(analysisDto.getAnalysisDetail());
     }
 }

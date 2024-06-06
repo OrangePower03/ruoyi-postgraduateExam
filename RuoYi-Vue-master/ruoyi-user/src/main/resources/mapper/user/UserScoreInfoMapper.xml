@@ -38,6 +38,24 @@
         <include refid="selectWxUserScoreInfoVo"/>
         where user_id = #{userId}
     </select>
+    <select id="findAreaNameByUserId" resultType="java.lang.String">
+        select area_name from wx_user_scoreinfo where user_id = #{userId}
+    </select>
+
+    <select id="selectWxUserScoreinfoList" resultType="com.ruoyi.user.domain.UserScoreInfo" resultMap="UserScoreInfoResult">
+        select * from wx_user_scoreinfo
+        <where>
+            <if test="userId != null"> and user_id = #{userId}</if>
+            <if test="scoreAll != null"> and score_all = #{scoreAll}</if>
+            <if test="scoreEnglish != null"> and score_english = #{scoreEnglish}</if>
+            <if test="scorePolitics != null"> and score_politics = #{scorePolitics}</if>
+            <if test="scoreMath != null"> and score_math = #{scoreMath}</if>
+            <if test="scoreMajor" > and score_major = #{scoreMajor}</if>
+            <if test="majorName != null"> and major_name = #{majorName}</if>
+            <if test="majorType != null"> and major_type = #{majorType}</if>
+            <if test="areaName != null and areaName != ''"> and area_name like concat('%', #{areaName}, '%')</if>
+        </where>
+    </select>
 
     <insert id="insertWxUserScoreInfo" parameterType="UserScoreInfo">
         insert into wx_user_scoreinfo

@@ -3,8 +3,12 @@ package com.ruoyi.user.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.utils.SecurityUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.user.domain.School;
+import com.ruoyi.user.domain.dto.AnalysisDto;
 import com.ruoyi.user.domain.minSchool;
+import com.ruoyi.user.mapper.UserScoreInfoMapper;
 import com.ruoyi.user.service.ISchoolService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +39,9 @@ public class SchoolController extends BaseController
     @Autowired
     private ISchoolService wxSchoolService;
 
+    @Autowired
+    private UserScoreInfoMapper userScoreInfoMapper;
+
     /**
      * 查询学校信息列表
      */
@@ -42,9 +49,12 @@ public class SchoolController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(School wxSchool)
     {
+        Long userId = SecurityUtils.getUserId();
+        if(StringUtils.isEmpty(wxSchool.getAreaName()))
+            wxSchool.setAreaName(userScoreInfoMapper.findAreaNameByUserId(userId));
         startPage();
         List<School> list = wxSchoolService.selectWxSchoolList(wxSchool);
-        System.out.println(list);
+//        System.out.println(list);
         return getDataTable(list);
     }
 
@@ -111,4 +121,14 @@ public class SchoolController extends BaseController
     {
         return toAjax(wxSchoolService.deleteWxSchoolBySchoolIds(schoolIds));
     }
+
+    @PreAuthorize("@ss.hasPermi('user:school:list')")
+    @PostMapping("/analysis")
+    public AjaxResult analysis(@RequestBody AnalysisDto analysisDto) {
+        if(!analysisDto.verify()) {
+            return AjaxResult.error("学校和专业不能为空");
+        }
+        return AjaxResult.success(wxSchoolService.analysis(analysisDto));
+    }
+
 }
