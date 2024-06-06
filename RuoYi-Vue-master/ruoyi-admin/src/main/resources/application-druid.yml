@@ -8,11 +8,8 @@ spring:
             master:
                 url: jdbc:mysql://8.130.24.40:3308/yan_2025?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
                 username: root
-<<<<<<< HEAD
-                password: an155777
-=======
                 password: ruoyi1314ruoyi
->>>>>>> 5579e8b5eff5830f05f5a92f07936d591f744aff
+
             # 从库数据源
             slave:
                 # 从数据源开关/默认关闭
