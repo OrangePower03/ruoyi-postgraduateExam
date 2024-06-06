@@ -53,6 +53,8 @@ import { recommend } from '@/api/wx/score'
 import { listsMajor } from '@/api/wx/major'
 import { listArea } from '@/api/wx/area'
 import { listRetest } from '@/api/wx/dscore'
+import { listScoreinfo } from '@/api/wx/userScoreInfo'
+
 
 export default {
   name: 'Index',
@@ -218,6 +220,7 @@ export default {
         majorName:this.queryParams.majorName,
         areaName:this.queryParams.areaName}).then(response => {
         this.option.dataset.source=[['推荐指数', '平均复试线', '大学名称', '大学Id']]
+        // this.option.dataset.source=[['推荐指数', '平均复试线', '大学名称']]
         for(let i=0;i<response.rows.length;i++)
           this.option.dataset.source.push([response.rows[i].handledPower*100,response.rows[i].averageScore.scoreAll,
             response.rows[i].schoolName,response.rows[i].schoolId])
@@ -239,6 +242,7 @@ export default {
           this.queryParams.majorName=this.majorInfo.majorName
           this.queryParams.areaName=this.majorInfo.areaName
         }
+
       });
     },
     getNationalLine() {
@@ -293,15 +297,15 @@ export default {
     majorCascaderChange(event){
       this.nowMajorId=event[1][0]
       this.queryParams.majorName=event[1][1]
-      this.algorithm()
-      this.getNationalLine()
+      // this.algorithm()
+      // this.getNationalLine()
     },
     handleQuery(){
       this.$refs["queryForm"].validate(valid => {
         if(valid){
           this.algorithm()
           this.getNationalLine()
-
+          this.getUserScoreInfo()
         }
         else
           this.$modal.msgWarning("信息有误！");
