@@ -208,6 +208,8 @@ export default {
 
 .cardWin{
   display: flex; flex-wrap: wrap;
+  overflow: auto;
+  height: 680px;
   .cardList{
     flex-basis: calc(20% - 12px);
     margin-right: 12px;

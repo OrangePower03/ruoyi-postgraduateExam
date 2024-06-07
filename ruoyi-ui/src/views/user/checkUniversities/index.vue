@@ -174,7 +174,6 @@ export default {
       });
     },
     changeSchoolShow(id){
-      console.log(id)
       this.$refs.schoolDialog.$emit('schoolDialogShow',id)
     }
   }

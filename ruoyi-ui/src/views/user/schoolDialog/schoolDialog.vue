@@ -18,7 +18,7 @@
             </el-descriptions-item>
             <el-descriptions-item label="是否为自划线">
               <el-tag v-if="schoolInfo.schoolType===1" type="success">是</el-tag>
-              <el-tag v-else-if="schoolInfo.schoolType===1" type="warning">否</el-tag>
+              <el-tag v-else type="warning">否</el-tag>
             </el-descriptions-item>
             <el-descriptions-item label="学校官网">
               <el-tag><el-link :href="schoolInfo.schoolWebsite" type="primary" target="_blank">{{ schoolInfo.schoolWebsite }}</el-link></el-tag>
