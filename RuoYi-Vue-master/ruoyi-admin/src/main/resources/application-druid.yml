@@ -6,9 +6,11 @@ spring:
         druid:
             # 主库数据源
             master:
-                url: jdbc:mysql://8.130.24.40:3308/yan_2025?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                url: jdbc:mysql://localhost:3306/yan_2025?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+#                url: jdbc:mysql://8.130.24.40:3308/yan_2025?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
                 username: root
-                password: ruoyi1314ruoyi
+                password: 123123
+#                password: ruoyi1314ruoyi
 
             # 从库数据源
             slave:

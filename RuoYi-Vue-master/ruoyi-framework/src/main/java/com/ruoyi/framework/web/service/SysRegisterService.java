@@ -83,6 +83,7 @@ public class SysRegisterService
             }
             else
             {
+                registerBody.setUserId(sysUser.getUserId());
                 AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.REGISTER, MessageUtils.message("user.register.success")));
             }
         }
